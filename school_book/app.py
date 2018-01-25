@@ -18,20 +18,14 @@ def get_status_list():
 
 @app.route('/login', methods=['POST'])
 def login_endpoint():
-    log.debug(u"login_endpoint/POST {0}, {1}".format(
-        request.json['username'],
-        request.json['password']
-    ))
-    user = login(request.json['username'], request.json['password'])
 
-    return user
+    return login(request.json['username'], request.json['password'])
 
 
 @app.route('/users/<string:role_name>', methods=['GET'])
 def get_all_users(role_name):
-    user_list = get_all_users_func(request.headers['Authorization'], role_name)
 
-    return user_list
+    return get_all_users_func(request.headers['Authorization'], role_name)
 
 
 init_db()
