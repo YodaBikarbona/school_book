@@ -21,4 +21,8 @@ def get_all_users_func(security_token, role_name):
 
     user_list = UserProvider.get_all_users(role=authorization['role'], user_id=user.id, role_name=role_name)
 
-    return jsonify({"user_list": UsersSerializer(many=True).dump(user_list).data})
+    return jsonify(
+        {
+            "user_list": UsersSerializer(many=True).dump(user_list).data
+        }
+    )
