@@ -1,0 +1,18 @@
+angular.module('school_book')
+.constant('STATES',{ 
+	login:{
+		name:'login',
+		url:'/login',
+		templateUrl:'login.html',
+		controller:'loginController'
+	},
+	admin:{
+		name:'admin',
+		url:'/admin',
+		templateUrl:'admin.html',
+		controller:'adminController',
+		params:{
+			user:null
+		}
+	}
+})
