@@ -1,0 +1,6 @@
+school_book/__init__.py
+school_book.egg-info/PKG-INFO
+school_book.egg-info/SOURCES.txt
+school_book.egg-info/dependency_links.txt
+school_book.egg-info/requires.txt
+school_book.egg-info/top_level.txt
