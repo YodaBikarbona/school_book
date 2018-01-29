@@ -1,3 +1,4 @@
+angular.module('school_book')
 .service('authservice', ['$http','API_ENDPOINT','$q', function($http,API_ENDPOINT,$q){
       var LOCAL_STORAGE_KEY = 'mytoken'
       var authToken;
@@ -14,6 +15,7 @@
       }
 
       function storeUserCredidentals(user){
+        console.log(user)
         window.localStorage.setItem(LOCAL_STORAGE_KEY, user.token);
         window.localStorage.setItem('user', JSON.stringify(user))
         useUserCredidentals(user);
@@ -24,7 +26,7 @@
         userObj = user;
         isAuthenticated = true;
         authToken = user.token;
-        role = user.role.role_name;
+        role = user.user.role.role_name;
 
         $http.defaults.headers.common['Authorization'] = authToken;
 
@@ -42,6 +44,7 @@
       }
 
       var login = function(user){
+        username = user.username
         return $q(function(resolve, reject){
           $http({
             url: 'http://localhost:6543/login',
@@ -54,7 +57,6 @@
                 if(resp.data.user.email == username && resp.data.token){
                   storeUserCredidentals(resp.data);
                   resolve(resp.data);
-                  $state.go('admin')
                 }
               }
             }
@@ -102,7 +104,7 @@
       }
   }])
 
-.factory('AuthInterceptor', ['$rootScope', function($rootScope){
+/*.factory('AuthInterceptor', ['$rootScope', function($rootScope){
     var inter = {}
     
    return inter;
@@ -110,4 +112,4 @@
 
 .config(['$httpProvider',function($httpProvider) {
     $httpProvider.interceptors.push('AuthInterceptor');
-}])
+}])*/

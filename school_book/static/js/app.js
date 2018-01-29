@@ -59,7 +59,7 @@ angular.module('school_book', ['ui.router'])
 
 
 
-.controller('loginController', ['$scope','authservice','$rootScope','$state','ROLE', function($scope,auth,$rootScope,$state,ROLE){
+.controller('loginController', ['$scope','authservice','$rootScope','$state', function($scope,auth,$rootScope,$state){
 
 	$scope.login = (user) => {
 		if (user) {
@@ -74,9 +74,10 @@ angular.module('school_book', ['ui.router'])
 
 	}}])
 
-.controller('mainController', ['$scope','$rootScope','authservice',function($scope,$rootScope,auth){
+.controller('mainController', ['$state','$scope','$rootScope','authservice',function($state,$scope,$rootScope,auth){
     $scope.logout = function(){
       auth.logout();
+      $state.go('login')
     }
 }])
 
@@ -105,3 +106,16 @@ angular.module('school_book', ['ui.router'])
 	//console.log($state.params)
 	
 }])
+
+
+.run(function($transitions,$state,authservice){
+    
+    $transitions.onStart({ to:'*'},function(){
+      
+      if(!authservice.isAuthenticated()){
+        $state.go('login');
+      }
+     });
+    
+    
+  })
