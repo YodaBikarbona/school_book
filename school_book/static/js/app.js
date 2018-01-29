@@ -18,21 +18,90 @@ angular.module('school_book', ['ui.router'])
 }])
 //Ovo je za rute
 
-.controller('loginController', ['$scope','$state', function($scope, $state){
+/*.controller('loginController', ['$scope','$state','$http','$q', function($scope, $state, $http, $q){
 
 	$scope.login = (user) => {
-		if(user.username == 'mihael.peric@hotmail.com'){
-			$state.go('admin', {user:{
-				username: user.username
-				password: '12345'
-			}})
+		username = user.username
+		password = user.password
+		return $q(function(resolve, reject){
+			$http({
+				url: 'http://localhost:6543/login',
+				method: 'POST',
+				data: user
+			}).then(function(resp){
+				console.log(resp)
+				if(resp.data.user){
+					if(resp.data.user.role.role_name == 'admin'){
+						if(resp.data.user.email == username && resp.data.token){
+							$state.go('admin')
+						}
+					}
+				}
+				else{
+					console.log('Error')
+				}
+			}, function(resp){
+				console.log(resp)
+			})
+		})
+		//if(login_data.data.user.email == username && 
+		//	login_data.data.user.role.role_name == 'admin' && 
+		//	login_data.data.user.token){
+		//	$state.go('admin', {user:{
+		//		username: username,
+		//		password: password
+		//	}})
 		}
-	}
+	//}
 	
+}])*/
+
+
+
+
+.controller('loginController', ['$scope','authservice','$rootScope','$state','ROLE', function($scope,auth,$rootScope,$state,ROLE){
+
+	$scope.login = (user) => {
+		if (user) {
+			auth.login(user).then(function(authenticated){
+				if (auth.role() == 'admin') {
+					$state.go('admin')
+				}
+			}, function(err){
+
+			})
+		}
+
+	}}])
+
+.controller('mainController', ['$scope','$rootScope','authservice',function($scope,$rootScope,auth){
+    $scope.logout = function(){
+      auth.logout();
+    }
 }])
 
-.controller('adminController', ['$scope','$state', function($scope, $state){
 
-	console.log($state.params)
+.controller('adminController', ['$scope','$state', function($scope, $state){
+	$scope.show_tab = 0
+
+
+	$scope.show_profile = function(){
+		$scope.show_tab = 0
+		$scope.show_tab = 1
+		console.log($scope.show_tab)
+	}
+
+	$scope.show_users = function(){
+		$scope.show_tab = 0
+		$scope.show_tab = 2
+		console.log($scope.show_tab)
+	}
+
+	$scope.show_classes = function(){
+		$scope.show_tab = 0
+		$scope.show_tab = 3
+		console.log($scope.show_tab)
+	}
+	//console.log($state.params)
 	
 }])

@@ -30,4 +30,4 @@ def get_all_users(role_name):
 
 init_db()
 if __name__ == '__main__':
-    app.run(debug=True, port=8080)
+    app.run(debug=True, port=6543)
