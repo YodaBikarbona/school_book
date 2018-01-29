@@ -1,1 +1,71 @@
-<p>This is admin panel</p>
+<div class="container-fluid" style="height: 100%; text-align: center;">
+  <div class="row" style="background-color: lightgray; height: 5%; border: 1px solid black">
+    <div class="col-md-2" style="height: 100%; border-right: 1px solid black; padding: 0">
+      School Book v1.0
+    </div>
+    <div class="col-md-10" style="height: 100%">
+    	<div class="row" style="height: 100%">
+    		<div class="col-md-10">
+    			
+    		</div>
+    		<div class="col-md-2" style="padding: 0; text-align: right;">
+      			<button type="button" class="btn btn-secondary rounded-0" style="height: 100%">
+      				Loggout
+      			</button>
+    		</div>
+    	</div>
+    </div>
+  </div>
+  <div class="row" style="height: 90%; background-color: lightgray">
+    <div class="col-md-2" style="height: 100%; border-right: 1px solid black; padding: 0">
+    	<div class="list-group" style="margin: 0; padding: 0; border-radius: 0px">
+    		<button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_profile()">
+    			<div class="row">
+    				<div class="col-md-4" style="text-align: right; padding: 0">
+    					<i class="fa fa-user"></i>
+    				</div>
+    				<div class="col-md-8" style="text-align: left;">
+    					Profile
+    				</div>
+    			</div>
+    		</button>
+    		<button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_users()">
+    			<div class="row">
+    				<div class="col-md-4" style="text-align: right; padding: 0">
+    					<i class="fa fa-users"></i>
+    				</div>
+    				<div class="col-md-8" style="text-align: left;">
+    					Users
+    				</div>
+    			</div>
+    		</button>
+    		<button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_classes()">
+    			<div class="row">
+    				<div class="col-md-4" style="text-align: right; padding: 0">
+    					<i class="fa fa-address-book-o"></i>
+    				</div>
+    				<div class="col-md-8" style="text-align: left;">
+    					Classes
+    				</div>
+    			</div>
+    		</button>
+    	</div>
+    </div>
+    <div class="col-md-10" style="height: 100%; background-color: white" ng-controller="adminController">
+        <div ng-if="show_tab == 1">
+            Profile
+        </div>
+        <div ng-if="show_tab == 2">
+            Users
+        </div>
+        <div ng-if="show_tab == 3">
+            Classes
+        </div>
+    </div>
+  </div>
+  <div class="row" style="background-color: lightgray; height: 5%; border: 1px solid black">
+    <div class="col-md-12" style="height: 100%; text-align: center;">
+      Created by Mihael @ 2018
+    </div>
+  </div>
+</div>
