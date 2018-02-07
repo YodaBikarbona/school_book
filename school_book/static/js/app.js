@@ -82,7 +82,7 @@ angular.module('school_book', ['ui.router'])
 }])
 
 
-.controller('adminController', ['$scope','$state', function($scope, $state){
+.controller('adminController', ['$scope', function($scope){
 	$scope.show_tab = 0
 
 
@@ -104,7 +104,10 @@ angular.module('school_book', ['ui.router'])
 		console.log($scope.show_tab)
 	}
 	//console.log($state.params)
-	
+	$scope.lista = []
+	for (var i = 0; i<50; i++) {
+		$scope.lista.push(i)
+	}
 }])
 
 
