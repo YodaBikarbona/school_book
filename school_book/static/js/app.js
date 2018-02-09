@@ -12,6 +12,7 @@ angular.module('school_book', ['ui.router'])
 	$stateProvider
 		.state(STATE.login)
 		.state(STATE.admin)
+		.state('test',{url:'/test', templateUrl:'new_user.html'})
 	//Ovo za oba nacina treba
 	$urlRouterProvider.otherwise('/login')
 	
@@ -82,7 +83,7 @@ angular.module('school_book', ['ui.router'])
 }])
 
 
-.controller('adminController', ['$scope', function($scope){
+.controller('adminController', ['$scope','$http','$q', function($scope,$http,$q){
 	$scope.show_tab = 0
 
 
@@ -94,8 +95,19 @@ angular.module('school_book', ['ui.router'])
 
 	$scope.show_users = function(){
 		$scope.show_tab = 0
+		roles(function(resp){
+			$scope.roles = resp
+		})
+		//console.log($scope.users)
 		$scope.show_tab = 2
-		console.log($scope.show_tab)
+	}
+
+	$scope.find_by_role = function(role){
+		console.log(role)
+		users(role,function(resp){
+			$scope.users = resp
+			console.log(resp)
+		})
 	}
 
 	$scope.show_classes = function(){
@@ -108,6 +120,31 @@ angular.module('school_book', ['ui.router'])
 	for (var i = 0; i<50; i++) {
 		$scope.lista.push(i)
 	}
+
+	function users(role, callback){
+          $http({
+            url: 'http://localhost:6543/users/'+role,
+            method: 'GET',
+            data: role
+          }).then(function(resp){
+          	callback(resp.data.user_list)
+          }, function(resp){
+            console.log(resp)
+          })
+        }
+        
+    function roles(callback){
+    	$http({
+    		url:'http://localhost:6543/roles',
+    		method: 'GET'
+    	}).then(function(resp){
+    		callback(resp.data.role_list)
+    	}), function(resp){
+
+    	}
+    }
+
+
 }])
 
 

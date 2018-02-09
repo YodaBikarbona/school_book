@@ -30,3 +30,8 @@ class UserProvider:
         else:
             return NO_PERMISSION
         return user_list.all()
+
+    @classmethod
+    def get_all_roles(cls):
+        return Role.query.all()
+
