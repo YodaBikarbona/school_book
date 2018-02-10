@@ -85,11 +85,13 @@ angular.module('school_book', ['ui.router'])
 
 .controller('adminController', ['$scope','$http','$q', function($scope,$http,$q){
 	$scope.show_tab = 0
+	$scope.user_list_lenght = 0
 
 
 	$scope.show_profile = function(){
 		$scope.show_tab = 0
 		$scope.show_tab = 1
+		$scope.user_list_lenght = 0
 		console.log($scope.show_tab)
 	}
 
@@ -113,6 +115,7 @@ angular.module('school_book', ['ui.router'])
 	$scope.show_classes = function(){
 		$scope.show_tab = 0
 		$scope.show_tab = 3
+		$scope.user_list_lenght = 0
 		console.log($scope.show_tab)
 	}
 	//console.log($state.params)
@@ -128,6 +131,7 @@ angular.module('school_book', ['ui.router'])
             data: role
           }).then(function(resp){
           	callback(resp.data.user_list)
+          	$scope.user_list_lenght = resp.data.user_list.length
           }, function(resp){
             console.log(resp)
           })
@@ -139,6 +143,7 @@ angular.module('school_book', ['ui.router'])
     		method: 'GET'
     	}).then(function(resp){
     		callback(resp.data.role_list)
+    		console.log(resp.data.role_list.length)
     	}), function(resp){
 
     	}
