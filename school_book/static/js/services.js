@@ -17,7 +17,7 @@ angular.module('school_book')
       function storeUserCredidentals(user){
         console.log(user)
         window.localStorage.setItem(LOCAL_STORAGE_KEY, user.token);
-        window.localStorage.setItem('user', JSON.stringify(user))
+        window.localStorage.setItem('user_id', JSON.stringify(user.user.id))
         useUserCredidentals(user);
 
       }
@@ -51,7 +51,6 @@ angular.module('school_book')
             method: 'POST',
             data: user
           }).then(function(resp){
-            console.log(resp)
             if(resp.data.user){
               if(resp.data.user.role.role_name == 'admin'){
                 if(resp.data.user.email == username && resp.data.token){
