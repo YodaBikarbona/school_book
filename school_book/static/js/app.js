@@ -83,7 +83,7 @@ angular.module('school_book', ['ui.router'])
 }])
 
 
-.controller('adminController', ['$scope','$http','$q', function($scope,$http,$q){
+.controller('adminController', ['$scope','$http','$q','$rootScope','adminservice', function($scope,$http,$q,$rootScope,adminservice){
 	$scope.show_tab = 0
 	$scope.user_list_lenght = 0
 
@@ -92,63 +92,45 @@ angular.module('school_book', ['ui.router'])
 		$scope.show_tab = 0
 		$scope.show_tab = 1
 		$scope.user_list_lenght = 0
-		console.log($scope.show_tab)
 	}
 
 	$scope.show_users = function(){
 		$scope.show_tab = 0
-		roles(function(resp){
-			$scope.roles = resp
-		})
-		//console.log($scope.users)
+		$scope.getRoles()
 		$scope.show_tab = 2
 	}
 
 	$scope.find_by_role = function(role){
-		console.log(role)
-		users(role,function(resp){
-			$scope.users = resp
-			console.log(resp)
-		})
+		$scope.getUsers(role)
 	}
 
 	$scope.show_classes = function(){
 		$scope.show_tab = 0
 		$scope.show_tab = 3
 		$scope.user_list_lenght = 0
-		console.log($scope.show_tab)
 	}
-	//console.log($state.params)
+	
 	$scope.lista = []
 	for (var i = 0; i<50; i++) {
 		$scope.lista.push(i)
 	}
 
-	function users(role, callback){
-          $http({
-            url: 'http://localhost:6543/users/'+role,
-            method: 'GET',
-            data: role
-          }).then(function(resp){
-          	callback(resp.data.user_list)
-          	$scope.user_list_lenght = resp.data.user_list.length
-          }, function(resp){
-            console.log(resp)
-          })
-        }
-        
-    function roles(callback){
-    	$http({
-    		url:'http://localhost:6543/roles',
-    		method: 'GET'
-    	}).then(function(resp){
-    		callback(resp.data.role_list)
-    		console.log(resp.data.role_list.length)
-    	}), function(resp){
+    $scope.getUsers = function(role){
+        $scope.users = [];
+        adminservice.getUsers(role,function(users){
+            $scope.users = users;
+            if($scope.users){
+			$scope.user_list_lenght = $scope.users.length
+		}
+        });
+      }
 
-    	}
-    }
-
+    $scope.getRoles = function(){
+        $scope.roles = [];
+        adminservice.getRoles(function(roles){
+            $scope.roles = roles;
+        });
+      }
 
 }])
 

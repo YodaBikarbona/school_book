@@ -103,6 +103,33 @@ angular.module('school_book')
       }
   }])
 
+.service('adminservice', ['$http','API_ENDPOINT','$q', function($http,API_ENDPOINT,$q){
+
+
+  this.getRoles = function(callback){
+    $http(
+    {
+      url:'http://localhost:6543/roles',
+      method: 'GET'
+    }).then(function(resp){
+      callback(resp.data.role_list)
+    }, function(resp){
+      console.log(resp)
+    })}
+
+  this.getUsers = function(role, callback){
+    $http({
+      url: 'http://localhost:6543/users/'+role,
+      method: 'GET',
+      data: role
+    }).then(function(resp){
+      callback(resp.data.user_list)
+    }, function(resp){
+      console.log(resp)
+    })}
+
+}])
+
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){
     var inter = {}
     
