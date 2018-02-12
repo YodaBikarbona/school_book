@@ -2,6 +2,13 @@ from hashlib import sha512
 from random import choice
 from jose import jwt
 from school_book.api.views.constants.constants import BACKEND_SECRET_WORD
+import json
+import logging
+from datetime import datetime
+from flask import Response
+
+
+log = logging.getLogger(__name__)
 
 
 def new_salt():
@@ -42,3 +49,63 @@ def check_security_token(token):
         print(ex)
         return False
     return decode
+
+
+def now():
+    return datetime.utcnow()
+
+
+"""def ok_response(message, additional_data=None):
+    
+    #Utility for building response.
+    #If response needs additional data it must be supplied as dict.
+
+    #Example::
+
+    #    additional_data = {
+     #                  'dataname' : 'data value'
+     #                  }
+    
+    if additional_data is None:
+        additional_data = {}
+    if not isinstance(additional_data, dict):
+        log.error(u'Unsupported additional data: {0}'.format(additional_data))
+        additional_data = {}
+    status = {
+        'status': 'OK',
+        'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+        'code': 200,
+        'message': message
+    }
+    status.update(additional_data)
+    return status"""
+
+
+def ok_response(message, additional_data=None):
+    data={
+        'status': 'OK',
+        'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+        'code': 200,
+        'message': message,
+        'data': additional_data if additional_data else {}
+    }
+    response = Response(json.dumps(data),
+                        mimetype='application/json',
+                        status=200)
+
+    return response
+
+
+def error_handler(error_status, message):
+    data = {
+        'error': {
+            'status': 'ERROR',
+            'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+            'code': error_status,
+            'message': message
+        }
+    }
+    response = Response(json.dumps(data),
+                        mimetype='application/json',
+                        status=error_status)
+    return response

@@ -7,6 +7,9 @@ from school_book.api.views.messages.messages import successfully_logged
 from school_book.api.views.helper.helper import security_token
 from school_book.api.views.constants.constants import STUDENT
 from school_book.api.model.providers.user import UserProvider
+from school_book.api.views.helper.helper import error_handler
+from school_book.api.views.helper.helper import ok_response
+from school_book.api.views.helper.helper import now
 
 
 def login(username, password):
@@ -17,6 +20,9 @@ def login(username, password):
 
         return jsonify(
             {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
                 'user': UsersSerializer(many=False).dump(user).data,
                 'msg': successfully_logged(user.first_name, user.last_name),
                 'token': security_token(user.email, user.role.role_name) if user.role.role_name != STUDENT else
@@ -25,9 +31,5 @@ def login(username, password):
         )
 
     else:
-
-        return jsonify(
-            {
-                'error_msg:': login_error(user.role.role_name if user else None)
-            }
-        )
+        return error_handler(error_status=403,
+                             message=login_error(user.role.role_name if user else None))

@@ -23,9 +23,137 @@ thead {
     -moz-box-shadow: -1px -1px 18px -2px rgba(0,0,0,0.75);
     box-shadow: -1px -1px 18px -2px rgba(0,0,0,0.75);
 }
+
+.not-focusable:focus {
+    outline: none;
+    box-shadow: none;
+}
 </style>
 
-<div class="container-fluid" style="border-radius: 0px;">
+<div class="container-fluid">
+  <div class="row bg-dark">
+    <div class="col-md-2">
+      <p style="color: white">School Book v1.0</p>
+    </div>
+    <div class="col-md-10" style="padding-right: 0">
+      <button type="button" class="btn btn-secondary rounded-0 btn-sm not-focusable" style="float: right;" ng-click="logout()">
+        <i class="fa fa-sign-out"></i>Loggout
+      </button>
+    </div>
+  </div>
+  <div class="row" style="height: 700px;">
+    <div class="col-md-2 bg-dark" style="padding: 0">
+      <div class="list-group" style="margin: 0; padding: 0; border-radius: 0px">
+        <button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_profile()">
+          <div class="row">
+            <div class="col-md-4" style="text-align: right; padding: 0">
+              <i class="fa fa-user"></i>
+            </div>
+            <div class="col-md-8" style="text-align: left;">
+              Profile
+            </div>
+          </div>
+        </button>
+        <button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_users()">
+          <div class="row">
+            <div class="col-md-4" style="text-align: right; padding: 0">
+              <i class="fa fa-users"></i>
+            </div>
+            <div class="col-md-8" style="text-align: left;">
+              Users
+            </div>
+          </div>
+        </button>
+        <button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_classes()">
+          <div class="row">
+            <div class="col-md-4" style="text-align: right; padding: 0">
+              <i class="fa fa-address-book-o"></i>
+            </div>
+            <div class="col-md-8" style="text-align: left;">
+              Classes
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="col-md-10" ng-show="show_tab == 1" style="height: 700px; overflow-y: scroll">
+      <div class="row" style="padding-top: 10px">
+        <div class="col-md-12" >
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="http://cdn.osxdaily.com/wp-content/uploads/2014/07/users-and-groups-icon-mac.png" alt="Responsive image" class="img-thumbnail">
+                        </div>
+                        <div class=" col-md-9 col-lg-9 "> 
+                            <table class="table table-user-information table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>First name:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last name:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date of Birth:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gender:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Role:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email/ID:</td>
+                                        <td></td>
+                                    </tr>
+                                        <td>Phone Number:</td>
+                                        <td><!--123-4567-890(Landline)<br><br>555-4567-890(Mobile)-->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Created:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>First login:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last login:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Profile status:</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button class="btn btn-sm btn-secondary not-focusable">
+                                Edit
+                            </button>
+                            <button class="btn btn-sm btn-secondary not-focusable">
+                                Deactivate
+                            </button>
+                            <button class="btn btn-sm btn-danger not-focusable">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--div class="container-fluid" style="border-radius: 0px;">
     <div class="row" style="border: 1px solid black; padding-right: 0px; background-color: lightgray;">
         <div class="col-md-4">
             <p style="color: black">
@@ -34,11 +162,12 @@ thead {
         </div>
         <div class="col-md-8" style="padding-right: 0px">
             <button type="button" class="btn btn-secondary rounded-0 btn-sm" style="float: right;" ng-click="logout()">
+                <i class="fa fa-sign-out"></i>
                 Loggout
             </button>
         </div>
     </div>
-    <div class="row" style="height: 96vh;">
+    <div class="row" style="height: 900px;">
         <div class="col-md-2" style="padding-right: 0px; padding-left: 0px; background-color: lightgray">
             <div class="list-group" style="margin: 0; padding: 0; border-radius: 0px">
                 <button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_profile()">
@@ -73,49 +202,79 @@ thead {
                 </button>
             </div>
         </div>
-        <!--Show tab one-->
+        <Show tab one>
         <div class="col-md-10" ng-if="show_tab == 1">
-            <div class="row">
-                <div class="col-md-6" style="background-color: white;">
-                    <div class="row">
-                        <div class="col-md-12" style="margin: 20%; padding: 0; height: 170px;">
-                            <img id="profile_image" class="img-responsive" src="http://cdn.osxdaily.com/wp-content/uploads/2014/07/users-and-groups-icon-mac.png" class="img-rounded" alt="Chania" style="width: 170px; height: 170px"> 
-                        </div>
+            <div class="row" style="height: 900px;">
+                <div class="col-md-6" style="background-color: white; height: 900px;">
+                    <div class="row" style="height: 300px; padding: 20%">
+                        <img id="profile_image" class="img-responsive" src="http://cdn.osxdaily.com/wp-content/uploads/2014/07/users-and-groups-icon-mac.png" class="img-rounded" alt="Chania" style="width: 170px; height: 170px"> 
                     </div>
-                    <div class="row">
-                        <div class="col-md-12" style="padding-left: 20%; height: 50px">
+                    <div class="row" style="height: 600px; padding: 20%; padding-top: 5%;">
+                        <div class="col-md-12" style="height: 30px; margin-bottom: 1px; border: 1px solid black; margin-right: 20%; border-radius: 20px; background-color: lightgray">
                             <p>
                                 First name:
                             </p>
                         </div>
-                        <div class="col-md-12" style="padding-left: 20%; height: 50px">
+                        <div class="col-md-12" style="height: 30px; margin-bottom: 1px; border: 1px solid black; margin-right: 20%; border-radius: 20px; background-color: lightgray">
                             <p>
                                 Last name:
                             </p>
                         </div>
-                        <div class="col-md-12" style="padding-left: 20%; height: 50px">
+                        <div class="col-md-12" style="height: 30px; margin-bottom: 1px; border: 1px solid black; margin-right: 20%; border-radius: 20px; background-color: lightgray">
                             <p>
                                 Birth date: 
                             </p>
                         </div>
-                        <div class="col-md-12" style="padding-left: 20%; height: 50px">
+                        <div class="col-md-12" style="height: 30px; margin-bottom: 1px; border: 1px solid black; margin-right: 20%; border-radius: 20px; background-color: lightgray">
                             <p>
                                 Role: 
                             </p>
                         </div>
-                        <div class="col-md-12" style="padding-left: 20%; height: 50px">
+                        <div class="col-md-12" style="height: 30px; margin-bottom: 1px; border: 1px solid black; margin-right: 20%; border-radius: 20px; background-color: lightgray">
                             <p>
                                 Created date: 
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <!--Part two of informations-->
+                <div class="col-md-6" style="height: 900px;">
+                    <div class="row" style="height: 300px; padding: 20%">
+                        <div class="col-md-12" style="height: 30px; margin-bottom: 10px; border: 1px solid black; margin-right: 20%; border-radius: 20px; background-color: lightgray">
+                            <p>
+                                Created:
+                            </p>
+                        </div>
+                        <div class="col-md-12" style="height: 30px; margin-bottom: 10px; border: 1px solid black; margin-right: 20%; border-radius: 20px; background-color: lightgray">
+                            <p>
+                                First login date:
+                            </p>
+                        </div>
+                        <div class="col-md-12" style="height: 30px; margin-bottom: 10px; border: 1px solid black; margin-right: 20%; border-radius: 20px; background-color: lightgray">
+                            <p>
+                                Last login date:
+                            </p>
+                        </div>
+                        <div class="col-md-12" style="height: 30px; margin-bottom: 10px; border: 1px solid black; margin-right: 20%; border-radius: 20px; background-color: lightgray">
+                            <p>
+                                Created:
+                            </p>
+                        </div>
+                        <div class="col-md-12" style="height: 30px; margin-bottom: 10px; border: 1px solid black; margin-right: 20%; border-radius: 20px; background-color: lightgray">
+                            <p>
+                                Created:
+                            </p>
+                        </div>
+                        <div class="col-md-12" style="height: 30px; margin-bottom: 10px; border: 1px solid black; margin-right: 20%; border-radius: 20px; background-color: lightgray">
+                            <p>
+                                Created:
+                            </p>
+                        </div>
+                    </div>
+                    <Part two of informations>
                 </div>
             </div>
         </div>
-        <!--Show tab two-->
+        <Show tab two>
         <div class="col-md-10" ng-if="show_tab == 2">
             <div class="row" style="padding: 10px">
                 <div class="col-md-12">
@@ -184,7 +343,10 @@ thead {
             </div>
         </div>
     </div>
-</div>
+</div-->
+
+
+
 
 
 <!--

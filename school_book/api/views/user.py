@@ -34,13 +34,13 @@ def get_all_roles_func(security_token):
 
     if authorization is False:
 
-        return jsonify({"err_msg": WRONG_TOKEN})
+        return jsonify({"err_msg": WRONG_TOKEN}), 404
 
     user = UserProvider.get_user_by_username(username=authorization['userName'])
 
     if not user:
 
-        return jsonify({"err_msg": NO_PERMISSION})
+        return jsonify({"err_msg": NO_PERMISSION}), 403
 
     role_list = UserProvider.get_all_roles()
 
