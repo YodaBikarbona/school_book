@@ -5,6 +5,7 @@ from school_book.api.model.providers.user import UserProvider
 from school_book.api.model.serializers.serializer import UsersSerializer
 from school_book.api.model.serializers.serializer import RoleSerializer
 from school_book.api.views.messages.error_messages import NO_PERMISSION
+from school_book.api.views.helper.helper import error_handler
 
 
 def get_all_users_func(security_token, role_name):
@@ -12,13 +13,12 @@ def get_all_users_func(security_token, role_name):
 
     if authorization is False:
 
-        return jsonify({"err_msg": WRONG_TOKEN})
+        return error_handler(error_status=403, message=WRONG_TOKEN)
 
     user = UserProvider.get_user_by_username(username=authorization['userName'])
 
     if not user:
-
-        return jsonify({"err_msg": NO_PERMISSION})
+        return error_handler(error_status=403, message=NO_PERMISSION)
 
     user_list = UserProvider.get_all_users(role=authorization['role'], user_id=user.id, role_name=role_name)
 
@@ -34,13 +34,12 @@ def get_all_roles_func(security_token):
 
     if authorization is False:
 
-        return jsonify({"err_msg": WRONG_TOKEN}), 404
+        return error_handler(error_status=403, message=WRONG_TOKEN)
 
     user = UserProvider.get_user_by_username(username=authorization['userName'])
 
     if not user:
-
-        return jsonify({"err_msg": NO_PERMISSION}), 403
+        return error_handler(error_status=403, message=NO_PERMISSION)
 
     role_list = UserProvider.get_all_roles()
 

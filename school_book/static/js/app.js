@@ -83,13 +83,16 @@ angular.module('school_book', ['ui.router'])
 }])
 
 
-.controller('adminController', ['$scope','$http','$q','$rootScope','adminservice', function($scope,$http,$q,$rootScope,adminservice){
+.controller('adminController', ['$scope','$http','$q','$rootScope','adminservice','authservice', function($scope,$http,$q,$rootScope,adminservice,auth){
 	$scope.show_tab = 0
 	$scope.user_list_lenght = 0
 
 
 	$scope.show_profile = function(){
 		$scope.show_tab = 0
+		//var user_id = localStorage.getItem('user_id')
+		var user_id = auth.user_id()
+		console.log(user_id)
 		$scope.show_tab = 1
 		$scope.user_list_lenght = 0
 	}

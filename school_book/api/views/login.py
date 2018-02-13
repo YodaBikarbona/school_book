@@ -10,6 +10,7 @@ from school_book.api.model.providers.user import UserProvider
 from school_book.api.views.helper.helper import error_handler
 from school_book.api.views.helper.helper import ok_response
 from school_book.api.views.helper.helper import now
+from school_book.api.config import db
 
 
 def login(username, password):
@@ -17,6 +18,9 @@ def login(username, password):
     user = UserProvider.get_user_by_username(username)
 
     if user and password == user.password:
+
+        user.last_login = now()
+        db.session.commit()
 
         return jsonify(
             {

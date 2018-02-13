@@ -5,6 +5,7 @@ angular.module('school_book')
       var isAuthenticated = false;
       var role = '';
       var userObj = {};
+      var user_id;
 
       function loadUserCredidentals(){
         var token = window.localStorage.getItem('mytoken')
@@ -12,6 +13,7 @@ angular.module('school_book')
             isAuthenticated = true;
              $http.defaults.headers.common['Authorization'] = token;
           }
+        user_id = window.localStorage.getItem('user_id')
       }
 
       function storeUserCredidentals(user){
@@ -63,8 +65,7 @@ angular.module('school_book')
               reject(resp.data)
               console.log('Error')
             }
-          }, function(resp){
-            console.log(resp)
+          }, function(){
           })
         })
 
@@ -99,7 +100,8 @@ angular.module('school_book')
         isAuthorized : true,
         isAuthenticated : function(){return isAuthenticated;},
         userObj : function(){return userObj;},
-        role: function(){return role;}
+        role: function(){return role;},
+        user_id: function(){return user_id}
       }
   }])
 
