@@ -17,4 +17,4 @@ class UsersSerializer(ma.Schema):
 
     class Meta:
         fields = ('id', 'unique_ID', 'first_name', 'last_name', 'email', 'parent_one',
-                  'parent_two', 'activated', 'role_id', 'role')
+                  'parent_two', 'activated', 'role_id', 'created', 'first_login', 'last_login', 'address', 'phone', 'role')

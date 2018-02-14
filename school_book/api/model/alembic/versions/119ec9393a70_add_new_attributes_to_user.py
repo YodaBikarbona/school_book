@@ -23,10 +23,10 @@ depends_on = None
 
 def upgrade():
     try:
-        op.add_column('user', sa.Column('created', sa.DateTime(), nullable=False, default=now()))
-        op.add_column('user', sa.Column('first_login', sa.DateTime(), nullable=False, default=now()))
-        op.add_column('user', sa.Column('last_login', sa.DateTime(), nullable=False, default=now()))
-        op.add_column('user', sa.Column('address', sa.Unicode(255), nullable=False))
+        op.add_column('user', sa.Column('created', sa.DateTime()))
+        op.add_column('user', sa.Column('first_login', sa.DateTime()))
+        op.add_column('user', sa.Column('last_login', sa.DateTime()))
+        op.add_column('user', sa.Column('address', sa.Unicode(255), nullable=True))
         op.add_column('user', sa.Column('phone', sa.Unicode(255), nullable=True))
     except Exception as ex:
         print(ex)

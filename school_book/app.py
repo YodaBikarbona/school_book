@@ -6,6 +6,7 @@ from school_book.config import init_db
 from school_book.api.views.login import login
 from school_book.api.views.user import get_all_users_func
 from school_book.api.views.user import get_all_roles_func
+from school_book.api.views.user import get_user_by_user_id
 from flask import request
 import logging
 log = logging.getLogger(__name__)
@@ -33,6 +34,12 @@ def get_all_users(role_name):
 def get_all_roles():
 
     return get_all_roles_func(request.headers['Authorization'])
+
+
+@app.route('/users/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+
+    return get_user_by_user_id(request.headers['Authorization'], user_id)
 
 
 init_db()

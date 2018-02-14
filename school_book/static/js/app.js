@@ -92,6 +92,7 @@ angular.module('school_book', ['ui.router'])
 		$scope.show_tab = 0
 		//var user_id = localStorage.getItem('user_id')
 		var user_id = auth.user_id()
+		$scope.getUser(user_id)
 		console.log(user_id)
 		$scope.show_tab = 1
 		$scope.user_list_lenght = 0
@@ -134,6 +135,20 @@ angular.module('school_book', ['ui.router'])
             $scope.roles = roles;
         });
       }
+
+    $scope.getUser = function(user_id){
+    	$scope.user_obj = {}
+    	adminservice.getUser(user_id, function(user_obj){
+    		$scope.user_obj = user_obj;
+    		console.log($scope.user_obj)
+    	})
+    }
+
+    $scope.change_tab = function(user_id){
+    	$scope.show_tab = 0
+    	$scope.getUser(user_id)
+    	$scope.show_tab = 1
+    }
 
 }])
 

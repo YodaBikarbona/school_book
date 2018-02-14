@@ -130,6 +130,18 @@ angular.module('school_book')
       console.log(resp)
     })}
 
+  this.getUser = function(user_id, callback){
+    $http({
+      url: 'http://localhost:6543/users/'+user_id,
+      method: 'GET',
+      data: user_id
+    }).then(function(resp){
+      callback(resp.data.user_object)
+    }, function(resp){
+      console.log(resp.data)
+    })
+  }
+
 }])
 
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){

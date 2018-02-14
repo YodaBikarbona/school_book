@@ -52,7 +52,7 @@ def check_security_token(token):
 
 
 def now():
-    return datetime.utcnow()
+    return datetime.now()
 
 
 """def ok_response(message, additional_data=None):
@@ -109,3 +109,9 @@ def error_handler(error_status, message):
                         mimetype='application/json',
                         status=error_status)
     return response
+
+
+def date_format_to_string(date):
+    date = '{0}'.format(date).split('T')
+    date = '{0} '.format(date[0]) + '{0}'.format(date[1].split('+')[0])
+    return date
