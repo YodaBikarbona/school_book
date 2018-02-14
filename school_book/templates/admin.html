@@ -1,71 +1,262 @@
-<div class="container-fluid" style="height: 100%; text-align: center;">
-  <div class="row" style="background-color: lightgray; height: 5%; border: 1px solid black">
-    <div class="col-md-2" style="height: 100%; border-right: 1px solid black; padding: 0">
-      School Book v1.0
+
+<link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+
+
+<style type="text/css">
+#profile_image{
+    -webkit-box-shadow: -1px -1px 18px -2px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px -1px 18px -2px rgba(0,0,0,0.75);
+    box-shadow: -1px -1px 18px -2px rgba(0,0,0,0.75);
+}
+
+.not-focusable:focus {
+    outline: none;
+    box-shadow: none;
+}
+</style>
+
+<div class="container-fluid">
+  <div class="row bg-dark">
+    <div class="col-md-2">
+      <p style="color: white">School Book v1.0</p>
     </div>
-    <div class="col-md-10" style="height: 100%">
-    	<div class="row" style="height: 100%">
-    		<div class="col-md-10">
-    			
-    		</div>
-    		<div class="col-md-2" style="padding: 0; text-align: right;">
-      			<button type="button" class="btn btn-secondary rounded-0" style="height: 100%" ng-click="logout()">
-      				Loggout
-      			</button>
-    		</div>
-    	</div>
-    </div>
-  </div>
-  <div class="row" style="height: 90%; background-color: lightgray">
-    <div class="col-md-2" style="height: 100%; border-right: 1px solid black; padding: 0">
-    	<div class="list-group" style="margin: 0; padding: 0; border-radius: 0px">
-    		<button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_profile()">
-    			<div class="row">
-    				<div class="col-md-4" style="text-align: right; padding: 0">
-    					<i class="fa fa-user"></i>
-    				</div>
-    				<div class="col-md-8" style="text-align: left;">
-    					Profile
-    				</div>
-    			</div>
-    		</button>
-    		<button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_users()">
-    			<div class="row">
-    				<div class="col-md-4" style="text-align: right; padding: 0">
-    					<i class="fa fa-users"></i>
-    				</div>
-    				<div class="col-md-8" style="text-align: left;">
-    					Users
-    				</div>
-    			</div>
-    		</button>
-    		<button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_classes()">
-    			<div class="row">
-    				<div class="col-md-4" style="text-align: right; padding: 0">
-    					<i class="fa fa-address-book-o"></i>
-    				</div>
-    				<div class="col-md-8" style="text-align: left;">
-    					Classes
-    				</div>
-    			</div>
-    		</button>
-    	</div>
-    </div>
-    <div class="col-md-10" style="height: 100%; background-color: white" ng-controller="adminController">
-        <div ng-if="show_tab == 1">
-            Profile
-        </div>
-        <div ng-if="show_tab == 2">
-            Users
-        </div>
-        <div ng-if="show_tab == 3">
-            Classes
-        </div>
+    <div class="col-md-10" style="padding-right: 0">
+      <button type="button" class="btn btn-secondary rounded-0 btn-sm not-focusable" style="float: right;" ng-click="logout()">
+        <i class="fa fa-sign-out"></i>Loggout
+      </button>
     </div>
   </div>
-  <div class="row" style="background-color: lightgray; height: 5%; border: 1px solid black">
-    <div class="col-md-12" style="height: 100%; text-align: center;">
-      Created by Mihael @ 2018
+  <div class="row" style="height: 700px;">
+    <div class="col-md-2 bg-dark" style="padding: 0">
+      <div class="list-group" style="margin: 0; padding: 0; border-radius: 0px">
+        <button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_profile()">
+          <div class="row">
+            <div class="col-md-4" style="text-align: right; padding: 0">
+              <i class="fa fa-user"></i>
+            </div>
+            <div class="col-md-8" style="text-align: left;">
+              Profile
+            </div>
+          </div>
+        </button>
+        <button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_users()">
+          <div class="row">
+            <div class="col-md-4" style="text-align: right; padding: 0">
+              <i class="fa fa-users"></i>
+            </div>
+            <div class="col-md-8" style="text-align: left;">
+              Users
+            </div>
+          </div>
+        </button>
+        <button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_classes()">
+          <div class="row">
+            <div class="col-md-4" style="text-align: right; padding: 0">
+              <i class="fa fa-address-book-o"></i>
+            </div>
+            <div class="col-md-8" style="text-align: left;">
+              Classes
+            </div>
+          </div>
+        </button>
+      </div>
     </div>
-  </div>
+    <div class="col-md-10" ng-show="show_tab == 1" style="height: 700px; overflow-y: scroll">
+      <div class="row" style="padding-top: 10px">
+        <div class="col-md-12" >
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="http://cdn.osxdaily.com/wp-content/uploads/2014/07/users-and-groups-icon-mac.png" alt="Responsive image" class="img-thumbnail">
+                        </div>
+                        <div class=" col-md-9 col-lg-9 "> 
+                            <table class="table table-user-information table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>First name:</td>
+                                        <td>{{user_obj.first_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last name:</td>
+                                        <td>{{user_obj.last_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date of Birth:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gender:</td>
+                                        <td ng-if="user_obj.gender==0">Male</td>
+                                        <td ng-if="user_obj.gender==1">Female</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Role:</td>
+                                        <td>{{user_obj.role.role_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td ng-if="user_obj.email">Email:</td>
+                                        <td ng-if="!user_obj.email">ID:</td>
+                                        <td ng-if="user_obj.email">{{user_obj.email}}</td>
+                                        <td ng-if='!user_obj.email'>{{user_obj.unique_ID}}</td>
+                                    </tr>
+                                        <td>Phone Number:</td>
+                                        <td>{{user_obj.phone}}
+                                            <!--123-4567-890(Landline)<br><br>555-4567-890(Mobile)-->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Created:</td>
+                                        <td>{{user_obj.created}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>First login:</td>
+                                        <td>{{user_obj.first_login}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last login:</td>
+                                        <td>{{user_obj.last_login}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Profile status:</td>
+                                        <td ng-if="user_obj.activated">Activated</td>
+                                        <td ng-if="!user_obj.activated">Deactivated</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button class="btn btn-sm btn-secondary not-focusable rounded-0">
+                                Edit
+                            </button>
+                            <button class="btn btn-sm btn-secondary not-focusable rounded-0">
+                                Deactivate
+                            </button>
+                            <button class="btn btn-sm btn-danger not-focusable rounded-0">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<div class="col-md-10" ng-show="show_tab == 2" style="height: 700px; overflow-y: scroll">
+      <div class="row" style="padding-top: 10px">
+        <div class="col-md-12" >
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form ng-submit="find_by_role(role)" class="form-inline">
+                                <div style="padding: 1px">
+                                    <select class="form-control-sm" ng-model='role'>
+                                        <option ng-repeat="role in roles" value="{{role.role_name}}">
+                                            {{role.role_name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div style="padding: 1px">
+                                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">Find</button>
+                                </div>
+                                <div style="padding: 1px">
+                                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#myModal">Add new user</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-12" ng-if="user_list_lenght>0">
+                            <table class="table table-striped table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            First name
+                                        </th>
+                                        <th>
+                                            Last name
+                                        </th>
+                                        <th>
+                                            Role
+                                        </th>
+                                        <th>
+                                            Activated
+                                        </th>
+                                        <th>
+                                            Profile
+                                        </th>
+                                    </tr>
+                                </thead>
+                                    <tr ng-repeat="user in users">
+                                        <td>
+                                            {{user.first_name}}
+                                        </td>
+                                        <td>
+                                            {{user.last_name}}
+                                        </td>
+                                        <td>
+                                            {{user.role.role_name}}
+                                        </td>
+                                        <td ng-if="user.activated">
+                                            Activated
+                                        </td>
+                                        <td ng-if="!user.activated">
+                                            Deactivated
+                                        </td>
+                                        <td>
+                                            <a href="" ng-click='change_tab(user.id)'>view</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-0">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add new user</h4>
+                <button type="button" class="close not-focusable"
+                 data-dismiss="modal" ng-click="restart_form()">&times;</button>
+             </div>
+             <!-- Modal body -->
+             <div class="modal-body">
+                <form ng-submit="add_new_user(new_user)">
+                    <div class="form-group" style="padding: 1px">
+                        <label style="margin-right: 5px">Pick role</label>
+                        <select class="form-control-sm" ng-model='new_user.role_name'>
+                            <option ng-repeat="role in roles" value="{{role.role_name}}">
+                                {{role.role_name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
+                        <label style="margin-right: 5px">First name</label>
+                        <input type="text" class="form-control" name="" ng-model='new_user.first_name'>
+                    </div>
+                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
+                        <label style="margin-right: 5px">Last name</label>
+                        <input type="text" class="form-control" name="" ng-model='new_user.last_name'>
+                    </div>
+                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
+                        <label style="margin-right: 5px" ng-if="new_user.role_name!='student'">Email</label>
+                        <input type="email" class="form-control" name="" ng-model='new_user.email' 
+                        ng-if="new_user.role_name!='student'">
+                    </div>
+                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="new_user.role_name"
+                    style="float: right;">Add</button>
+                </form>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Modal -->

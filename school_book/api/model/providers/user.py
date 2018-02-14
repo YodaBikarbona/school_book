@@ -30,3 +30,21 @@ class UserProvider:
         else:
             return NO_PERMISSION
         return user_list.all()
+
+    @classmethod
+    def get_all_roles(cls):
+        return Role.query.all()
+
+    @classmethod
+    def get_user_by_id(cls, role, user_id):
+        user_obj = User.query\
+            .join(Role, User.role_id == Role.id)
+        if role == ADMIN:
+            user_obj = user_obj.filter(User.id == user_id)
+        elif role == PROFESSOR:
+            user_obj = user_obj.filter(User.id == user_id,
+                                       Role.role_name == STUDENT)
+        else:
+            return NO_PERMISSION
+        return user_obj.first()
+

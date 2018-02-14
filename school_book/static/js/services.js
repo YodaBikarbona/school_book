@@ -5,6 +5,7 @@ angular.module('school_book')
       var isAuthenticated = false;
       var role = '';
       var userObj = {};
+      var user_id;
 
       function loadUserCredidentals(){
         var token = window.localStorage.getItem('mytoken')
@@ -12,12 +13,13 @@ angular.module('school_book')
             isAuthenticated = true;
              $http.defaults.headers.common['Authorization'] = token;
           }
+        user_id = window.localStorage.getItem('user_id')
       }
 
       function storeUserCredidentals(user){
         console.log(user)
         window.localStorage.setItem(LOCAL_STORAGE_KEY, user.token);
-        window.localStorage.setItem('user', JSON.stringify(user))
+        window.localStorage.setItem('user_id', JSON.stringify(user.user.id))
         useUserCredidentals(user);
 
       }
@@ -51,7 +53,6 @@ angular.module('school_book')
             method: 'POST',
             data: user
           }).then(function(resp){
-            console.log(resp)
             if(resp.data.user){
               if(resp.data.user.role.role_name == 'admin'){
                 if(resp.data.user.email == username && resp.data.token){
@@ -64,8 +65,7 @@ angular.module('school_book')
               reject(resp.data)
               console.log('Error')
             }
-          }, function(resp){
-            console.log(resp)
+          }, function(){
           })
         })
 
@@ -100,9 +100,49 @@ angular.module('school_book')
         isAuthorized : true,
         isAuthenticated : function(){return isAuthenticated;},
         userObj : function(){return userObj;},
-        role: function(){return role;}
+        role: function(){return role;},
+        user_id: function(){return user_id}
       }
   }])
+
+.service('adminservice', ['$http','API_ENDPOINT','$q', function($http,API_ENDPOINT,$q){
+
+
+  this.getRoles = function(callback){
+    $http(
+    {
+      url:'http://localhost:6543/roles',
+      method: 'GET'
+    }).then(function(resp){
+      callback(resp.data.role_list)
+    }, function(resp){
+      console.log(resp)
+    })}
+
+  this.getUsers = function(role, callback){
+    $http({
+      url: 'http://localhost:6543/users/'+role,
+      method: 'GET',
+      data: role
+    }).then(function(resp){
+      callback(resp.data.user_list)
+    }, function(resp){
+      console.log(resp)
+    })}
+
+  this.getUser = function(user_id, callback){
+    $http({
+      url: 'http://localhost:6543/users/'+user_id,
+      method: 'GET',
+      data: user_id
+    }).then(function(resp){
+      callback(resp.data.user_object)
+    }, function(resp){
+      console.log(resp.data)
+    })
+  }
+
+}])
 
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){
     var inter = {}

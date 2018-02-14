@@ -1,4 +1,6 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
 #from flaskext.mysql import MySQL
 
 app = Flask(__name__)
@@ -11,6 +13,8 @@ app.config['MYSQL_DATABASE_DB'] = 'school_book'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Mihael0110.@localhost/school_book?charset=utf8'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 
 
 #def main():

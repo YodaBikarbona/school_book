@@ -12,6 +12,7 @@ angular.module('school_book', ['ui.router'])
 	$stateProvider
 		.state(STATE.login)
 		.state(STATE.admin)
+		.state('test',{url:'/test', templateUrl:'new_user.html'})
 	//Ovo za oba nacina treba
 	$urlRouterProvider.otherwise('/login')
 	
@@ -82,29 +83,81 @@ angular.module('school_book', ['ui.router'])
 }])
 
 
-.controller('adminController', ['$scope','$state', function($scope, $state){
+.controller('adminController', ['$scope','$http','$q','$rootScope','adminservice','authservice', function($scope,$http,$q,$rootScope,adminservice,auth){
 	$scope.show_tab = 0
+	$scope.user_list_lenght = 0
 
 
 	$scope.show_profile = function(){
 		$scope.show_tab = 0
+		//var user_id = localStorage.getItem('user_id')
+		var user_id = auth.user_id()
+		$scope.getUser(user_id)
+		console.log(user_id)
 		$scope.show_tab = 1
-		console.log($scope.show_tab)
+		$scope.user_list_lenght = 0
 	}
 
 	$scope.show_users = function(){
 		$scope.show_tab = 0
+		$scope.getRoles()
 		$scope.show_tab = 2
-		console.log($scope.show_tab)
+	}
+
+	$scope.find_by_role = function(role){
+		$scope.getUsers(role)
 	}
 
 	$scope.show_classes = function(){
 		$scope.show_tab = 0
 		$scope.show_tab = 3
-		console.log($scope.show_tab)
+		$scope.user_list_lenght = 0
 	}
-	//console.log($state.params)
 	
+	$scope.lista = []
+	for (var i = 0; i<50; i++) {
+		$scope.lista.push(i)
+	}
+
+    $scope.getUsers = function(role){
+        $scope.users = [];
+        adminservice.getUsers(role,function(users){
+            $scope.users = users;
+            if($scope.users){
+			$scope.user_list_lenght = $scope.users.length
+		}
+        });
+      }
+
+    $scope.getRoles = function(){
+        $scope.roles = [];
+        adminservice.getRoles(function(roles){
+            $scope.roles = roles;
+        });
+      }
+
+    $scope.getUser = function(user_id){
+    	$scope.user_obj = {}
+    	adminservice.getUser(user_id, function(user_obj){
+    		$scope.user_obj = user_obj;
+    		console.log($scope.user_obj)
+    	})
+    }
+
+    $scope.change_tab = function(user_id){
+    	$scope.show_tab = 0
+    	$scope.getUser(user_id)
+    	$scope.show_tab = 1
+    }
+
+    $scope.add_new_user = function(user){
+    	console.log(user)
+    }
+
+    $scope.restart_form = function(){
+    	$scope.new_user = {}
+    }
+
 }])
 
 
