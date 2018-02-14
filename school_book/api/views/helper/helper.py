@@ -6,6 +6,7 @@ import json
 import logging
 from datetime import datetime
 from flask import Response
+import os
 
 
 log = logging.getLogger(__name__)
@@ -119,3 +120,10 @@ def date_format_to_string(date):
     date = '{0}'.format(date).split('T')
     date = '{0} '.format(date[0]) + '{0}'.format(date[1].split('+')[0])
     return date
+
+
+def create_new_folder(local_dir):
+    newpath = local_dir
+    if not os.path.exists(newpath):
+        os.makedirs(newpath)
+    return newpath
