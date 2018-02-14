@@ -12,10 +12,17 @@ class RoleSerializer(ma.Schema):
         fields = ('id', 'role_name')
 
 
+class ImageSerializer(ma.Schema):
+
+    class Meta:
+        fields = ('id', 'name', 'type', 'file_name')
+
+
 class UsersSerializer(ma.Schema):
     role = ma.Nested(RoleSerializer, only=['role_name'])
+    image = ma.Nested(ImageSerializer, only=['file_name'])
 
     class Meta:
         fields = ('id', 'unique_ID', 'first_name', 'last_name', 'email', 'parent_one',
                   'parent_two', 'activated', 'role_id', 'created', 'first_login', 'last_login',
-                  'address', 'phone', 'city', 'image_id', 'gender', 'role')
+                  'address', 'phone', 'city', 'image_id', 'gender', 'role', 'image')

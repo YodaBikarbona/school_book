@@ -1,16 +1,14 @@
-<div class="container-fluid">
-  <h1>
-    Upload image
-  </h1>
-  <form method="POST" action="/upload" enctype="multipart/form-data">
-    <div class="form-group">
-      <label for="inputFile">
-        File input
-      </label>
-      <input type="file" name="inputFile">
-    </div>
-    <button type="submit" class="btn btn-sm btn-secondary">
-      Submit
-    </button>
-  </form>
-</div>
+<!--input type="file" id="file" name="file"/>
+<button ng-click="add()">Add</button-->
+
+<html>
+    <head>
+        <title>Test Dense Server</title>
+    </head>
+    <body>
+        <form method="POST" action="http://localhost:6543/upload" enctype=multipart/form-data>
+            file : <input type="file" name="image"><br />
+            <input type="submit" value="submit"><br />
+        </form>
+    </body>
+</html>

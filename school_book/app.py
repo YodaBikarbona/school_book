@@ -8,7 +8,12 @@ from school_book.api.views.user import get_all_users_func
 from school_book.api.views.user import get_all_roles_func
 from school_book.api.views.user import get_user_by_user_id
 from flask import request
+from flask import url_for, send_from_directory, request
+from flask.ext.uploads import UploadSet, configure_uploads, IMAGES
+from werkzeug.utils import secure_filename
+from school_book.api.views.user import upload_image
 import logging
+import os
 log = logging.getLogger(__name__)
 
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
@@ -42,12 +47,34 @@ def get_user(user_id):
     return get_user_by_user_id(request.headers['Authorization'], user_id)
 
 
+@app.route('/upload', methods = ['POST'])
+def upload():
+
+    return upload_image(request)
+
+
+
+
+
+
+
+"""@app.route('/upload', methods=['POST'])
+def upload_file():
+    print (request.data)
+
+    return ("aaa")
+photos = UploadSet('photos', IMAGES)
+
+app.config['UPLOADED_PHOTOS_DEST'] = 'static/img'
+configure_uploads(app, photos)
+
 @app.route('/upload', methods=['POST'])
 def upload():
     import pdb;pdb.set_trace()
-    file = request.files['inputFile']
-
-    return file.filename
+    if request.method == 'POST' and 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        return filename
+    return ('Yes')"""
 
 
 

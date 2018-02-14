@@ -15,6 +15,15 @@ angular.module('school_book')
 		params:{
 			user:null
 		}
+	},
+	test:{
+		name:'test',
+		url:'/test',
+		templateUrl:'new_user.html',
+		controller:'adminController',
+		params:{
+			user:null
+		}
 	}
 })
 

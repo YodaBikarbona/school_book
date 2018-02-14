@@ -7,6 +7,13 @@ from school_book.api.model.serializers.serializer import RoleSerializer
 from school_book.api.views.messages.error_messages import NO_PERMISSION
 from school_book.api.views.helper.helper import error_handler
 from school_book.api.views.helper.helper import date_format_to_string
+from school_book.api.config import PROJECT_HOME
+from werkzeug.utils import secure_filename
+from school_book.api.views.helper.helper import create_new_folder
+from school_book.api.config import app
+import os
+from school_book.api.model.model.user import Image
+from school_book.api.config import db
 
 
 def get_all_users_func(security_token, role_name):
@@ -74,3 +81,25 @@ def get_user_by_user_id(security_token, user_id):
             'user_object': user_obj
         }
     )
+
+
+def upload_image(request):
+    app.logger.info(PROJECT_HOME)
+    if request.method == 'POST' and request.files['image']:
+        app.logger.info(app.config['UPLOAD_FOLDER'])
+        img = request.files['image']
+        img_name = secure_filename(img.filename)
+        create_new_folder(app.config['UPLOAD_FOLDER'])
+        saved_path = os.path.join(app.config['UPLOAD_FOLDER'], img_name)
+        app.logger.info("saving {}".format(saved_path))
+        img.save(saved_path)
+        new_image = Image()
+        new_image.type = img_name.split('.')[1]
+        new_image.name = img_name
+        new_image.file_name = img_name
+        db.session.add(new_image)
+        db.session.commit()
+        return ('Saved')
+        #return send_from_directory(app.config['UPLOAD_FOLDER'],img_name, as_attachment=True)
+    else:
+    	return "Where is the image?"

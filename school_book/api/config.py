@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 #from flaskext.mysql import MySQL
 
@@ -13,6 +14,11 @@ app.config['MYSQL_DATABASE_DB'] = 'school_book'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Mihael0110.@localhost/school_book?charset=utf8'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
+PROJECT_HOME = os.path.dirname(os.path.realpath(__file__))
+UPLOAD_FOLDER = '{}/uploads/'.format(PROJECT_HOME)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 db = SQLAlchemy(app)
 
