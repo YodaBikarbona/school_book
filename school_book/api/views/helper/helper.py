@@ -11,6 +11,10 @@ from flask import Response
 log = logging.getLogger(__name__)
 
 
+MALE = 0
+FEMALE = 1
+
+
 def new_salt():
     source = [chr(x) for x in range(32, 127)]
     salt = u''.join(choice(source) for x in range(0, 32))

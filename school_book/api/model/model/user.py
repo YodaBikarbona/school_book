@@ -33,6 +33,7 @@ class User(db.Model):
     phone = Column(Unicode(255), nullable=False)
     city = Column(Unicode(255), nullable=False)
     image_id = Column(Integer, ForeignKey('image.id', ondelete='CASCADE'))
+    gender = Column(Unicode(255))
 
     role = relationship('Role')
     image = relationship('Image')
