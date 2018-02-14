@@ -11,6 +11,7 @@ from school_book.api.views.helper.helper import new_psw
 from school_book.api.views.helper.helper import now
 from school_book.api.config import db
 
+
 class User(db.Model):
     __tablename__ = 'user'
 
@@ -30,8 +31,11 @@ class User(db.Model):
     last_login = Column(DateTime, nullable=False, default=now())
     address = Column(Unicode(255), nullable=False)
     phone = Column(Unicode(255), nullable=False)
+    city = Column(Unicode(255), nullable=False)
+    image_id = Column(Integer, ForeignKey('image.id', ondelete='CASCADE'))
 
     role = relationship('Role')
+    image = relationship('Image')
 
     def __repr__(self):
         return '{0} {1}'.format(self.first_name, self.last_name)
@@ -51,3 +55,15 @@ class Role(db.Model):
 
     def __repr__(self):
         return '{0}'.format(self.role_name)
+
+
+class Image(db.Model):
+    __tablename__ = 'image'
+
+    id = Column(Integer, primary_key=True)
+    type = Column(Unicode(255))
+    name = Column(Unicode(255))
+    file_name = Column(Unicode(255))
+
+    def __repr__(self):
+        return '{0}'.format(self.file_name)
