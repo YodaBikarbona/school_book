@@ -1,73 +1,16 @@
-<!--div class="container" style="background-color: lightgray;">
-  <div class="row" style="background-color: red; padding: 5px;">
-    heder
-  </div>
-  <div class="row" style="height: 90%">
-    <div class="col-2">
-      aaaa
-    </div>
-    <div class="col-10">
-      bbbbb
-    </div>
-  </div>
-</div-->
-
 <div class="container-fluid">
-  <div class="row bg-dark">
-    <div class="col-md-2">
-      <p style="color: white">School Book v1.0</p>
+  <h1>
+    Upload image
+  </h1>
+  <form method="POST" action="/upload" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="inputFile">
+        File input
+      </label>
+      <input type="file" name="inputFile">
     </div>
-    <div class="col-md-10" style="padding-right: 0">
-      <button type="button" class="btn btn-secondary rounded-0 btn-sm" style="float: right;" ng-click="logout()">
-        <i class="fa fa-sign-out"></i>Loggout
-      </button>
-    </div>
-  </div>
-  <div class="row" style="height: 700px">
-    <div class="col-md-2 bg-dark" style="padding: 0">
-      <div class="list-group" style="margin: 0; padding: 0; border-radius: 0px">
-        <button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_profile()">
-          <div class="row">
-            <div class="col-md-4" style="text-align: right; padding: 0">
-              <i class="fa fa-user"></i>
-            </div>
-            <div class="col-md-8" style="text-align: left;">
-              Profile
-            </div>
-          </div>
-        </button>
-        <button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_users()">
-          <div class="row">
-            <div class="col-md-4" style="text-align: right; padding: 0">
-              <i class="fa fa-users"></i>
-            </div>
-            <div class="col-md-8" style="text-align: left;">
-              Users
-            </div>
-          </div>
-        </button>
-        <button type="button" class="list-group-item list-group-item-action rounded-0" ng-click="show_classes()">
-          <div class="row">
-            <div class="col-md-4" style="text-align: right; padding: 0">
-              <i class="fa fa-address-book-o"></i>
-            </div>
-            <div class="col-md-8" style="text-align: left;">
-              Classes
-            </div>
-          </div>
-        </button>
-      </div>
-    </div>
-    <div class="col-md-10" ng-show="show_tab == 1">
-      <div class="row">
-        <div class="col-md-2">
-          <img id="profile_image" class="img-responsive" src="http://cdn.osxdaily.com/wp-content/uploads/2014/07/users-and-groups-icon-mac.png" class="img-rounded" alt="Chania" style="width: 170px; height: 170px">
-        </div>
-        <div class="col-md-10">
-          
-        </div>
-      </div>
-      
-    </div>
-  </div>
+    <button type="submit" class="btn btn-sm btn-secondary">
+      Submit
+    </button>
+  </form>
 </div>

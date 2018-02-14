@@ -42,6 +42,15 @@ def get_user(user_id):
     return get_user_by_user_id(request.headers['Authorization'], user_id)
 
 
+@app.route('/upload', methods=['POST'])
+def upload():
+    import pdb;pdb.set_trace()
+    file = request.files['inputFile']
+
+    return file.filename
+
+
+
 init_db()
 if __name__ == '__main__':
     app.run(debug=True, port=6543)

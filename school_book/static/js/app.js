@@ -150,6 +150,14 @@ angular.module('school_book', ['ui.router'])
     	$scope.show_tab = 1
     }
 
+    $scope.add_new_user = function(user){
+    	console.log(user)
+    }
+
+    $scope.restart_form = function(){
+    	$scope.new_user = {}
+    }
+
 }])
 
 
