@@ -87,14 +87,16 @@ angular.module('school_book', ['ui.router'])
 .controller('adminController', ['$scope','$http','$q','$rootScope','adminservice','authservice', function($scope,$http,$q,$rootScope,adminservice,auth){
 	$scope.show_tab = 0
 	$scope.user_list_lenght = 0
+	$scope.userID = auth.user_id()
 
 
 	$scope.show_profile = function(){
 		$scope.show_tab = 0
+		$scope.disable_button = true
 		//var user_id = localStorage.getItem('user_id')
-		var user_id = auth.user_id()
-		$scope.getUser(user_id)
-		console.log(user_id)
+		//var user_id = auth.user_id()
+		$scope.getUser($scope.userID = auth.user_id())
+		//console.log(user_id)
 		$scope.show_tab = 1
 		$scope.user_list_lenght = 0
 	}
@@ -147,12 +149,18 @@ angular.module('school_book', ['ui.router'])
 
     $scope.change_tab = function(user_id){
     	$scope.show_tab = 0
+    	$scope.disable_button = false
     	$scope.getUser(user_id)
     	$scope.show_tab = 1
     }
 
-    $scope.add_new_user = function(user){
+    $scope.addUser = function(user){
     	console.log(user)
+    	$scope.user_obj = {}
+    	adminservice.addUser(user, function(user_obj){
+    		$scope.user_obj = user_obj;
+    		console.log($scope.user_obj)
+    	})
     }
 
     $scope.restart_form = function(){

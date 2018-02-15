@@ -12,6 +12,7 @@ from flask import url_for, send_from_directory, request
 from flask.ext.uploads import UploadSet, configure_uploads, IMAGES
 from werkzeug.utils import secure_filename
 from school_book.api.views.user import upload_image
+from school_book.api.views.user import addUser
 import logging
 import os
 log = logging.getLogger(__name__)
@@ -51,6 +52,12 @@ def get_user(user_id):
 def upload():
 
     return upload_image(request)
+
+
+@app.route('/users/add', methods=['POST'])
+def add_new_user():
+
+    return addUser(request.headers['Authorization'], request)
 
 
 

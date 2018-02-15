@@ -16,3 +16,4 @@ def login_error(role):
 
 
 WRONG_TOKEN = "Security token is wrong!"
+USER_ALREADY_EXISTS = "User with that email already exists!"

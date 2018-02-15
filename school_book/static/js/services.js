@@ -139,8 +139,18 @@ angular.module('school_book')
       callback(resp.data.user_object)
     }, function(resp){
       console.log(resp.data)
-    })
-  }
+    })}
+
+  this.addUser = function(user, callback){
+    $http({
+      url: 'http://localhost:6543/users/add',
+      method: 'POST',
+      data: user
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
 
 }])
 

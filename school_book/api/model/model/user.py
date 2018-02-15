@@ -10,7 +10,7 @@ from school_book.api.views.helper.helper import new_salt
 from school_book.api.views.helper.helper import new_psw
 from school_book.api.views.helper.helper import now
 from school_book.api.config import db
-
+from school_book.api.views.constants.constants import DEACTIVATED
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -22,18 +22,19 @@ class User(db.Model):
     email = Column(Unicode(255), nullable=False)
     parent_one = Column(Unicode(255), default=None)
     parent_two = Column(Unicode(255), default=None)
-    activated = Column(Boolean, default=False)
+    activated = Column(Boolean, default=DEACTIVATED)
     role_id = Column(Integer, ForeignKey('role.id', ondelete='CASCADE'))
     password = Column(Unicode(255), nullable=False)
     salt = Column(Unicode(255), nullable=False)
-    created = Column(DateTime, nullable=False, default=now())
-    first_login = Column(DateTime, nullable=False, default=now())
-    last_login = Column(DateTime, nullable=False, default=now())
-    address = Column(Unicode(255), nullable=False)
-    phone = Column(Unicode(255), nullable=False)
-    city = Column(Unicode(255), nullable=False)
+    created = Column(DateTime, nullable=True, default=now())
+    first_login = Column(DateTime, nullable=True, default=now())
+    last_login = Column(DateTime, nullable=True, default=now())
+    address = Column(Unicode(255), nullable=True, default='')
+    phone = Column(Unicode(255), nullable=True, default='')
+    city = Column(Unicode(255), nullable=True, default='')
     image_id = Column(Integer, ForeignKey('image.id', ondelete='CASCADE'))
     gender = Column(Unicode(255))
+    birth_date = Column(DateTime, nullable=True, default=now())
 
     role = relationship('Role')
     image = relationship('Image')

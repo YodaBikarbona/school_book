@@ -48,3 +48,6 @@ class UserProvider:
             return NO_PERMISSION
         return user_obj.first()
 
+    @classmethod
+    def get_role_by_role_name(cls, role_name):
+        return Role.query.filter(Role.role_name == role_name).first()

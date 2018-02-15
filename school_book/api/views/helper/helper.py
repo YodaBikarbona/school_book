@@ -60,6 +60,13 @@ def now():
     return datetime.now()
 
 
+def date_format(date):
+    temp_date = '{0}'.format(date).split('T')
+    string = '{0} '.format(temp_date[0]) + temp_date[1].split('Z')[0]
+    date = datetime.strptime(string, '%Y-%m-%d %H:%M:%S.%f')
+    return date
+
+
 """def ok_response(message, additional_data=None):
     
     #Utility for building response.
