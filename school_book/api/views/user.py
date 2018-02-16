@@ -142,7 +142,7 @@ def addUser(security_token, request):
                     new_user.activated = ACTIVATED
             except Exception as ex:
                 print(ex)
-                new_user.activated = False
+                new_user.activated = DEACTIVATED
             try:
                 city = request.json['activated']
                 new_user.city = city
@@ -157,7 +157,7 @@ def addUser(security_token, request):
                 new_user.phone = ''
             try:
                 address = request.json['address']
-                new_user.city = address
+                new_user.address = address
             except Exception as ex:
                 print(ex)
                 new_user.address = ''
