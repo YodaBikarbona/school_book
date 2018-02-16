@@ -13,6 +13,9 @@ from flask.ext.uploads import UploadSet, configure_uploads, IMAGES
 from werkzeug.utils import secure_filename
 from school_book.api.views.user import upload_image
 from school_book.api.views.user import addUser
+from school_book.api.views.user import activate_user_func
+from school_book.api.views.user import deactivate_user_func
+from school_book.api.views.user import delete_user_func
 import logging
 import os
 log = logging.getLogger(__name__)
@@ -48,7 +51,7 @@ def get_user(user_id):
     return get_user_by_user_id(request.headers['Authorization'], user_id)
 
 
-@app.route('/upload', methods = ['POST'])
+@app.route('/upload', methods=['POST'])
 def upload():
 
     return upload_image(request)
@@ -60,6 +63,22 @@ def add_new_user():
     return addUser(request.headers['Authorization'], request)
 
 
+@app.route('/users/activate', methods=['POST'])
+def activate_user():
+
+    return activate_user_func(request.headers['Authorization'], request.json['user_id'])
+
+
+@app.route('/users/deactivate', methods=['POST'])
+def deactivate_user():
+
+    return deactivate_user_func(request.headers['Authorization'], request.json['user_id'])
+
+
+@app.route('/users/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+
+    return delete_user_func(request.headers['Authorization'], user_id)
 
 
 

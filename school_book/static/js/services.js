@@ -152,6 +152,39 @@ angular.module('school_book')
       console.log(resp.data)
     })}
 
+    this.activateUser = function(user_id, callback){
+    $http({
+      url: 'http://localhost:6543/users/activate',
+      method: 'POST',
+      data: {'user_id': user_id}
+    }).then(function(resp){
+      callback(resp.data.user_object)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+    this.deactivateUser = function(user_id, callback){
+    $http({
+      url: 'http://localhost:6543/users/deactivate',
+      method: 'POST',
+      data: {'user_id': user_id}
+    }).then(function(resp){
+      callback(resp.data.user_object)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+    this.deleteUser = function(user_id, callback){
+    $http({
+      url: 'http://localhost:6543/users/'+user_id,
+      method: 'DELETE',
+      data: user_id
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
 }])
 
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){

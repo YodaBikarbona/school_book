@@ -30,6 +30,7 @@ from school_book.api.views.helper.helper import now
 from school_book.api.views.helper.helper import new_psw
 from school_book.api.views.helper.helper import new_salt
 from school_book.api.views.constants.constants import ACTIVATED
+from school_book.api.views.constants.constants import DEACTIVATED
 from school_book.api.views.helper.helper import date_format
 
 
@@ -86,7 +87,7 @@ def get_user_by_user_id(security_token, user_id):
     if not user:
         return error_handler(error_status=403, message=NO_PERMISSION)
 
-    user = UserProvider.get_user_by_id(role=authorization['role'], user_id=user_id)
+    user = UserProvider.get_user_by_id_and_role(role=authorization['role'], user_id=user_id)
 
     user_obj = UsersSerializer(many=False).dump(user).data
     user_obj['last_login'] = date_format_to_string(user_obj['last_login'])
@@ -111,6 +112,10 @@ def addUser(security_token, request):
 
     if not user:
         return error_handler(error_status=403, message=NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=NO_PERMISSION)
+
     if request.json:
         if request.json['role_name']:
             new_user = User()
@@ -171,6 +176,109 @@ def addUser(security_token, request):
                     'msg': messages.SUCCESSFULLY_ADDED
                 }
             )
+
+
+def activate_user_func(security_token, user_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    user = UserProvider.get_user_by_id(user_id=user_id)
+
+    if not user:
+        return error_handler(error_status=404, messages=error_messages.USER_DOES_NOT_EXIST)
+
+    user.activated = ACTIVATED
+    db.session.commit()
+
+    user_obj = UsersSerializer(many=False).dump(user).data
+    user_obj['last_login'] = date_format_to_string(user_obj['last_login'])
+    user_obj['first_login'] = date_format_to_string(user_obj['first_login'])
+    user_obj['created'] = date_format_to_string(user_obj['created'])
+    user_obj['birth_date'] = date_format_to_string(user_obj['birth_date'])
+
+    return jsonify(
+        {
+            'user_object': user_obj
+        }
+    )
+
+
+def deactivate_user_func(security_token, user_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    user = UserProvider.get_user_by_id(user_id=user_id)
+
+    if not user:
+        return error_handler(error_status=404, messages=error_messages.USER_DOES_NOT_EXIST)
+
+    user.activated = DEACTIVATED
+    db.session.commit()
+
+    user_obj = UsersSerializer(many=False).dump(user).data
+    user_obj['last_login'] = date_format_to_string(user_obj['last_login'])
+    user_obj['first_login'] = date_format_to_string(user_obj['first_login'])
+    user_obj['created'] = date_format_to_string(user_obj['created'])
+    user_obj['birth_date'] = date_format_to_string(user_obj['birth_date'])
+
+    return jsonify(
+        {
+            'user_object': user_obj
+        }
+    )
+
+
+def delete_user_func(security_token, user_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    user = UserProvider.get_user_by_id(user_id=user_id)
+
+    if not user:
+        return error_handler(error_status=404, messages=error_messages.USER_DOES_NOT_EXIST)
+
+    db.session.delete(user)
+    db.session.commit()
+
+    return jsonify(
+        {
+            'status': 'OK',
+            'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+            'code': 200,
+            'msg': messages.SUCCESSFULLY_DELETED
+        }
+    )
+
 
 
 def upload_image(request):

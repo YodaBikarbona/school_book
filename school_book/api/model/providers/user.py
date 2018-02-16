@@ -36,7 +36,7 @@ class UserProvider:
         return Role.query.all()
 
     @classmethod
-    def get_user_by_id(cls, role, user_id):
+    def get_user_by_id_and_role(cls, role, user_id):
         user_obj = User.query\
             .join(Role, User.role_id == Role.id)
         if role == ADMIN:
@@ -51,3 +51,8 @@ class UserProvider:
     @classmethod
     def get_role_by_role_name(cls, role_name):
         return Role.query.filter(Role.role_name == role_name).first()
+
+
+    @classmethod
+    def get_user_by_id(cls, user_id):
+        return User.query.filter(User.id == user_id).first()

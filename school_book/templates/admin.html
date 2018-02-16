@@ -141,9 +141,15 @@
                                     </table>
                                     <button class="btn btn-sm btn-secondary not-focusable rounded-0">Edit</button>
                                     <button class="btn btn-sm btn-secondary not-focusable rounded-0" 
-                                    ng-disabled="disable_button">Deactivate</button>
+                                    ng-disabled="disable_button" ng-if="user_obj.activated" 
+                                    ng-click="deactivate_user(user_obj.id)">
+                                    Deactivate</button>
+                                    <button class="btn btn-sm btn-secondary not-focusable rounded-0" 
+                                    ng-disabled="disable_button" ng-if="!user_obj.activated" 
+                                    ng-click="activate_user(user_obj.id)">
+                                    Activate</button>
                                     <button class="btn btn-sm btn-danger not-focusable rounded-0" 
-                                    ng-disabled="disable_button">
+                                    ng-disabled="disable_button" ng-click="delete_user(user_obj.id)">
                                     Delete</button>
                                 </div>
                             </div>
@@ -260,8 +266,9 @@
                         <input type="text" class="form-control" name="" ng-model='new_user.last_name' required>
                     </div>
                     <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
-                        <label>Birth date*</label>
-                        <input name="" placeholder="MM/DD/YYY" type="date" ng-model='new_user.birth_date' required>
+                        <label style="margin-right: 5px">Birth date*</label>
+                        <input name="" placeholder="MM/DD/YYY" type="date" ng-model='new_user.birth_date' required 
+                        class="form-control">
                     </div>
                     <div class="form-group" style="padding: 1px" ng-if="new_user.role_name!='student' && new_user.role_name">
                         <label style="margin-right: 5px">Email*</p></label>
