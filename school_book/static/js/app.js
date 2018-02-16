@@ -178,17 +178,17 @@ angular.module('school_book', ['ui.router'])
     }
 
     $scope.activate_user = function(user_id){
-    	$scope.user_obj.activated = ''
     	adminservice.activateUser(user_id, function(user_obj){
+    		console.log(user_obj)
     		$scope.user_obj.activated = user_obj.activated;
     	})
     	$scope.getUsers(temp_role)
     }
 
     $scope.deactivate_user = function(user_id){
-    	$scope.user_obj.activated = ''
     	adminservice.deactivateUser(user_id, function(user_obj){
-    		$scope.user_obj.activated = user_obj.activated;
+    		console.log(user_obj)
+    		$scope.user_obj.activated = user_obj.user_deactivated;
     	})
     	$scope.getUsers(temp_role)
     }
