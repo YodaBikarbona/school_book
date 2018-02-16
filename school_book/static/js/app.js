@@ -87,25 +87,31 @@ angular.module('school_book', ['ui.router'])
 .controller('adminController', ['$scope','$http','$q','$rootScope','adminservice','authservice', function($scope,$http,$q,$rootScope,adminservice,auth){
 	$scope.show_tab = 0
 	$scope.user_list_lenght = 0
+	$scope.userID = auth.user_id()
+	var temp_role = ''
 
 
 	$scope.show_profile = function(){
 		$scope.show_tab = 0
+		$scope.disable_button = true
 		//var user_id = localStorage.getItem('user_id')
-		var user_id = auth.user_id()
-		$scope.getUser(user_id)
-		console.log(user_id)
+		//var user_id = auth.user_id()
+		$scope.getUser($scope.userID = auth.user_id())
+		//console.log(user_id)
 		$scope.show_tab = 1
 		$scope.user_list_lenght = 0
 	}
 
 	$scope.show_users = function(){
 		$scope.show_tab = 0
+		// Može se koristiti
+		//$scope.user_list_lenght = 0
 		$scope.getRoles()
 		$scope.show_tab = 2
 	}
 
 	$scope.find_by_role = function(role){
+		temp_role = role
 		$scope.getUsers(role)
 	}
 
@@ -147,17 +153,53 @@ angular.module('school_book', ['ui.router'])
 
     $scope.change_tab = function(user_id){
     	$scope.show_tab = 0
+    	$scope.disable_button = false
     	$scope.getUser(user_id)
     	$scope.show_tab = 1
     }
 
-    $scope.add_new_user = function(user){
+    $scope.addUser = function(user){
     	console.log(user)
+    	var date = new Date(user.birth_date)
+    	date = date.toISOString();
+    	console.log(date)
+    	//console.log(new Date())
+    	//console.log(user.birth_date.toIsoString())
+    	//user.birth_date = user.birth_date.toIsoString()
+    	$scope.user_obj = {}
+    	adminservice.addUser(user, function(user_obj){
+    		$scope.user_obj = user_obj;
+    		console.log($scope.user_obj)
+    	})
     }
 
     $scope.restart_form = function(){
     	$scope.new_user = {}
     }
+
+    $scope.activate_user = function(user_id){
+    	$scope.user_obj.activated = ''
+    	adminservice.activateUser(user_id, function(user_obj){
+    		$scope.user_obj.activated = user_obj.activated;
+    	})
+    	$scope.getUsers(temp_role)
+    }
+
+    $scope.deactivate_user = function(user_id){
+    	$scope.user_obj.activated = ''
+    	adminservice.deactivateUser(user_id, function(user_obj){
+    		$scope.user_obj.activated = user_obj.activated;
+    	})
+    	$scope.getUsers(temp_role)
+    }
+
+    $scope.delete_user = function(user_id){
+    	$scope.show_tab = 0
+    	adminservice.deleteUser(user_id, function(user_obj){
+    	})
+    	$scope.getUsers(temp_role)
+    }
+
 
 
 
