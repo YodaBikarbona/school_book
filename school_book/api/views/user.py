@@ -32,6 +32,7 @@ from school_book.api.views.helper.helper import new_salt
 from school_book.api.views.constants.constants import ACTIVATED
 from school_book.api.views.constants.constants import DEACTIVATED
 from school_book.api.views.helper.helper import date_format
+from school_book.api.views.helper.helper import birth_date_format
 
 
 def get_all_users_func(security_token, role_name):
@@ -93,7 +94,7 @@ def get_user_by_user_id(security_token, user_id):
     user_obj['last_login'] = date_format_to_string(user_obj['last_login'])
     user_obj['first_login'] = date_format_to_string(user_obj['first_login'])
     user_obj['created'] = date_format_to_string(user_obj['created'])
-    user_obj['birth_date'] = date_format_to_string(user_obj['birth_date'])
+    user_obj['birth_date'] = birth_date_format(user_obj['birth_date'])
 
     return jsonify(
         {
@@ -199,15 +200,14 @@ def activate_user_func(security_token, user_id):
 
     user.activated = ACTIVATED
     db.session.commit()
-
     user_obj = UsersSerializer(many=False).dump(user).data
-    user_obj['last_login'] = date_format_to_string(user_obj['last_login'])
-    user_obj['first_login'] = date_format_to_string(user_obj['first_login'])
-    user_obj['created'] = date_format_to_string(user_obj['created'])
-    user_obj['birth_date'] = date_format_to_string(user_obj['birth_date'])
 
     return jsonify(
         {
+            'status': 'OK',
+            'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+            'code': 200,
+            'msg': messages.SUCCESSFULLY_ACTIVATED,
             'user_object': user_obj
         }
     )
@@ -234,15 +234,14 @@ def deactivate_user_func(security_token, user_id):
 
     user.activated = DEACTIVATED
     db.session.commit()
-
     user_obj = UsersSerializer(many=False).dump(user).data
-    user_obj['last_login'] = date_format_to_string(user_obj['last_login'])
-    user_obj['first_login'] = date_format_to_string(user_obj['first_login'])
-    user_obj['created'] = date_format_to_string(user_obj['created'])
-    user_obj['birth_date'] = date_format_to_string(user_obj['birth_date'])
 
     return jsonify(
         {
+            'status': 'OK',
+            'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+            'code': 200,
+            'msg': messages.SUCCESSFULLY_DEACTIVATED,
             'user_object': user_obj
         }
     )

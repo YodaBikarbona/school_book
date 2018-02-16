@@ -67,6 +67,13 @@ def date_format(date):
     return date
 
 
+def birth_date_format(date):
+    print(date)
+    date = '{0} '.format(date).split('T')[0]
+    print(date)
+    return date
+
+
 """def ok_response(message, additional_data=None):
     
     #Utility for building response.

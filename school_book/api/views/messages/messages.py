@@ -6,3 +6,5 @@ def successfully_logged(first_name, last_name):
 
 SUCCESSFULLY_ADDED = "User is successfully added!"
 SUCCESSFULLY_DELETED = "User is successfully deleted!"
+SUCCESSFULLY_ACTIVATED = "User is successfully activated!"
+SUCCESSFULLY_DEACTIVATED = "User is successfully deactivated!"
