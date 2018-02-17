@@ -147,7 +147,6 @@ angular.module('school_book', ['ui.router'])
     	$scope.user_obj = {}
     	adminservice.getUser(user_id, function(user_obj){
     		$scope.user_obj = user_obj;
-    		console.log($scope.user_obj)
     	})
     }
 
@@ -159,17 +158,12 @@ angular.module('school_book', ['ui.router'])
     }
 
     $scope.addUser = function(user){
-    	console.log(user)
     	var date = new Date(user.birth_date)
-    	date = date.toISOString();
-    	console.log(date)
-    	//console.log(new Date())
-    	//console.log(user.birth_date.toIsoString())
-    	//user.birth_date = user.birth_date.toIsoString()
+  		date = date.setDate(date.getDate() + 1)
+  		user.birth_date = new Date(date)
     	$scope.user_obj = {}
     	adminservice.addUser(user, function(user_obj){
     		$scope.user_obj = user_obj;
-    		console.log($scope.user_obj)
     	})
     }
 
@@ -179,7 +173,6 @@ angular.module('school_book', ['ui.router'])
 
     $scope.activate_user = function(user_id){
     	adminservice.activateUser(user_id, function(user_obj){
-    		console.log(user_obj)
     		$scope.user_obj.activated = user_obj.activated;
     	})
     	$scope.getUsers(temp_role)
@@ -187,7 +180,6 @@ angular.module('school_book', ['ui.router'])
 
     $scope.deactivate_user = function(user_id){
     	adminservice.deactivateUser(user_id, function(user_obj){
-    		console.log(user_obj)
     		$scope.user_obj.activated = user_obj.user_deactivated;
     	})
     	$scope.getUsers(temp_role)

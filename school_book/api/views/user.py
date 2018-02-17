@@ -144,7 +144,7 @@ def addUser(security_token, request):
                 print(ex)
                 new_user.activated = DEACTIVATED
             try:
-                city = request.json['activated']
+                city = request.json['city']
                 new_user.city = city
             except Exception as ex:
                 print(ex)
@@ -161,7 +161,6 @@ def addUser(security_token, request):
             except Exception as ex:
                 print(ex)
                 new_user.address = ''
-            print(request.json['birth_date'])
             date = date_format(request.json['birth_date'])
             new_user.birth_date = date
             new_user.image_id = DEFAULT_IMAGE_ID

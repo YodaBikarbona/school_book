@@ -17,7 +17,6 @@ angular.module('school_book')
       }
 
       function storeUserCredidentals(user){
-        console.log(user)
         window.localStorage.setItem(LOCAL_STORAGE_KEY, user.token);
         window.localStorage.setItem('user_id', JSON.stringify(user.user.id))
         useUserCredidentals(user);
@@ -65,7 +64,8 @@ angular.module('school_book')
               reject(resp.data)
               console.log('Error')
             }
-          }, function(){
+          }, function(resp){
+            console.log(resp)
           })
         })
 
