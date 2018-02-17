@@ -121,6 +121,22 @@
                                                 </td>
                                             </tr>
                                             <tr>
+                                                <td>City:</td>
+                                                <td>{{user_obj.city}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address:</td>
+                                                <td>{{user_obj.address}}</td>
+                                            </tr>
+                                            <tr ng-if="user_obj.parent_one!='null'">
+                                                <td>Parent one:</td>
+                                                <td>{{user_obj.parent_one}}</td>
+                                            </tr>
+                                            <tr ng-if="user_obj.parent_two!='null'">
+                                                <td>Parent two:</td>
+                                                <td>{{user_obj.parent_two}}</td>
+                                            </tr>
+                                            <tr>
                                                 <td>Created:</td>
                                                 <td>{{user_obj.created}}</td>
                                             </tr>
@@ -139,7 +155,8 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <button class="btn btn-sm btn-secondary not-focusable rounded-0">Edit</button>
+                                    <button class="btn btn-sm btn-secondary not-focusable rounded-0" 
+                                    data-toggle='modal' data-target='#editModal'>Edit</button>
                                     <button class="btn btn-sm btn-secondary not-focusable rounded-0" 
                                     ng-disabled="disable_button" ng-if="user_obj.activated" 
                                     ng-click="deactivate_user(user_obj.id)">
@@ -179,7 +196,7 @@
                                             <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">Find</button>
                                         </div>
                                         <div style="padding: 1px">
-                                            <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#myModal">Add new user</button>
+                                            <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#addModal">Add new user</button>
                                         </div>
                                     </form>
                                 </div>
@@ -236,8 +253,8 @@
         <!-- End of users panel -->
     </div>
 </div>
-<!-- The Modal -->
-<div class="modal fade" id="myModal">
+<!-- The Modal add user-->
+<div class="modal fade" id="addModal">
     <div class="modal-dialog">
         <div class="modal-content rounded-0">
             <!-- Modal Header -->
@@ -315,6 +332,94 @@
                     <div class="form-check" ng-if="new_user.role_name">
                         <label class="form-check-label">
                         <input type="checkbox" class="form-check-input" ng-model='new_user.activated'>
+                            Activated
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="new_user.role_name"
+                    style="float: right;">Add</button>
+                </form>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Modal -->
+<!-- The Modal edit user-->
+<div class="modal fade" id="editModal">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-0">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Edit user</h4>
+                <button type="button" class="close not-focusable"
+                 data-dismiss="modal" ng-click="restart_form()">&times;</button>
+             </div>
+             <!-- Modal body -->
+             <div class="modal-body">
+                <form ng-submit="addUser(new_user)">
+                    <div class="form-group" style="padding: 1px">
+                        <label style="margin-right: 5px">First name*</label>
+                        <input type="text" class="form-control" name="" ng-model='new_user.first_name' required 
+                        value="{{user_obj.first_name}}">
+                    </div>
+                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
+                        <label style="margin-right: 5px">Last name*</label>
+                        <input type="text" class="form-control" name="" ng-model='new_user.last_name' required 
+                        value="user_obj.last_name">
+                    </div>
+                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
+                        <label style="margin-right: 5px">Birth date*</label>
+                        <input name="" placeholder="MM/DD/YYY" type="date" ng-model='new_user.birth_date' required 
+                        class="form-control" value="user_obj.birth_date">
+                    </div>
+                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name!='student' && new_user.role_name && user_obj.email">
+                        <label style="margin-right: 5px">Email*</p></label>
+                        <input type="email" class="form-control" name="" ng-model='new_user.email' required 
+                        value="user_obj.email">
+                    </div>
+                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
+                        <label style="margin-right: 5px">Gender*</label>
+                        <select class="form-control-sm" ng-model='new_user.gender' required value="user_obj.gender">
+                            <option value="">
+                                Pick
+                            </option>
+                            <option value='0'>
+                                Male
+                            </option>
+                            <option value='1'>
+                                Female
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
+                        <label style="margin-right: 5px">Phone number</label>
+                        <input type="text" class="form-control" name="" ng-model='new_user.phone_number' 
+                        value="user_obj.phone_number">
+                    </div>
+                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
+                        <label style="margin-right: 5px">Address</label>
+                        <input type="text" class="form-control" name="" ng-model='new_user.address' value="user_obj.address">
+                    </div>
+                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
+                        <label style="margin-right: 5px">City</label>
+                        <input type="text" class="form-control" name="" ng-model='new_user.city' value="user_obj.city">
+                    </div>
+                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name=='student' && new_user.role_name && user_obj.role.role_name=='student'">
+                        <label style="margin-right: 5px">Parent one*</label>
+                        <input type="text" class="form-control" name="" ng-model="new_user.parent_one" required 
+                        value="user_obj.parent_one">
+                    </div>
+                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name=='student' && new_user.role_name && user_obj.role.role_name=='student'">
+                        <label style="margin-right: 5px">Parent two*</label>
+                        <input type="text" class="form-control" name="" ng-model='new_user.parent_two' required 
+                        value="user_obj.parent_two">
+                    </div>
+                    <div class="form-check" ng-if="new_user.role_name">
+                        <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" ng-model='new_user.activated' value="user_obj.activated">
                             Activated
                         </label>
                     </div>

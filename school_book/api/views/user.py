@@ -133,7 +133,7 @@ def addUser(security_token, request):
                 new_user.email = ''
                 new_user.unique_ID = str(uuid.uuid4().fields[-1])
                 new_user.parent_one = request.json['parent_one']
-                new_user.parent_one = request.json['parent_two']
+                new_user.parent_two = request.json['parent_two']
             new_user.first_name = request.json['first_name']
             new_user.last_name = request.json['last_name']
             new_user.gender = MALE if int(request.json['gender']) == MALE else FEMALE

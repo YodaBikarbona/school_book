@@ -147,6 +147,7 @@ angular.module('school_book', ['ui.router'])
     	$scope.user_obj = {}
     	adminservice.getUser(user_id, function(user_obj){
     		$scope.user_obj = user_obj;
+    		console.log(user_obj)
     	})
     }
 
