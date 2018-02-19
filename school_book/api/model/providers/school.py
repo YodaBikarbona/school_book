@@ -12,3 +12,8 @@ class SchoolProvider:
     @classmethod
     def get_all_school_years(cls):
         return SchoolYear.query.all()
+
+
+    @classmethod
+    def get_all_classes_by_school_year_id(cls, school_year_id):
+        return ('a')

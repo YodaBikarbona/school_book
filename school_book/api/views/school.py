@@ -80,3 +80,20 @@ def get_all_school_years_func(security_token):
             'school_year_list': SchoolYearSerializer(many=True).dump(school_year_list).data
         }
     )
+
+
+def get_classes_func(security_token, school_year_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    return ('a')
