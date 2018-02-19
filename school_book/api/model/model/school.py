@@ -11,6 +11,7 @@ from school_book.api.views.helper.helper import new_psw
 from school_book.api.views.helper.helper import now
 from school_book.api.config import db
 from school_book.api.views.constants.constants import DEACTIVATED
+from school_book.api.model.model.user import User
 
 
 class SchoolYear(db.Model):
@@ -22,3 +23,43 @@ class SchoolYear(db.Model):
 
     def __repr__(self):
         return '{0}/{1}'.format(self.start, self.end)
+
+
+class SchoolClass(db.Model):
+    __tablename__ = 'classes'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(Integer, nullable=False)
+    school_year_id = Column(Integer, ForeignKey('school_year.id', ondelete='CASCADE'))
+
+    school_year = relationship('SchoolYear')
+
+    def __repr__(self):
+        return '{0}'.format(self.name)
+
+
+class SchoolClassStudent(db.Model):
+    __tablename__ = 'classes_student'
+
+    id = Column(Integer, primary_key=True)
+    student_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
+    classes_id = Column(Integer, ForeignKey('classes.id', ondelete='CASCADE'))
+
+    classes = relationship('SchoolClass')
+    user = relationship('User')
+
+    def __repr__(self):
+        return '{0} {1}'.format(self.user.first_name, self.user.last_name)
+
+
+class SchoolSubject(db.Model):
+    __tablename__ = 'school_subjects'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(Unicode(255), nullable=False)
+    professor_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
+
+    user = relationship('User')
+
+    def __repr__(self):
+        return '{0}'.format(self.name)
