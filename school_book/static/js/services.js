@@ -206,6 +206,17 @@ angular.module('school_book')
       console.log(resp.data)
     })}
 
+    this.getSchoolClasses = function(school_year_id, callback){
+    $http({
+      url: 'http://localhost:6543/school_year/'+school_year_id,
+      method: 'GET',
+      data: school_year_id
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
 }])
 
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){

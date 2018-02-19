@@ -1,4 +1,7 @@
 from school_book.api.model.model.school import SchoolYear
+from school_book.api.model.model.school import SchoolClass
+from school_book.api.model.model.school import SchoolClassStudent
+from school_book.api.model.model.school import SchoolSubject
 
 
 class SchoolProvider:
@@ -16,4 +19,5 @@ class SchoolProvider:
 
     @classmethod
     def get_all_classes_by_school_year_id(cls, school_year_id):
-        return ('a')
+        return SchoolClass.query.filter(SchoolClass.school_year_id == school_year_id).all()
+

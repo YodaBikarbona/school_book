@@ -225,6 +225,19 @@ angular.module('school_book', ['ui.router'])
     	})
     }
 
+    $scope.find_by_school_year_id = function(school_year_id){
+    	console.log(school_year_id)
+    	$scope.getSchoolClasses(school_year_id)
+    }
+    
+    $scope.getSchoolClasses = function(school_year_id){
+    	$scope.school_classes = []
+    	adminservice.getSchoolClasses(school_year_id, function(school_classes){
+    		$scope.school_classes = school_classes;
+    	})
+    }
+
+
 
 
     $scope.add = function() {

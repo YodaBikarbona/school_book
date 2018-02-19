@@ -128,11 +128,11 @@
                                                 <td>Address:</td>
                                                 <td>{{user_obj.address}}</td>
                                             </tr>
-                                            <tr ng-if="user_obj.parent_one!='null'">
+                                            <tr ng-if="user_obj.parent_one!=null">
                                                 <td>Parent one:</td>
                                                 <td>{{user_obj.parent_one}}</td>
                                             </tr>
-                                            <tr ng-if="user_obj.parent_two!='null'">
+                                            <tr ng-if="user_obj.parent_two!=null">
                                                 <td>Parent two:</td>
                                                 <td>{{user_obj.parent_two}}</td>
                                             </tr>
@@ -259,10 +259,10 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <form ng-submit="find_by_role(role)" class="form-inline">
+                                    <form ng-submit="find_by_school_year_id(school_year_id)" class="form-inline">
                                         <div style="padding: 1px" ng-if="school_year_list_lenght">
-                                            <select class="form-control-sm" ng-model='role'>
-                                                <option ng-repeat="school_year in school_years" value="{{school_year.start}}">
+                                            <select class="form-control-sm" ng-model='school_year_id'>
+                                                <option ng-repeat="school_year in school_years" value="{{school_year.id}}">
                                                     {{school_year.start}}/{{school_year.end}}
                                                 </option>
                                             </select>
