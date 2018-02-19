@@ -87,6 +87,7 @@ angular.module('school_book', ['ui.router'])
 .controller('adminController', ['$scope','$http','$q','$rootScope','adminservice','authservice', function($scope,$http,$q,$rootScope,adminservice,auth){
 	$scope.show_tab = 0
 	$scope.user_list_lenght = 0
+	$scope.school_year_list_lenght = 0
 	$scope.userID = auth.user_id()
 	var temp_role = ''
 
@@ -117,6 +118,7 @@ angular.module('school_book', ['ui.router'])
 
 	$scope.show_classes = function(){
 		$scope.show_tab = 0
+		$scope.get_school_years()
 		$scope.show_tab = 3
 		$scope.user_list_lenght = 0
 	}
@@ -147,7 +149,7 @@ angular.module('school_book', ['ui.router'])
     	$scope.user_obj = {}
     	adminservice.getUser(user_id, function(user_obj){
     		$scope.user_obj = user_obj;
-    		console.log($scope.user_obj)
+    		console.log(user_obj)
     	})
     }
 
@@ -159,17 +161,12 @@ angular.module('school_book', ['ui.router'])
     }
 
     $scope.addUser = function(user){
-    	console.log(user)
     	var date = new Date(user.birth_date)
-    	date = date.toISOString();
-    	console.log(date)
-    	//console.log(new Date())
-    	//console.log(user.birth_date.toIsoString())
-    	//user.birth_date = user.birth_date.toIsoString()
+  		date = date.setDate(date.getDate() + 1)
+  		user.birth_date = new Date(date)
     	$scope.user_obj = {}
     	adminservice.addUser(user, function(user_obj){
     		$scope.user_obj = user_obj;
-    		console.log($scope.user_obj)
     	})
     }
 
@@ -179,7 +176,6 @@ angular.module('school_book', ['ui.router'])
 
     $scope.activate_user = function(user_id){
     	adminservice.activateUser(user_id, function(user_obj){
-    		console.log(user_obj)
     		$scope.user_obj.activated = user_obj.activated;
     	})
     	$scope.getUsers(temp_role)
@@ -187,7 +183,6 @@ angular.module('school_book', ['ui.router'])
 
     $scope.deactivate_user = function(user_id){
     	adminservice.deactivateUser(user_id, function(user_obj){
-    		console.log(user_obj)
     		$scope.user_obj.activated = user_obj.user_deactivated;
     	})
     	$scope.getUsers(temp_role)
@@ -200,6 +195,35 @@ angular.module('school_book', ['ui.router'])
     	$scope.getUsers(temp_role)
     }
 
+    $scope.get_school_years = function(){
+    	$scope.school_years = []
+    	adminservice.getSchoolYears(function(school_years){
+    		$scope.school_years = school_years.school_year_list;
+    		if ($scope.school_years) {
+    			$scope.school_year_list_lenght = $scope.school_years.length
+    		}
+    		console.log($scope.school_years)
+    	})
+    }
+
+    $scope.get_school_years = function(){
+    	$scope.school_years = []
+    	adminservice.getSchoolYears(function(school_years){
+    		$scope.school_years = school_years.school_year_list;
+    		if ($scope.school_years) {
+    			$scope.school_year_list_lenght = $scope.school_years.length
+    		}
+    		console.log($scope.school_years)
+    	})
+    }
+
+     $scope.addSchoolYear = function(school_year){
+    	$scope.school_year_obj = {}
+    	adminservice.addSchoolYears(school_year, function(school_year_obj){
+    		$scope.school_year_obj = school_year_obj;
+    		$scope.get_school_years()
+    	})
+    }
 
 
 

@@ -17,7 +17,6 @@ angular.module('school_book')
       }
 
       function storeUserCredidentals(user){
-        console.log(user)
         window.localStorage.setItem(LOCAL_STORAGE_KEY, user.token);
         window.localStorage.setItem('user_id', JSON.stringify(user.user.id))
         useUserCredidentals(user);
@@ -65,7 +64,8 @@ angular.module('school_book')
               reject(resp.data)
               console.log('Error')
             }
-          }, function(){
+          }, function(resp){
+            console.log(resp)
           })
         })
 
@@ -179,6 +179,27 @@ angular.module('school_book')
       url: 'http://localhost:6543/users/'+user_id,
       method: 'DELETE',
       data: user_id
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+    this.getSchoolYears = function(callback){
+    $http({
+      url: 'http://localhost:6543/school_year',
+      method: 'GET'
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+    this.addSchoolYears = function(school_year, callback){
+    $http({
+      url: 'http://localhost:6543/school_year/add',
+      method: 'POST',
+      data: school_year
     }).then(function(resp){
       callback(resp.data)
     }, function(resp){
