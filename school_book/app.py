@@ -16,6 +16,8 @@ from school_book.api.views.user import addUser
 from school_book.api.views.user import activate_user_func
 from school_book.api.views.user import deactivate_user_func
 from school_book.api.views.user import delete_user_func
+from school_book.api.views.school import get_all_school_years_func
+from school_book.api.views.school import add_school_year_func
 import logging
 import os
 log = logging.getLogger(__name__)
@@ -79,6 +81,18 @@ def deactivate_user():
 def delete_user(user_id):
 
     return delete_user_func(request.headers['Authorization'], user_id)
+
+
+@app.route('/school_year', methods=['GET'])
+def get_school_years():
+
+    return get_all_school_years_func(request.headers['Authorization'])
+
+
+@app.route('/school_year/add', methods=['POST'])
+def add_school_years():
+
+    return add_school_year_func(request.headers['Authorization'], request)
 
 
 

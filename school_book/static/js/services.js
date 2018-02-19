@@ -185,6 +185,27 @@ angular.module('school_book')
       console.log(resp.data)
     })}
 
+    this.getSchoolYears = function(callback){
+    $http({
+      url: 'http://localhost:6543/school_year',
+      method: 'GET'
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+    this.addSchoolYears = function(school_year, callback){
+    $http({
+      url: 'http://localhost:6543/school_year/add',
+      method: 'POST',
+      data: school_year
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
 }])
 
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){

@@ -87,6 +87,7 @@ angular.module('school_book', ['ui.router'])
 .controller('adminController', ['$scope','$http','$q','$rootScope','adminservice','authservice', function($scope,$http,$q,$rootScope,adminservice,auth){
 	$scope.show_tab = 0
 	$scope.user_list_lenght = 0
+	$scope.school_year_list_lenght = 0
 	$scope.userID = auth.user_id()
 	var temp_role = ''
 
@@ -117,6 +118,7 @@ angular.module('school_book', ['ui.router'])
 
 	$scope.show_classes = function(){
 		$scope.show_tab = 0
+		$scope.get_school_years()
 		$scope.show_tab = 3
 		$scope.user_list_lenght = 0
 	}
@@ -193,6 +195,35 @@ angular.module('school_book', ['ui.router'])
     	$scope.getUsers(temp_role)
     }
 
+    $scope.get_school_years = function(){
+    	$scope.school_years = []
+    	adminservice.getSchoolYears(function(school_years){
+    		$scope.school_years = school_years.school_year_list;
+    		if ($scope.school_years) {
+    			$scope.school_year_list_lenght = $scope.school_years.length
+    		}
+    		console.log($scope.school_years)
+    	})
+    }
+
+    $scope.get_school_years = function(){
+    	$scope.school_years = []
+    	adminservice.getSchoolYears(function(school_years){
+    		$scope.school_years = school_years.school_year_list;
+    		if ($scope.school_years) {
+    			$scope.school_year_list_lenght = $scope.school_years.length
+    		}
+    		console.log($scope.school_years)
+    	})
+    }
+
+     $scope.addSchoolYear = function(school_year){
+    	$scope.school_year_obj = {}
+    	adminservice.addSchoolYears(school_year, function(school_year_obj){
+    		$scope.school_year_obj = school_year_obj;
+    		$scope.get_school_years()
+    	})
+    }
 
 
 
