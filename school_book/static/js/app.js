@@ -206,24 +206,26 @@ angular.module('school_book', ['ui.router'])
     	})
     }
 
-    $scope.get_school_years = function(){
-    	$scope.school_years = []
-    	adminservice.getSchoolYears(function(school_years){
-    		$scope.school_years = school_years.school_year_list;
-    		if ($scope.school_years) {
-    			$scope.school_year_list_lenght = $scope.school_years.length
-    		}
-    		console.log($scope.school_years)
-    	})
-    }
-
-     $scope.addSchoolYear = function(school_year){
+    $scope.addSchoolYear = function(school_year){
     	$scope.school_year_obj = {}
     	adminservice.addSchoolYears(school_year, function(school_year_obj){
     		$scope.school_year_obj = school_year_obj;
     		$scope.get_school_years()
     	})
     }
+
+    $scope.find_by_school_year_id = function(school_year_id){
+    	console.log(school_year_id)
+    	$scope.getSchoolClasses(school_year_id)
+    }
+    
+    $scope.getSchoolClasses = function(school_year_id){
+    	$scope.school_classes = []
+    	adminservice.getSchoolClasses(school_year_id, function(school_classes){
+    		$scope.school_classes = school_classes;
+    	})
+    }
+
 
 
 

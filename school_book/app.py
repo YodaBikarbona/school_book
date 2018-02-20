@@ -18,6 +18,8 @@ from school_book.api.views.user import deactivate_user_func
 from school_book.api.views.user import delete_user_func
 from school_book.api.views.school import get_all_school_years_func
 from school_book.api.views.school import add_school_year_func
+from school_book.api.views.school import get_classes_func
+from werkzeug.routing import Rule
 import logging
 import os
 log = logging.getLogger(__name__)
@@ -93,6 +95,12 @@ def get_school_years():
 def add_school_years():
 
     return add_school_year_func(request.headers['Authorization'], request)
+
+
+@app.route('/school_year/<int:school_year_id>', methods=['GET'])
+def get_school_classes(school_year_id):
+
+    return get_classes_func(request.headers['Authorization'], school_year_id)
 
 
 

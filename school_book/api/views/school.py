@@ -13,6 +13,9 @@ from school_book.api.views.constants.constants import STUDENT
 from school_book.api.model.providers.school import SchoolProvider
 from school_book.api.views.helper.helper import now
 from school_book.api.model.serializers.serializer import SchoolYearSerializer
+from school_book.api.model.serializers.serializer import SchoolClassSerializer
+from school_book.api.model.serializers.serializer import SchoolClassStudentSerializer
+from school_book.api.model.serializers.serializer import SchoolSubjectSerializer
 
 
 def add_school_year_func(security_token, request):
@@ -96,4 +99,18 @@ def get_classes_func(security_token, school_year_id):
     if user.role.role_name != ADMIN:
         return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
 
-    return ('a')
+    try:
+        if school_year_id:
+            school_class_list = SchoolProvider.get_all_classes_by_school_year_id(school_year_id)
+
+            return jsonify(
+                {
+                    'status': 'OK',
+                    'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                    'code': 200,
+                    'school_class_list': SchoolClassSerializer(many=True).dump(school_class_list).data
+                }
+            )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)

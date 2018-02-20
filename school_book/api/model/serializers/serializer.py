@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_marshmallow import Marshmallow
 
-
 app = Flask(__name__)
 ma = Marshmallow(app)
 
@@ -32,3 +31,24 @@ class SchoolYearSerializer(ma.Schema):
 
     class Meta:
         fields = ('id', 'start', 'end')
+
+
+class SchoolClassSerializer(ma.Schema):
+
+    class Meta:
+        fields = ('id', 'name', 'school_year_id')
+
+
+class SchoolClassStudentSerializer(ma.Schema):
+    school_class = ma.Nested(SchoolClassSerializer, only=['name'])
+    user = ma.Nested(UsersSerializer, only=['first_name', 'last_name'])
+
+    class Meta:
+        fields = ('id', 'student_id', 'classes_id', 'school_class', 'user')
+
+
+class SchoolSubjectSerializer(ma.Schema):
+    user = ma.Nested(UsersSerializer, only=['first_name', 'last_name'])
+
+    class Meta:
+        fields = ('id', 'name', 'professor_id', 'user')
