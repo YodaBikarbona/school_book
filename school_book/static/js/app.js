@@ -206,18 +206,7 @@ angular.module('school_book', ['ui.router'])
     	})
     }
 
-    $scope.get_school_years = function(){
-    	$scope.school_years = []
-    	adminservice.getSchoolYears(function(school_years){
-    		$scope.school_years = school_years.school_year_list;
-    		if ($scope.school_years) {
-    			$scope.school_year_list_lenght = $scope.school_years.length
-    		}
-    		console.log($scope.school_years)
-    	})
-    }
-
-     $scope.addSchoolYear = function(school_year){
+    $scope.addSchoolYear = function(school_year){
     	$scope.school_year_obj = {}
     	adminservice.addSchoolYears(school_year, function(school_year_obj){
     		$scope.school_year_obj = school_year_obj;

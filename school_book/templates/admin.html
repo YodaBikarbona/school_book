@@ -196,7 +196,7 @@
                                             <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">Find</button>
                                         </div>
                                         <div style="padding: 1px">
-                                            <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#addModal">Add new user</button>
+                                            <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#addModal">Add new user</button>
                                         </div>
                                     </form>
                                 </div>
@@ -261,9 +261,9 @@
                                 <div class="col-md-12">
                                     <form ng-submit="find_by_school_year_id(school_year_id)" class="form-inline">
                                         <div style="padding: 1px" ng-if="school_year_list_lenght">
-                                            <select class="form-control-sm" ng-model='school_year_id'>
+                                            <select class="form-control-sm" ng-model="school_year_id">
                                                 <option ng-repeat="school_year in school_years" value="{{school_year.id}}">
-                                                    {{school_year.start}}/{{school_year.end}}
+                                                    {{school_year.start}}/{{school_year.end}}/{{school_year.id}}
                                                 </option>
                                             </select>
                                         </div>
@@ -271,7 +271,7 @@
                                             <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">Find</button>
                                         </div>
                                         <div style="padding: 1px">
-                                            <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#addSchoolYearModal">Add new school_year</button>
+                                            <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#addSchoolYearModal">Add new school_year</button>
                                         </div>
                                     </form>
                                 </div>
