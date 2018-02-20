@@ -88,6 +88,7 @@ angular.module('school_book', ['ui.router'])
 	$scope.show_tab = 0
 	$scope.user_list_lenght = 0
 	$scope.school_year_list_lenght = 0
+    $scope.school_classes_lenght = 0
 	$scope.userID = auth.user_id()
 	var temp_role = ''
 
@@ -101,6 +102,7 @@ angular.module('school_book', ['ui.router'])
 		//console.log(user_id)
 		$scope.show_tab = 1
 		$scope.user_list_lenght = 0
+        $scope.school_classes_lenght = 0
 	}
 
 	$scope.show_users = function(){
@@ -109,6 +111,7 @@ angular.module('school_book', ['ui.router'])
 		//$scope.user_list_lenght = 0
 		$scope.getRoles()
 		$scope.show_tab = 2
+        $scope.school_classes_lenght = 0
 	}
 
 	$scope.find_by_role = function(role){
@@ -222,7 +225,12 @@ angular.module('school_book', ['ui.router'])
     $scope.getSchoolClasses = function(school_year_id){
     	$scope.school_classes = []
     	adminservice.getSchoolClasses(school_year_id, function(school_classes){
-    		$scope.school_classes = school_classes;
+    		$scope.school_classes = school_classes.school_class_list;
+            if ($scope.school_classes){
+                $scope.school_classes_lenght = $scope.school_classes.length
+            }
+            console.log($scope.school_classes_lenght)
+            console.log($scope.school_classes)
     	})
     }
 

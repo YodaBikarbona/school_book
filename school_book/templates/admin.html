@@ -258,69 +258,49 @@
                     <div class="panel panel-info">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-md-12 col-sm-12" ng-if="school_year_list_lenght" style="display: inline-block;">
+                                <div class="col-md-12 col-sm-12">
                                     <form ng-submit="find_by_school_year_id(school_year_id)" class="form-inline">
                                         <div style="padding: 1px">
                                             <!-- ng-if="school_year_list_lenght" -->
                                             <select class="form-control-sm" ng-model="school_year_id">
                                                 <option ng-repeat="school_year in school_years" value="{{school_year.id}}">
-                                                    {{school_year.start}}/{{school_year.end}}/{{school_year.id}}
+                                                    {{school_year.start}}/{{school_year.end}}
                                                 </option>
                                             </select>
                                         </div>
                                         <div style="padding: 1px">
                                             <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">Find</button>
                                         </div>
-                                    </form>
-                                    <form class="form-inline">
                                         <div style="padding: 1px">
-                                            <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#addSchoolYearModal">Add new school_year</button>
+                                            <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#addSchoolYearModal">Add new school year</button>
                                         </div>
                                     </form>
                                 </div>
-                                <div class="col-md-12" ng-if="user_list_lenght>0">
+                                <div class="col-md-12" ng-if="school_classes_lenght>0">
                                     <table class="table table-striped table-sm">
                                         <thead>
                                             <tr>
                                                 <th>
-                                                    First name
+                                                    Class name
                                                 </th>
                                                 <th>
-                                                    Last name
-                                                </th>
-                                                <th>
-                                                    Role
-                                                </th>
-                                                <th>
-                                                    Activated
-                                                </th>
-                                                <th>
-                                                    Profile
+                                                    Class
                                                 </th>
                                             </tr>
                                         </thead>
-                                            <tr ng-repeat="user in users">
+                                            <tr ng-repeat="school_class in school_classes">
                                                 <td>
-                                                    {{user.first_name}}
-                                                </td>
-                                                <td>
-                                                    {{user.last_name}}
+                                                    {{school_class.name}}
                                                 </td>
                                                 <td>
-                                                    {{user.role.role_name}}
-                                                </td>
-                                                <td ng-if="user.activated">
-                                                    Activated
-                                                </td>
-                                                <td ng-if="!user.activated">
-                                                    Deactivated
-                                                </td>
-                                                <td>
-                                                    <a href="" ng-click='change_tab(user.id)'>view</a>
+                                                    <a href="">View</a>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <div style="padding: 1px">
+                                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#addSchoolYearModal" style="float: right;">Add new school class</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
