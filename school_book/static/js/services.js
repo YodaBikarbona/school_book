@@ -217,6 +217,38 @@ angular.module('school_book')
       console.log(resp.data)
     })}
 
+    this.addSchoolSubject = function(school_subject, callback){
+    $http({
+      url: 'http://localhost:6543/school_subjects/add',
+      method: 'POST',
+      data: school_subject
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+    this.getSchoolSubject = function(callback){
+    $http({
+      url: 'http://localhost:6543/school_subjects',
+      method: 'GET'
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+    this.uploadImage = function(user_id, image, callback){
+    $http({
+      url: 'http://localhost:6543/upload/user/'+user_id,
+      method: 'POST',
+      data: image
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
 }])
 
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){

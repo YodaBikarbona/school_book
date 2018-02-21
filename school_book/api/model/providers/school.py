@@ -25,3 +25,8 @@ class SchoolProvider:
     @classmethod
     def get_number_of_students(cls, class_id):
         return SchoolClassStudent.query.filter(SchoolClassStudent.classes_id == class_id).count()
+
+
+    @classmethod
+    def get_all_school_subjects(cls):
+        return SchoolSubject.query.all()

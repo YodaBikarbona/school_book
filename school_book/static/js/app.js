@@ -1,5 +1,33 @@
 angular.module('school_book', ['ui.router'])
 
+/*angular.module("school_book").directive("filesInput", function() {
+  return {
+    require: "ngModel",
+    link: function postLink(scope,elem,attrs,ngModel) {
+      elem.on("change", function(e) {
+        var files = elem[0].files;
+        ngModel.$setViewValue(files);
+      })
+    }
+  }
+})*/
+
+.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}])
+
 .config(['$stateProvider','$urlRouterProvider','STATES',function($stateProvider,$urlRouterProvider,STATE) {
 	//Prvi nacin
 	//$stateProvider.state('login', {
@@ -89,6 +117,7 @@ angular.module('school_book', ['ui.router'])
 	$scope.user_list_lenght = 0
 	$scope.school_year_list_lenght = 0
     $scope.school_classes_lenght = 0
+    $scope.school_subject_list_lenght = 0
 	$scope.userID = auth.user_id()
 	var temp_role = ''
 
@@ -129,6 +158,7 @@ angular.module('school_book', ['ui.router'])
     $scope.show_subjects = function(){
         $scope.show_tab = 0
         $scope.find_by_role("Professor")
+        $scope.getSchoolSubject()
         $scope.show_tab = 4
     }
 
@@ -186,6 +216,7 @@ angular.module('school_book', ['ui.router'])
 
     $scope.restart_form = function(){
     	$scope.new_user = {}
+        $scope.new_subject = {}
     }
 
     $scope.activate_user = function(user_id){
@@ -243,6 +274,50 @@ angular.module('school_book', ['ui.router'])
             console.log($scope.school_classes_lenght)
             console.log($scope.school_classes)
     	})
+    }
+
+    $scope.addSchoolSubject = function(school_subject){
+        console.log(school_subject)
+        $scope.school_subject_obj = {}
+        adminservice.addSchoolSubject(school_subject, function(school_subject_obj){
+            $scope.school_subject_obj = school_subject_obj.school_subject_obj;
+            $scope.getSchoolSubject()
+            $scope.restart_form()
+
+        })
+    }
+
+
+    $scope.uploadFile = function(files) {
+            $scope.file = new FormData();
+            $scope.file.append("file", files[0]);
+        };
+
+    /*$scope.upload_image = function(user_id){
+        adminservice.uploadImage(user_id, $scope.file, function(user_obj){
+            console.log(user_obj)
+        })
+    }*/
+
+    $scope.submitGuideDetailsForm= function(user_id) {
+     $http.post('http://localhost:6543/upload/user/'+user_id, $scope.file, {
+           headers: {'Content-Type': undefined },
+           transformRequest: angular.identity
+          }).then(function(resp){
+            $scope.user_obj.image = resp.data.image_obj
+        }, function(resp){
+            console.log(resp.data)
+        })}
+
+    $scope.getSchoolSubject = function(){
+        $scope.school_subject_list = []
+        adminservice.getSchoolSubject(function(school_subject_list){
+            $scope.school_subject_list = school_subject_list.school_subject_list;
+            if ($scope.school_subject_list) {
+                $scope.school_subject_list_lenght = $scope.school_subject_list.length
+            }
+            console.log($scope.school_subject_list)
+        })
     }
 
 

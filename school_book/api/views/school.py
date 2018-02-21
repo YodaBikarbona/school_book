@@ -121,7 +121,7 @@ def get_classes_func(security_token, school_year_id):
         return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
 
 
-def get_subjects_func(security_token, request):
+def add_subjects_func(security_token, request):
     authorization = check_security_token(security_token)
 
     if authorization is False:
@@ -158,3 +158,29 @@ def get_subjects_func(security_token, request):
     except Exception as ex:
         print(ex)
         return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def get_subjects_func(security_token):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    school_subject_list = SchoolProvider.get_all_school_subjects()
+
+    return jsonify(
+        {
+            'status': 'OK',
+            'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+            'code': 200,
+            'school_subject_list': SchoolSubjectSerializer(many=True).dump(school_subject_list).data
+        }
+    )
