@@ -16,6 +16,7 @@ from school_book.api.model.serializers.serializer import SchoolYearSerializer
 from school_book.api.model.serializers.serializer import SchoolClassSerializer
 from school_book.api.model.serializers.serializer import SchoolClassStudentSerializer
 from school_book.api.model.serializers.serializer import SchoolSubjectSerializer
+from school_book.api.model.model.school import SchoolSubject
 
 
 def add_school_year_func(security_token, request):
@@ -102,13 +103,56 @@ def get_classes_func(security_token, school_year_id):
     try:
         if school_year_id:
             school_class_list = SchoolProvider.get_all_classes_by_school_year_id(school_year_id)
+            school_class_list = SchoolClassSerializer(many=True).dump(school_class_list).data
+            if school_class_list:
+                for school_class in school_class_list:
+                    school_class["number_of_students"] = SchoolProvider.get_number_of_students(school_class["id"])
 
             return jsonify(
                 {
                     'status': 'OK',
                     'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
                     'code': 200,
-                    'school_class_list': SchoolClassSerializer(many=True).dump(school_class_list).data
+                    'school_class_list': school_class_list
+                }
+            )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def get_subjects_func(security_token, request):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        if request.json['name'] and request.json['user_id']:
+            new_subject = SchoolSubject()
+            new_subject.name = request.json['name']
+            new_subject.professor_id = request.json['user_id']
+            db.session.add(new_subject)
+            db.session.commit()
+            professor = '{0} {1}'.format(new_subject.user.first_name, new_subject.user.last_name)
+            school_subject_obj = SchoolSubjectSerializer(many=False).dump(new_subject).data
+            school_subject_obj['professor'] = professor
+
+            return jsonify(
+                {
+                    'status': 'OK',
+                    'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                    'code': 200,
+                    'msg': messages.SCHOOL_SUBJECT_SUCCESSFULLY_ADDED,
+                    'school_subject_obj': school_subject_obj
                 }
             )
     except Exception as ex:

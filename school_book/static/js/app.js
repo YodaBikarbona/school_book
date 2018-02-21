@@ -126,6 +126,13 @@ angular.module('school_book', ['ui.router'])
 		$scope.user_list_lenght = 0
 	}
 	
+    $scope.show_subjects = function(){
+        $scope.show_tab = 0
+        $scope.find_by_role("Professor")
+        $scope.show_tab = 4
+    }
+
+
 	$scope.lista = []
 	for (var i = 0; i<50; i++) {
 		$scope.lista.push(i)
@@ -140,6 +147,10 @@ angular.module('school_book', ['ui.router'])
 		}
         });
       }
+
+    $scope.addSchoolSucject = function(new_subject){
+        console.log(new_subject)
+    }
 
     $scope.getRoles = function(){
         $scope.roles = [];
