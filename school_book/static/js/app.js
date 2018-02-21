@@ -1,5 +1,21 @@
 angular.module('school_book', ['ui.router'])
 
+.directive('fileModel', ['$parse', function ($parse) {
+     return {
+         restrict: 'A',
+         link: function(scope, element, attrs) {
+             var model = $parse(attrs.fileModel);
+             var modelSetter = model.assign;
+ 
+             element.bind('change', function(){
+                 scope.$apply(function(){
+                     modelSetter(scope, element[0].files[0]);
+                 });
+             });
+         }
+     };
+ }])
+
 .config(['$stateProvider','$urlRouterProvider','STATES',function($stateProvider,$urlRouterProvider,STATE) {
 	//Prvi nacin
 	//$stateProvider.state('login', {
@@ -189,6 +205,10 @@ angular.module('school_book', ['ui.router'])
     $scope.restart_form = function(){
     	$scope.new_user = {}
         $scope.new_subject = {}
+        $scope.file = {}
+        $scope.files = {}
+        $scope.image = {}
+        $scope.myFile = ""
     }
 
     $scope.activate_user = function(user_id){
@@ -260,9 +280,10 @@ angular.module('school_book', ['ui.router'])
     }
 
 
-    $scope.uploadFile = function(files) {
+    $scope.uploadFile = function(user_id, image) {
             $scope.file = new FormData();
-            $scope.file.append("file", files[0]);
+            $scope.file.append("file", image);
+            $scope.upload_image(user_id)
         };
 
 
@@ -272,6 +293,7 @@ angular.module('school_book', ['ui.router'])
            transformRequest: angular.identity
           }).then(function(resp){
             $scope.user_obj.image = resp.data.image_obj
+            $scope.restart_form()
         }, function(resp){
             console.log(resp.data)
         })}

@@ -618,10 +618,10 @@
              </div>
              <!-- Modal body -->
              <div class="modal-body">
-                <form  enctype="multipart/form-data" ng-submit="upload_image(user_obj.id)">
+                <form  enctype="multipart/form-data" ng-submit="uploadFile(user_obj.id, myFile)">
                     <div class="form-group" style="padding: 1px">
                         <label for="usr">Add your photo:</label>
-                        <input type='file' class="form-control" name='file' onchange="angular.element(this).scope().uploadFile(this.files)">
+                        <input type='file' class="form-control" name='image' file-model='myFile'>
                     </div>
                     <div class="form-group" style="padding: 1px">
                         <button type="submit" value="submit" class="btn btn-secondary btn-sm">Submit<br />
