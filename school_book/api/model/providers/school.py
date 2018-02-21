@@ -21,3 +21,12 @@ class SchoolProvider:
     def get_all_classes_by_school_year_id(cls, school_year_id):
         return SchoolClass.query.filter(SchoolClass.school_year_id == school_year_id).all()
 
+
+    @classmethod
+    def get_number_of_students(cls, class_id):
+        return SchoolClassStudent.query.filter(SchoolClassStudent.classes_id == class_id).count()
+
+
+    @classmethod
+    def get_all_school_subjects(cls):
+        return SchoolSubject.query.all()

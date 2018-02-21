@@ -33,6 +33,7 @@ from school_book.api.views.constants.constants import ACTIVATED
 from school_book.api.views.constants.constants import DEACTIVATED
 from school_book.api.views.helper.helper import date_format
 from school_book.api.views.helper.helper import birth_date_format
+from school_book.api.model.serializers.serializer import ImageSerializer
 
 
 def get_all_users_func(security_token, role_name):
@@ -279,11 +280,11 @@ def delete_user_func(security_token, user_id):
 
 
 
-def upload_image(request):
+def upload_image(request, user_id):
     app.logger.info(PROJECT_HOME)
-    if request.method == 'POST' and request.files['image']:
+    if request.method == 'POST' and request.files['file']:
         app.logger.info(app.config['UPLOAD_FOLDER'])
-        img = request.files['image']
+        img = request.files['file']
         img_name = secure_filename(img.filename)
         create_new_folder(app.config['UPLOAD_FOLDER'])
         saved_path = os.path.join(app.config['UPLOAD_FOLDER'], img_name)
@@ -295,7 +296,19 @@ def upload_image(request):
         new_image.file_name = img_name
         db.session.add(new_image)
         db.session.commit()
-        return ('Saved')
+        user = UserProvider.get_user_by_id(user_id=user_id)
+        user.image_id = new_image.id
+        db.session.commit()
+        image = ImageSerializer(many=False).dump(new_image).data
+        return jsonify(
+            {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
+                'msg': messages.IMAGE_SUCCESSFULLY_ADDED,
+                'image_obj': image
+            }
+        )
         #return send_from_directory(app.config['UPLOAD_FOLDER'],img_name, as_attachment=True)
     else:
     	return "Where is the image?"

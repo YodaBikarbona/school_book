@@ -19,6 +19,8 @@ from school_book.api.views.user import delete_user_func
 from school_book.api.views.school import get_all_school_years_func
 from school_book.api.views.school import add_school_year_func
 from school_book.api.views.school import get_classes_func
+from school_book.api.views.school import add_subjects_func
+from school_book.api.views.school import get_subjects_func
 from werkzeug.routing import Rule
 import logging
 import os
@@ -55,10 +57,10 @@ def get_user(user_id):
     return get_user_by_user_id(request.headers['Authorization'], user_id)
 
 
-@app.route('/upload', methods=['POST'])
-def upload():
+@app.route('/upload/user/<int:user_id>', methods=['POST'])
+def upload(user_id):
 
-    return upload_image(request)
+    return upload_image(request, user_id)
 
 
 @app.route('/users/add', methods=['POST'])
@@ -103,7 +105,16 @@ def get_school_classes(school_year_id):
     return get_classes_func(request.headers['Authorization'], school_year_id)
 
 
+@app.route('/school_subjects/add', methods=['POST'])
+def add_school_subject():
 
+    return add_subjects_func(request.headers['Authorization'], request)
+
+
+@app.route('/school_subjects', methods=['GET'])
+def get_school_subject():
+
+    return get_subjects_func(request.headers['Authorization'])
 
 
 """@app.route('/upload', methods=['POST'])

@@ -1,5 +1,21 @@
 angular.module('school_book', ['ui.router'])
 
+.directive('fileModel', ['$parse', function ($parse) {
+     return {
+         restrict: 'A',
+         link: function(scope, element, attrs) {
+             var model = $parse(attrs.fileModel);
+             var modelSetter = model.assign;
+ 
+             element.bind('change', function(){
+                 scope.$apply(function(){
+                     modelSetter(scope, element[0].files[0]);
+                 });
+             });
+         }
+     };
+ }])
+
 .config(['$stateProvider','$urlRouterProvider','STATES',function($stateProvider,$urlRouterProvider,STATE) {
 	//Prvi nacin
 	//$stateProvider.state('login', {
@@ -88,6 +104,8 @@ angular.module('school_book', ['ui.router'])
 	$scope.show_tab = 0
 	$scope.user_list_lenght = 0
 	$scope.school_year_list_lenght = 0
+    $scope.school_classes_lenght = 0
+    $scope.school_subject_list_lenght = 0
 	$scope.userID = auth.user_id()
 	var temp_role = ''
 
@@ -101,6 +119,7 @@ angular.module('school_book', ['ui.router'])
 		//console.log(user_id)
 		$scope.show_tab = 1
 		$scope.user_list_lenght = 0
+        $scope.school_classes_lenght = 0
 	}
 
 	$scope.show_users = function(){
@@ -109,6 +128,7 @@ angular.module('school_book', ['ui.router'])
 		//$scope.user_list_lenght = 0
 		$scope.getRoles()
 		$scope.show_tab = 2
+        $scope.school_classes_lenght = 0
 	}
 
 	$scope.find_by_role = function(role){
@@ -123,6 +143,14 @@ angular.module('school_book', ['ui.router'])
 		$scope.user_list_lenght = 0
 	}
 	
+    $scope.show_subjects = function(){
+        $scope.show_tab = 0
+        $scope.find_by_role("Professor")
+        $scope.getSchoolSubject()
+        $scope.show_tab = 4
+    }
+
+
 	$scope.lista = []
 	for (var i = 0; i<50; i++) {
 		$scope.lista.push(i)
@@ -137,6 +165,10 @@ angular.module('school_book', ['ui.router'])
 		}
         });
       }
+
+    $scope.addSchoolSucject = function(new_subject){
+        console.log(new_subject)
+    }
 
     $scope.getRoles = function(){
         $scope.roles = [];
@@ -172,6 +204,11 @@ angular.module('school_book', ['ui.router'])
 
     $scope.restart_form = function(){
     	$scope.new_user = {}
+        $scope.new_subject = {}
+        $scope.file = {}
+        $scope.files = {}
+        $scope.image = {}
+        $scope.myFile = ""
     }
 
     $scope.activate_user = function(user_id){
@@ -222,8 +259,54 @@ angular.module('school_book', ['ui.router'])
     $scope.getSchoolClasses = function(school_year_id){
     	$scope.school_classes = []
     	adminservice.getSchoolClasses(school_year_id, function(school_classes){
-    		$scope.school_classes = school_classes;
+    		$scope.school_classes = school_classes.school_class_list;
+            if ($scope.school_classes){
+                $scope.school_classes_lenght = $scope.school_classes.length
+            }
+            console.log($scope.school_classes_lenght)
+            console.log($scope.school_classes)
     	})
+    }
+
+    $scope.addSchoolSubject = function(school_subject){
+        console.log(school_subject)
+        $scope.school_subject_obj = {}
+        adminservice.addSchoolSubject(school_subject, function(school_subject_obj){
+            $scope.school_subject_obj = school_subject_obj.school_subject_obj;
+            $scope.getSchoolSubject()
+            $scope.restart_form()
+
+        })
+    }
+
+
+    $scope.uploadFile = function(user_id, image) {
+            $scope.file = new FormData();
+            $scope.file.append("file", image);
+            $scope.upload_image(user_id)
+        };
+
+
+    $scope.upload_image= function(user_id) {
+     $http.post('http://localhost:6543/upload/user/'+user_id, $scope.file, {
+           headers: {'Content-Type': undefined },
+           transformRequest: angular.identity
+          }).then(function(resp){
+            $scope.user_obj.image = resp.data.image_obj
+            $scope.restart_form()
+        }, function(resp){
+            console.log(resp.data)
+        })}
+
+    $scope.getSchoolSubject = function(){
+        $scope.school_subject_list = []
+        adminservice.getSchoolSubject(function(school_subject_list){
+            $scope.school_subject_list = school_subject_list.school_subject_list;
+            if ($scope.school_subject_list) {
+                $scope.school_subject_list_lenght = $scope.school_subject_list.length
+            }
+            console.log($scope.school_subject_list)
+        })
     }
 
 
