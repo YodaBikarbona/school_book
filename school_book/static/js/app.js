@@ -1,33 +1,5 @@
 angular.module('school_book', ['ui.router'])
 
-/*angular.module("school_book").directive("filesInput", function() {
-  return {
-    require: "ngModel",
-    link: function postLink(scope,elem,attrs,ngModel) {
-      elem.on("change", function(e) {
-        var files = elem[0].files;
-        ngModel.$setViewValue(files);
-      })
-    }
-  }
-})*/
-
-.directive('fileModel', ['$parse', function ($parse) {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-            var model = $parse(attrs.fileModel);
-            var modelSetter = model.assign;
-
-            element.bind('change', function(){
-                scope.$apply(function(){
-                    modelSetter(scope, element[0].files[0]);
-                });
-            });
-        }
-    };
-}])
-
 .config(['$stateProvider','$urlRouterProvider','STATES',function($stateProvider,$urlRouterProvider,STATE) {
 	//Prvi nacin
 	//$stateProvider.state('login', {
@@ -293,13 +265,8 @@ angular.module('school_book', ['ui.router'])
             $scope.file.append("file", files[0]);
         };
 
-    /*$scope.upload_image = function(user_id){
-        adminservice.uploadImage(user_id, $scope.file, function(user_obj){
-            console.log(user_obj)
-        })
-    }*/
 
-    $scope.submitGuideDetailsForm= function(user_id) {
+    $scope.upload_image= function(user_id) {
      $http.post('http://localhost:6543/upload/user/'+user_id, $scope.file, {
            headers: {'Content-Type': undefined },
            transformRequest: angular.identity

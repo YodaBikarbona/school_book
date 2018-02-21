@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a175eb6c-e57d-4a08-90c7-2162df3ebd76" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/api/model/providers/school.py" afterPath="$PROJECT_DIR$/school_book/api/model/providers/school.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/api/views/messages/messages.py" afterPath="$PROJECT_DIR$/school_book/api/views/messages/messages.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/api/views/school.py" afterPath="$PROJECT_DIR$/school_book/api/views/school.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/api/views/user.py" afterPath="$PROJECT_DIR$/school_book/api/views/user.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/app.py" afterPath="$PROJECT_DIR$/school_book/app.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/static/js/app.js" afterPath="$PROJECT_DIR$/school_book/static/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/static/js/services.js" afterPath="$PROJECT_DIR$/school_book/static/js/services.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/templates/admin.html" afterPath="$PROJECT_DIR$/school_book/templates/admin.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/templates/new_user.html" afterPath="$PROJECT_DIR$/school_book/templates/new_user.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
