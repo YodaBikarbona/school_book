@@ -47,6 +47,14 @@ class SchoolClassStudentSerializer(ma.Schema):
         fields = ('id', 'student_id', 'classes_id', 'school_class', 'user')
 
 
+class SchoolClassProfessorSerializer(ma.Schema):
+    school_class = ma.Nested(SchoolClassSerializer, only=['name'])
+    user = ma.Nested(UsersSerializer, only=['first_name', 'last_name'])
+
+    class Meta:
+        fields = ('id', 'classes_id', 'professor_id', 'multiple_professors', 'school_class', 'user')
+
+
 class SchoolSubjectSerializer(ma.Schema):
     user = ma.Nested(UsersSerializer, only=['first_name', 'last_name'])
 

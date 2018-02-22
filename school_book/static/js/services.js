@@ -249,6 +249,18 @@ angular.module('school_book')
       console.log(resp.data)
     })}
 
+
+    this.addClass = function(new_class, callback){
+    $http({
+      url: 'http://localhost:6543/school_class/add',
+      method: 'POST',
+      data: new_class
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
 }])
 
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){

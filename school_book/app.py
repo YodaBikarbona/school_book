@@ -21,6 +21,7 @@ from school_book.api.views.school import add_school_year_func
 from school_book.api.views.school import get_classes_func
 from school_book.api.views.school import add_subjects_func
 from school_book.api.views.school import get_subjects_func
+from school_book.api.views.school import add_class_func
 from werkzeug.routing import Rule
 import logging
 import os
@@ -115,6 +116,12 @@ def add_school_subject():
 def get_school_subject():
 
     return get_subjects_func(request.headers['Authorization'])
+
+
+@app.route('/school_class/add', methods=['POST'])
+def add_class():
+
+    return add_class_func(request.headers['Authorization'], request)
 
 
 """@app.route('/upload', methods=['POST'])
