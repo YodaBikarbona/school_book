@@ -311,4 +311,4 @@ def upload_image(request, user_id):
         )
         #return send_from_directory(app.config['UPLOAD_FOLDER'],img_name, as_attachment=True)
     else:
-    	return "Where is the image?"
+        return "Where is the image?"

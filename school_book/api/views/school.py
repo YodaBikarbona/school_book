@@ -17,6 +17,10 @@ from school_book.api.model.serializers.serializer import SchoolClassSerializer
 from school_book.api.model.serializers.serializer import SchoolClassStudentSerializer
 from school_book.api.model.serializers.serializer import SchoolSubjectSerializer
 from school_book.api.model.model.school import SchoolSubject
+from school_book.api.model.serializers.serializer import SchoolClassProfessorSerializer
+from school_book.api.model.model.school import SchoolClassProfessor
+from school_book.api.model.serializers.serializer import UsersSerializer
+from school_book.api.model.model.school import SchoolClass
 
 
 def add_school_year_func(security_token, request):
@@ -107,6 +111,10 @@ def get_classes_func(security_token, school_year_id):
             if school_class_list:
                 for school_class in school_class_list:
                     school_class["number_of_students"] = SchoolProvider.get_number_of_students(school_class["id"])
+                    school_class["students"] = UsersSerializer(many=True)\
+                        .dump(SchoolProvider.get_all_students_by_class_id(school_class["id"])).data
+                    school_class['professor'] = UsersSerializer(many=False)\
+                        .dump(SchoolProvider.get_professor_by_class_id(school_class["id"])).data
 
             return jsonify(
                 {
@@ -184,3 +192,46 @@ def get_subjects_func(security_token):
             'school_subject_list': SchoolSubjectSerializer(many=True).dump(school_subject_list).data
         }
     )
+
+
+def add_class_func(security_token, request):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        if request.json['name'] and request.json['user_id'] and \
+                request.json['school_year_id'] and request.json['multiple_professors']:
+            new_class = SchoolClass()
+            new_class.name = request.json['name']
+            new_class.school_year_id = request.json['school_year_id']
+            db.session.add(new_class)
+            db.session.commit()
+            new_professor_class = SchoolClassProfessor()
+            new_professor_class.classes_id = new_class.id
+            new_professor_class.professor_id = request.json['user_id']
+            new_professor_class.multiple_professors = request.json['multiple_professors']
+            db.session.add(new_professor_class)
+            db.session.commit()
+
+            return jsonify(
+                {
+                    'status': 'OK',
+                    'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                    'code': 200,
+                    'msg': messages.SCHOOL_CLASS_SUCCESSFULLY_ADDED,
+                    'school_class_obj': SchoolClassSerializer(many=False).dump(new_class).data
+                }
+            )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)

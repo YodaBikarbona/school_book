@@ -106,6 +106,8 @@ angular.module('school_book', ['ui.router'])
 	$scope.school_year_list_lenght = 0
     $scope.school_classes_lenght = 0
     $scope.school_subject_list_lenght = 0
+    $scope.show_subtab = 0
+    $scope.student_list = []
 	$scope.userID = auth.user_id()
 	var temp_role = ''
 
@@ -124,6 +126,8 @@ angular.module('school_book', ['ui.router'])
 
 	$scope.show_users = function(){
 		$scope.show_tab = 0
+        $scope.users = [];
+        $scope.user_list_lenght = 0
 		// Može se koristiti
 		//$scope.user_list_lenght = 0
 		$scope.getRoles()
@@ -132,15 +136,18 @@ angular.module('school_book', ['ui.router'])
 	}
 
 	$scope.find_by_role = function(role){
+        console.log(role)
 		temp_role = role
 		$scope.getUsers(role)
 	}
 
 	$scope.show_classes = function(){
 		$scope.show_tab = 0
+        $scope.show_subtab = 0
+        $scope.user_list_lenght = 0
+        $scope.find_by_role("Professor")
 		$scope.get_school_years()
 		$scope.show_tab = 3
-		$scope.user_list_lenght = 0
 	}
 	
     $scope.show_subjects = function(){
@@ -160,6 +167,7 @@ angular.module('school_book', ['ui.router'])
         $scope.users = [];
         adminservice.getUsers(role,function(users){
             $scope.users = users;
+            console.log(users)
             if($scope.users){
 			$scope.user_list_lenght = $scope.users.length
 		}
@@ -209,6 +217,7 @@ angular.module('school_book', ['ui.router'])
         $scope.files = {}
         $scope.image = {}
         $scope.myFile = ""
+        $scope.new_class = {}
     }
 
     $scope.activate_user = function(user_id){
@@ -309,7 +318,34 @@ angular.module('school_book', ['ui.router'])
         })
     }
 
+    $scope.show_class_details = function(school_class){
+        $scope.user_list_lenght = 0
+        $scope.school_class_details = school_class
+        $scope.show_subtab = 1
+    }
 
+    $scope.add_more_students = function(){
+        $scope.getUsers("Student")
+        $scope.find_by_role("student")
+        console.log($scope.users)
+        $scope.student_list = $scope.users
+        console.log($scope.student_list)
+    }
+
+    $scope.addnewClass = function(school_year_id, new_class){
+        new_class.school_year_id = school_year_id
+        adminservice.addClass(new_class, function(school_class_obj){
+            $scope.school_class_obj = school_class_obj.school_class_obj
+        })
+        $scope.getSchoolClasses(school_year_id)
+    }
+
+    $scope.add_students = function(){
+        if ($new_student.confirm) {
+          $scope.students.push(this.student_id);
+        }
+        console.log(students)
+    }
 
 
     $scope.add = function() {

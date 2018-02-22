@@ -52,6 +52,21 @@ class SchoolClassStudent(db.Model):
         return '{0} {1}'.format(self.user.first_name, self.user.last_name)
 
 
+class SchoolClassProfessor(db.Model):
+    __tablename__ = 'classes_professor'
+
+    id = Column(Integer, primary_key=True)
+    multiple_professors = Column(Boolean, default=False)
+    professor_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
+    classes_id = Column(Integer, ForeignKey('classes.id', ondelete='CASCADE'))
+
+    classes = relationship('SchoolClass')
+    user = relationship('User')
+
+    def __repr__(self):
+        return '{0} {1}'.format(self.user.first_name, self.user.last_name)
+
+
 class SchoolSubject(db.Model):
     __tablename__ = 'school_subjects'
 
