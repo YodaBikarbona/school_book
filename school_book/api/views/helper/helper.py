@@ -68,9 +68,7 @@ def date_format(date):
 
 
 def birth_date_format(date):
-    print(date)
     date = '{0} '.format(date).split('T')[0]
-    print(date)
     return date
 
 
@@ -141,3 +139,9 @@ def create_new_folder(local_dir):
     if not os.path.exists(newpath):
         os.makedirs(newpath)
     return newpath
+
+
+def calculate_age(born):
+    born = datetime.strptime(born, "%Y-%m-%d")
+    today = datetime.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))

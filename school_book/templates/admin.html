@@ -114,6 +114,10 @@
                                                 <td>{{user_obj.birth_date}}</td>
                                             </tr>
                                             <tr>
+                                                <td>Age</td>
+                                                <td>{{user_obj.age}}</td>
+                                            </tr>
+                                            <tr>
                                                 <td>Gender:</td>
                                                 <td ng-if="user_obj.gender==0">Male</td>
                                                 <td ng-if="user_obj.gender==1">Female</td>
@@ -351,7 +355,7 @@
                                                             {{student.first_name}} {{student.last_name}}
                                                         </td>
                                                         <td>
-                                                            
+                                                            {{student.age}}
                                                         </td>
                                                         <td>
                                                             <div class="form-check">

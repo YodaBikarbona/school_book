@@ -34,7 +34,7 @@ from school_book.api.views.constants.constants import DEACTIVATED
 from school_book.api.views.helper.helper import date_format
 from school_book.api.views.helper.helper import birth_date_format
 from school_book.api.model.serializers.serializer import ImageSerializer
-
+from school_book.api.views.helper.helper import calculate_age
 
 def get_all_users_func(security_token, role_name):
     authorization = check_security_token(security_token)
@@ -49,10 +49,17 @@ def get_all_users_func(security_token, role_name):
         return error_handler(error_status=403, message=NO_PERMISSION)
 
     user_list = UserProvider.get_all_users(role=authorization['role'], user_id=user.id, role_name=role_name)
+    user_list = UsersSerializer(many=True).dump(user_list).data
+    for user_obj in user_list:
+        user_obj['last_login'] = date_format_to_string(user_obj['last_login'])
+        user_obj['first_login'] = date_format_to_string(user_obj['first_login'])
+        user_obj['created'] = date_format_to_string(user_obj['created'])
+        user_obj['birth_date'] = birth_date_format(user_obj['birth_date'])
+        user_obj['age'] = calculate_age(user_obj['birth_date'])
 
     return jsonify(
         {
-            "user_list": UsersSerializer(many=True).dump(user_list).data
+            "user_list": user_list
         }
     )
 
@@ -96,6 +103,7 @@ def get_user_by_user_id(security_token, user_id):
     user_obj['first_login'] = date_format_to_string(user_obj['first_login'])
     user_obj['created'] = date_format_to_string(user_obj['created'])
     user_obj['birth_date'] = birth_date_format(user_obj['birth_date'])
+    user_obj['age'] = calculate_age(user_obj['birth_date'])
 
     return jsonify(
         {
