@@ -48,7 +48,7 @@ angular.module('school_book')
         username = user.username
         return $q(function(resolve, reject){
           $http({
-            url: 'http://localhost:6543/login',
+            url:  `${API_ENDPOINT.url}/login`,
             method: 'POST',
             data: user
           }).then(function(resp){
@@ -111,7 +111,7 @@ angular.module('school_book')
   this.getRoles = function(callback){
     $http(
     {
-      url:'http://localhost:6543/roles',
+      url:`${API_ENDPOINT.url}/roles`,
       method: 'GET'
     }).then(function(resp){
       callback(resp.data.role_list)
@@ -121,7 +121,7 @@ angular.module('school_book')
 
   this.getUsers = function(role, callback){
     $http({
-      url: 'http://localhost:6543/users/'+role,
+      url: `${API_ENDPOINT.url}/users/${role}`,
       method: 'GET',
       data: role
     }).then(function(resp){
@@ -131,8 +131,9 @@ angular.module('school_book')
     })}
 
   this.getUser = function(user_id, callback){
+    console.log(`${API_ENDPOINT.url}/users/${user_id}`)
     $http({
-      url: 'http://localhost:6543/users/'+user_id,
+      url: `${API_ENDPOINT.url}/users/${user_id}`,
       method: 'GET',
       data: user_id
     }).then(function(resp){
@@ -143,7 +144,7 @@ angular.module('school_book')
 
   this.addUser = function(user, callback){
     $http({
-      url: 'http://localhost:6543/users/add',
+      url: `${API_ENDPOINT.url}/users/add`,
       method: 'POST',
       data: user
     }).then(function(resp){
@@ -154,7 +155,7 @@ angular.module('school_book')
 
     this.activateUser = function(user_id, callback){
     $http({
-      url: 'http://localhost:6543/users/activate',
+      url: `${API_ENDPOINT.url}/users/activate`,
       method: 'POST',
       data: {'user_id': user_id}
     }).then(function(resp){
@@ -165,7 +166,7 @@ angular.module('school_book')
 
     this.deactivateUser = function(user_id, callback){
     $http({
-      url: 'http://localhost:6543/users/deactivate',
+      url: `${API_ENDPOINT.url}/users/deactivate`,
       method: 'POST',
       data: {'user_id': user_id}
     }).then(function(resp){
@@ -176,7 +177,7 @@ angular.module('school_book')
 
     this.deleteUser = function(user_id, callback){
     $http({
-      url: 'http://localhost:6543/users/'+user_id,
+      url: `${API_ENDPOINT.url}/users/${user_id}`,
       method: 'DELETE',
       data: user_id
     }).then(function(resp){
@@ -187,7 +188,7 @@ angular.module('school_book')
 
     this.getSchoolYears = function(callback){
     $http({
-      url: 'http://localhost:6543/school_year',
+      url: `${API_ENDPOINT.url}/school_year`,
       method: 'GET'
     }).then(function(resp){
       callback(resp.data)
@@ -197,7 +198,7 @@ angular.module('school_book')
 
     this.addSchoolYears = function(school_year, callback){
     $http({
-      url: 'http://localhost:6543/school_year/add',
+      url: `${API_ENDPOINT.url}/school_year/add`,
       method: 'POST',
       data: school_year
     }).then(function(resp){
@@ -208,7 +209,7 @@ angular.module('school_book')
 
     this.getSchoolClasses = function(school_year_id, callback){
     $http({
-      url: 'http://localhost:6543/school_year/'+school_year_id,
+      url: `${API_ENDPOINT.url}/school_year/${school_year_id}`,
       method: 'GET',
       data: school_year_id
     }).then(function(resp){
@@ -219,7 +220,7 @@ angular.module('school_book')
 
     this.addSchoolSubject = function(school_subject, callback){
     $http({
-      url: 'http://localhost:6543/school_subjects/add',
+      url: `${API_ENDPOINT.url}/school_subjects/add`,
       method: 'POST',
       data: school_subject
     }).then(function(resp){
@@ -230,7 +231,7 @@ angular.module('school_book')
 
     this.getSchoolSubject = function(callback){
     $http({
-      url: 'http://localhost:6543/school_subjects',
+      url: `${API_ENDPOINT.url}/school_subjects`,
       method: 'GET'
     }).then(function(resp){
       callback(resp.data)
@@ -240,7 +241,7 @@ angular.module('school_book')
 
     this.uploadImage = function(user_id, image, callback){
     $http({
-      url: 'http://localhost:6543/upload/user/'+user_id,
+      url: `${API_ENDPOINT.url}/upload/user/${user_id}`,
       method: 'POST',
       data: image
     }).then(function(resp){
@@ -252,9 +253,21 @@ angular.module('school_book')
 
     this.addClass = function(new_class, callback){
     $http({
-      url: 'http://localhost:6543/school_class/add',
+      url: `${API_ENDPOINT.url}/school_class/add`,
       method: 'POST',
       data: new_class
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+    this.addStudentToClass = function(student_list, class_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/school_class/students/add`,
+      method: 'POST',
+      data: {student_list: student_list, 
+        class_id: class_id}
     }).then(function(resp){
       callback(resp.data)
     }, function(resp){

@@ -22,6 +22,7 @@ from school_book.api.views.school import get_classes_func
 from school_book.api.views.school import add_subjects_func
 from school_book.api.views.school import get_subjects_func
 from school_book.api.views.school import add_class_func
+from school_book.api.views.school import add_student_to_class_func
 from werkzeug.routing import Rule
 import logging
 import os
@@ -124,6 +125,12 @@ def add_class():
     return add_class_func(request.headers['Authorization'], request)
 
 
+@app.route('/school_class/students/add', methods=['POST'])
+def add_student_to_class():
+
+    return add_student_to_class_func(request.headers['Authorization'], request)
+
+
 """@app.route('/upload', methods=['POST'])
 def upload_file():
     print (request.data)
@@ -146,4 +153,4 @@ def upload():
 
 init_db()
 if __name__ == '__main__':
-    app.run(debug=True, port=6543)
+    app.run(host="192.168.0.17", debug=True, port=6543)

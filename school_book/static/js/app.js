@@ -100,7 +100,7 @@ angular.module('school_book', ['ui.router'])
 }])
 
 
-.controller('adminController', ['$scope','$http','$q','$rootScope','adminservice','authservice', function($scope,$http,$q,$rootScope,adminservice,auth){
+.controller('adminController', ['$scope','$http','$q','$rootScope','adminservice','authservice', 'API_ENDPOINT', function($scope,$http,$q,$rootScope,adminservice,auth, API_ENDPOINT){
 	$scope.show_tab = 0
 	$scope.user_list_lenght = 0
 	$scope.school_year_list_lenght = 0
@@ -109,6 +109,7 @@ angular.module('school_book', ['ui.router'])
     $scope.show_subtab = 0
     $scope.student_list = []
 	$scope.userID = auth.user_id()
+    let student_list_to_server = []
 	var temp_role = ''
 
 
@@ -136,7 +137,6 @@ angular.module('school_book', ['ui.router'])
 	}
 
 	$scope.find_by_role = function(role){
-        console.log(role)
 		temp_role = role
 		$scope.getUsers(role)
 	}
@@ -167,7 +167,6 @@ angular.module('school_book', ['ui.router'])
         $scope.users = [];
         adminservice.getUsers(role,function(users){
             $scope.users = users;
-            console.log(users)
             if($scope.users){
 			$scope.user_list_lenght = $scope.users.length
 		}
@@ -175,7 +174,6 @@ angular.module('school_book', ['ui.router'])
       }
 
     $scope.addSchoolSucject = function(new_subject){
-        console.log(new_subject)
     }
 
     $scope.getRoles = function(){
@@ -189,7 +187,6 @@ angular.module('school_book', ['ui.router'])
     	$scope.user_obj = {}
     	adminservice.getUser(user_id, function(user_obj){
     		$scope.user_obj = user_obj;
-    		console.log(user_obj)
     	})
     }
 
@@ -202,8 +199,11 @@ angular.module('school_book', ['ui.router'])
 
     $scope.addUser = function(user){
     	var date = new Date(user.birth_date)
+        console.log(date)
   		date = date.setDate(date.getDate() + 1)
+        console.log(date)
   		user.birth_date = new Date(date)
+        console.log(user.birth_date)
     	$scope.user_obj = {}
     	adminservice.addUser(user, function(user_obj){
     		$scope.user_obj = user_obj;
@@ -218,6 +218,8 @@ angular.module('school_book', ['ui.router'])
         $scope.image = {}
         $scope.myFile = ""
         $scope.new_class = {}
+        var image_id = document.getElementById("inputImage")
+        image_id.value = ''
     }
 
     $scope.activate_user = function(user_id){
@@ -248,7 +250,6 @@ angular.module('school_book', ['ui.router'])
     		if ($scope.school_years) {
     			$scope.school_year_list_lenght = $scope.school_years.length
     		}
-    		console.log($scope.school_years)
     	})
     }
 
@@ -261,7 +262,6 @@ angular.module('school_book', ['ui.router'])
     }
 
     $scope.find_by_school_year_id = function(school_year_id){
-    	console.log(school_year_id)
     	$scope.getSchoolClasses(school_year_id)
     }
     
@@ -272,13 +272,10 @@ angular.module('school_book', ['ui.router'])
             if ($scope.school_classes){
                 $scope.school_classes_lenght = $scope.school_classes.length
             }
-            console.log($scope.school_classes_lenght)
-            console.log($scope.school_classes)
     	})
     }
 
     $scope.addSchoolSubject = function(school_subject){
-        console.log(school_subject)
         $scope.school_subject_obj = {}
         adminservice.addSchoolSubject(school_subject, function(school_subject_obj){
             $scope.school_subject_obj = school_subject_obj.school_subject_obj;
@@ -297,7 +294,7 @@ angular.module('school_book', ['ui.router'])
 
 
     $scope.upload_image= function(user_id) {
-     $http.post('http://localhost:6543/upload/user/'+user_id, $scope.file, {
+     $http.post(`${API_ENDPOINT.url}/upload/user/${user_id}`, $scope.file, {
            headers: {'Content-Type': undefined },
            transformRequest: angular.identity
           }).then(function(resp){
@@ -314,7 +311,6 @@ angular.module('school_book', ['ui.router'])
             if ($scope.school_subject_list) {
                 $scope.school_subject_list_lenght = $scope.school_subject_list.length
             }
-            console.log($scope.school_subject_list)
         })
     }
 
@@ -327,9 +323,7 @@ angular.module('school_book', ['ui.router'])
     $scope.add_more_students = function(){
         $scope.getUsers("Student")
         $scope.find_by_role("student")
-        console.log($scope.users)
         $scope.student_list = $scope.users
-        console.log($scope.student_list)
     }
 
     $scope.addnewClass = function(school_year_id, new_class){
@@ -340,12 +334,31 @@ angular.module('school_book', ['ui.router'])
         $scope.getSchoolClasses(school_year_id)
     }
 
-    $scope.add_students = function(){
-        if ($new_student.confirm) {
-          $scope.students.push(this.student_id);
+    $scope.add_students = function(class_id){
+        adminservice.addStudentToClass(student_list_to_server, class_id, function(school_class_list){
+            $scope.school_class_details.students = school_class_list.school_class_list
+            /*for (var i = 0; i < $scope.users.length; i++ ) {
+                for (var j = 0; j < $scope.school_class_details.students.length; j++ ) {
+                    if ($scope.users[i].uniqueID == $scope.school_class_details.students[j].uniqueID) {
+                        $scope.users[i].isDisabled = true
+                        console.log($scope.users[i])
+                    }
+                    console.log('-----------------')
+                }
+            }*/
+        })
+        $scope.user_list_lenght = 0
+    }   
+
+    $scope.append_student = function($event, student_id){
+        if ($event.target.checked){
+            student_list_to_server.push(student_id)
         }
-        console.log(students)
+        else{
+            student_list_to_server.splice(student_list_to_server.findIndex(element => element == student_id), 1)
+        }
     }
+
 
 
     $scope.add = function() {

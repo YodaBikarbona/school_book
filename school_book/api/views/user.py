@@ -300,7 +300,7 @@ def upload_image(request, user_id):
         img.save(saved_path)
         new_image = Image()
         new_image.type = img_name.split('.')[1]
-        new_image.name = img_name
+        new_image.name = img_name.split('.')[0]
         new_image.file_name = img_name
         db.session.add(new_image)
         db.session.commit()
