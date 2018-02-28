@@ -96,7 +96,7 @@
                                 <div class="col-md-3 col-lg-3">
                                     <!--img src="http://cdn.osxdaily.com/wp-content/uploads/2014/07/users-and-groups-icon-mac.png" alt="Responsive image" class="img-thumbnail"-->
                                     <!--img src="http://localhost:8080/school_book/static/uploads/07JUNESIX-slide-875K-master1050.jpg" alt="Responsive image" class="img-thumbnail"-->
-                                    <img src="http://localhost:8080/school_book/api/uploads/{{user_obj.image.file_name}}" alt="Responsive image" class="img-thumbnail">
+                                    <img src="http://178.236.87.173:8080/school_book/api/uploads/{{user_obj.image.file_name}}" alt="Responsive image" class="img-thumbnail">
                                 </div>
                                 <div class=" col-md-9 col-lg-9"> 
                                     <table class="table table-user-information table-striped">
@@ -112,6 +112,10 @@
                                             <tr>
                                                 <td>Date of Birth:</td>
                                                 <td>{{user_obj.birth_date}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Age</td>
+                                                <td>{{user_obj.age}}</td>
                                             </tr>
                                             <tr>
                                                 <td>Gender:</td>
@@ -332,7 +336,6 @@
                                         </div>
                                     </form>
                                     <div ng-show="user_list_lenght>0">
-                                        <form ng-submit="add_students()">
                                             <table class="table table-sm table-striped">
                                                 <thead>
                                                     <th>
@@ -351,25 +354,21 @@
                                                             {{student.first_name}} {{student.last_name}}
                                                         </td>
                                                         <td>
-                                                            
+                                                            {{student.age}}
                                                         </td>
                                                         <td>
                                                             <div class="form-check">
-                                                                <input type="checkbox" class="form-check-input" ng-model='new_student.confirm'>
+                                                                <input type="checkbox" class="form-check-input" ng-click='append_student($event, student.id)' ng-disabled="student.isDisabled">
                                                             </div>
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" name="" value="{{student.id}}" ng-model='new_student.student_id' hidden>
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                             <div style="padding: 1px">
-                                                <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">
+                                                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0"
+                                                ng-click="add_students(school_class_details.id)" data-toggle='modal' data-target='#addModalSuccess'>
                                                 Add</button>
                                             </div>
-                                            <pre>list={{list}}</pre>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -688,7 +687,7 @@
                 <form  enctype="multipart/form-data" ng-submit="uploadFile(user_obj.id, myFile)">
                     <div class="form-group" style="padding: 1px">
                         <label for="usr">Add your photo:</label>
-                        <input type='file' class="form-control" name='image' file-model='myFile'>
+                        <input id='inputImage' type='file' class="form-control" name='image' file-model='myFile'>
                     </div>
                     <div class="form-group" style="padding: 1px">
                         <button type="submit" value="submit" class="btn btn-secondary btn-sm">Submit<br />
@@ -738,6 +737,30 @@
                         <button type="submit" value="submit" class="btn btn-secondary btn-sm">Submit<br />
                     </div>
                 </form>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Modal add class -->
+<!-- The Modal animate -->
+<div class="modal fade" id="addModalSuccess">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-0">
+             <div class="modal-body alert alert-success">
+                <div class="svg-box">
+                <svg class="circular green-stroke">
+                    <circle class="path" cx="75" cy="75" r="50" fill="none" stroke-width="5" stroke-miterlimit="10"/>
+                </svg>
+                <svg class="checkmark green-stroke">
+                    <g transform="matrix(0.79961,8.65821e-32,8.39584e-32,0.79961,-489.57,-205.679)">
+                        <path class="checkmark__check" fill="none" d="M616.306,283.025L634.087,300.805L673.361,261.53"/>
+                    </g>
+                </svg>
+            </div>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">

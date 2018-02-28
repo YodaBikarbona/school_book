@@ -21,6 +21,7 @@ from school_book.api.model.serializers.serializer import SchoolClassProfessorSer
 from school_book.api.model.model.school import SchoolClassProfessor
 from school_book.api.model.serializers.serializer import UsersSerializer
 from school_book.api.model.model.school import SchoolClass
+from school_book.api.model.model.school import SchoolClassStudent
 
 
 def add_school_year_func(security_token, request):
@@ -235,3 +236,46 @@ def add_class_func(security_token, request):
     except Exception as ex:
         print(ex)
         return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def add_student_to_class_func(security_token, request):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        if request.json['student_list'] and request.json['class_id']:
+            students_ids = SchoolProvider.get_student_ids_by_class_id(request.json['class_id'])
+            for student_id in request.json['student_list']:
+                if student_id not in students_ids:
+                    new_student_class = SchoolClassStudent()
+                    new_student_class.student_id = student_id
+                    new_student_class.classes_id = request.json['class_id']
+                    db.session.add(new_student_class)
+                    db.session.commit()
+                else:
+                    return error_handler(error_status=400, message=error_messages.STUDENT_CLASS_ERROR)
+            school_class_list = SchoolProvider.get_all_students_by_class_id(request.json['class_id'])
+
+            return jsonify(
+                {
+                    'status': 'OK',
+                    'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                    'code': 200,
+                    'msg': messages.SCHOOL_CLASS_STUDENT_SUCCESSFULLY_ADDED,
+                    'school_class_list': UsersSerializer(many=True).dump(school_class_list).data
+                }
+            )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+

@@ -45,3 +45,13 @@ class SchoolProvider:
     def get_professor_by_class_id(cls, class_id):
         return User.query.join(SchoolClassProfessor, User.id == SchoolClassProfessor.professor_id)\
             .filter(SchoolClassProfessor.classes_id == class_id).first()
+
+
+    @classmethod
+    def get_student_ids_by_class_id(cls, class_id):
+        students = []
+        temp_list = User.query.join(SchoolClassStudent, User.id == SchoolClassStudent.student_id) \
+            .filter(SchoolClassStudent.classes_id == class_id).all()
+        for student in temp_list:
+            students.append(student.id)
+        return students
