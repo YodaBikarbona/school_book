@@ -153,4 +153,6 @@ def upload():
 
 init_db()
 if __name__ == '__main__':
-    app.run(host="192.168.0.17", debug=True, port=6543)
+    #app.run(host="192.168.0.17", debug=True, port=6543)
+    app.run(debug=True, port=6543)
+
