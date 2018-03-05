@@ -69,6 +69,12 @@ def date_format(date):
 
 def birth_date_format(date):
     date = '{0} '.format(date).split('T')[0]
+    """temp_date = '{0} '.format(date).split('T')[0]
+    day = '{0} '.format(temp_date).split('-')[0]
+    month = '{0} '.format(temp_date).split('-')[1]
+    year = '{0} '.format(temp_date).split('-')[2]
+    date = '{0}-{1}-{2}'.format(day, month, year)
+    return date, temp_date"""
     return date
 
 

@@ -153,6 +153,27 @@ angular.module('school_book')
       console.log(resp.data)
     })}
 
+  this.editUser = function(user, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/users/edit`,
+      method: 'POST',
+      data: user
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+  this.changePassword = function(new_object){
+    $http({
+      url: `${API_ENDPOINT.url}/users/change_password`,
+      method: 'POST',
+      data: new_object
+    }).then(function(resp){
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
     this.activateUser = function(user_id, callback){
     $http({
       url: `${API_ENDPOINT.url}/users/activate`,

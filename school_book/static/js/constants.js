@@ -48,7 +48,8 @@ angular.module('school_book')
 })
 
 .constant('API_ENDPOINT',{
-  url : 'http://178.236.87.173:6543'
+  //url : 'http://178.236.87.173:6543'
+  url : 'http://localhost:6543'
 })
 //url : 'http://178.236.87.173:6543/tff_api/v1.0'
 //url : 'http://localhost:6543/tff_api/v1.0'

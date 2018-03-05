@@ -112,7 +112,6 @@ angular.module('school_book', ['ui.router'])
     let student_list_to_server = []
 	var temp_role = ''
 
-
 	$scope.show_profile = function(){
 		$scope.show_tab = 0
 		$scope.disable_button = true
@@ -187,6 +186,7 @@ angular.module('school_book', ['ui.router'])
     	$scope.user_obj = {}
     	adminservice.getUser(user_id, function(user_obj){
     		$scope.user_obj = user_obj;
+            $scope.user_obj.edit_birth_date = new Date($scope.user_obj.birth_date)
     	})
     }
 
@@ -199,15 +199,23 @@ angular.module('school_book', ['ui.router'])
 
     $scope.addUser = function(user){
     	var date = new Date(user.birth_date)
-        console.log(date)
   		date = date.setDate(date.getDate() + 1)
-        console.log(date)
   		user.birth_date = new Date(date)
-        console.log(user.birth_date)
     	$scope.user_obj = {}
     	adminservice.addUser(user, function(user_obj){
     		$scope.user_obj = user_obj;
     	})
+    }
+
+    $scope.editUser = function(user){
+        var date = new Date(user.edit_birth_date)
+        date = date.setDate(date.getDate())
+        user.birth_date = new Date(date)
+        console.log(user.birth_date)
+        adminservice.editUser(user, function(user_obj){
+            $scope.user_obj = user_obj.user_obj;
+            $scope.user_obj.edit_birth_date = new Date(user_obj.user_obj.birth_date)
+        })
     }
 
     $scope.restart_form = function(){
@@ -218,6 +226,8 @@ angular.module('school_book', ['ui.router'])
         $scope.image = {}
         $scope.myFile = ""
         $scope.new_class = {}
+        $scope.new_obj = {}
+        $scope.new_object = {}
         var image_id = document.getElementById("inputImage")
         image_id.value = ''
     }
@@ -332,6 +342,13 @@ angular.module('school_book', ['ui.router'])
             $scope.school_class_obj = school_class_obj.school_class_obj
         })
         $scope.getSchoolClasses(school_year_id)
+    }
+
+    $scope.change_password = function(user_id, new_object){
+        new_object.id = user_id
+        adminservice.changePassword(new_object, function(){
+        })
+        $scope.restart_form()
     }
 
     $scope.add_students = function(class_id){

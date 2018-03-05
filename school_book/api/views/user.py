@@ -174,7 +174,7 @@ def addUser(security_token, request):
             new_user.birth_date = date
             new_user.image_id = DEFAULT_IMAGE_ID
             new_user.salt = new_salt()
-            new_user.password = new_psw(new_user.salt, request.json['last_name'])
+            new_user.password = new_psw(new_user.salt, request.json['password'])
             db.session.add(new_user)
             db.session.commit()
             return jsonify(
@@ -185,6 +185,122 @@ def addUser(security_token, request):
                     'msg': messages.SUCCESSFULLY_ADDED
                 }
             )
+
+    return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def edit_user_func(security_token, request):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=NO_PERMISSION)
+
+    if request.json:
+        if request.json['role']['role_name']:
+            existing_user = UserProvider.get_user_by_id(request.json['id'])
+            if not existing_user:
+                return error_handler(error_status=404, message=error_messages.USER_DOES_NOT_EXIST)
+            if request.json['role']['role_name'] == ADMIN or request.json['role']['role_name'] == PROFESSOR:
+                check_existing_user = UserProvider.get_user_by_username(request.json['email'])
+                if check_existing_user:
+                    return error_handler(error_status=400, message=error_messages.USER_ALREADY_EXISTS)
+                existing_user.email = request.json['email']
+            else:
+                existing_user.parent_one = request.json['parent_one']
+                existing_user.parent_two = request.json['parent_two']
+            existing_user.first_name = request.json['first_name']
+            existing_user.last_name = request.json['last_name']
+            existing_user.gender = MALE if int(request.json['gender']) == MALE else FEMALE
+            try:
+                if request.json['activated']:
+                    existing_user.activated = ACTIVATED
+            except Exception as ex:
+                print(ex)
+                existing_user.activated = DEACTIVATED
+            try:
+                city = request.json['city']
+                existing_user.city = city
+            except Exception as ex:
+                print(ex)
+                existing_user.city = ''
+            try:
+                phone = request.json['phone']
+                existing_user.phone = phone
+            except Exception as ex:
+                print(ex)
+                existing_user.phone = ''
+            try:
+                address = request.json['address']
+                existing_user.address = address
+            except Exception as ex:
+                print(ex)
+                existing_user.address = ''
+            date = date_format(request.json['birth_date'])
+            existing_user.birth_date = date
+            existing_user.image_id = DEFAULT_IMAGE_ID
+            db.session.commit()
+
+            user_obj = UsersSerializer(many=False).dump(existing_user).data
+            user_obj['last_login'] = date_format_to_string(user_obj['last_login'])
+            user_obj['first_login'] = date_format_to_string(user_obj['first_login'])
+            user_obj['created'] = date_format_to_string(user_obj['created'])
+            user_obj['birth_date'] = birth_date_format(user_obj['birth_date'])
+            user_obj['age'] = calculate_age(user_obj['birth_date'])
+
+            return jsonify(
+                {
+                    'status': 'OK',
+                    'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                    'code': 200,
+                    'msg': messages.SUCCESSFULLY_ADDED,
+                    'user_obj': user_obj
+                }
+            )
+
+    return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def change_password_func(security_token, request):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=NO_PERMISSION)
+
+    if request.json:
+        existing_user = UserProvider.get_user_by_id(request.json['id'])
+        if not existing_user:
+            return error_handler(error_status=404, message=error_messages.USER_DOES_NOT_EXIST)
+        if request.json['password'] != request.json['confirm_password']:
+            return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+        existing_user.salt = User.set_salt(existing_user)
+        existing_user.password = request.json['password']
+        existing_user.password = User.set_psw(existing_user)
+        db.session.commit()
+
+        return jsonify(
+            {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
+                'msg': messages.PASSWORD_SUCCESSFULLY_CHANGED
+                }
+            )
+
+    return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
 
 
 def activate_user_func(security_token, user_id):
