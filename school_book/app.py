@@ -23,6 +23,8 @@ from school_book.api.views.school import add_subjects_func
 from school_book.api.views.school import get_subjects_func
 from school_book.api.views.school import add_class_func
 from school_book.api.views.school import add_student_to_class_func
+from school_book.api.views.user import edit_user_func
+from school_book.api.views.user import change_password_func
 from werkzeug.routing import Rule
 import logging
 import os
@@ -69,6 +71,12 @@ def upload(user_id):
 def add_new_user():
 
     return addUser(request.headers['Authorization'], request)
+
+
+@app.route('/users/edit', methods=['POST'])
+def edit_user():
+
+    return edit_user_func(request.headers['Authorization'], request)
 
 
 @app.route('/users/activate', methods=['POST'])
@@ -129,6 +137,12 @@ def add_class():
 def add_student_to_class():
 
     return add_student_to_class_func(request.headers['Authorization'], request)
+
+@app.route('/users/change_password', methods=['POST'])
+def change_password():
+
+    return change_password_func(request.headers['Authorization'], request)
+
 
 
 """@app.route('/upload', methods=['POST'])

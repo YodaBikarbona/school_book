@@ -5,6 +5,7 @@ def successfully_logged(first_name, last_name):
 
 
 SUCCESSFULLY_ADDED = "User is successfully added!"
+SUCCESSFULLY_EDIT = "User is successfully edited!"
 SUCCESSFULLY_DELETED = "User is successfully deleted!"
 SUCCESSFULLY_ACTIVATED = "User is successfully activated!"
 SUCCESSFULLY_DEACTIVATED = "User is successfully deactivated!"
@@ -13,3 +14,4 @@ SCHOOL_SUBJECT_SUCCESSFULLY_ADDED = "School subject is successfully added!"
 IMAGE_SUCCESSFULLY_ADDED = "Image is successfully added!"
 SCHOOL_CLASS_SUCCESSFULLY_ADDED = "School class is successfully added!"
 SCHOOL_CLASS_STUDENT_SUCCESSFULLY_ADDED = "Student is successfully added to class!"
+PASSWORD_SUCCESSFULLY_CHANGED = "Password is successfully changed!"
