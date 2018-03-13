@@ -295,6 +295,62 @@ angular.module('school_book')
       console.log(resp.data)
     })}
 
+    this.addSubjectToClass = function(subject_list, class_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/school_class/school_subjects/add`,
+      method: 'POST',
+      data: {subject_list: subject_list, 
+        class_id: class_id}
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+  this.dropSubjectFromClass = function(subject_id, class_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/school_class/school_subjects/drop`,
+      method: 'POST',
+      data: {subject_id: subject_id, 
+        class_id: class_id}
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+  this.getSubjectFromClass = function(class_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/school_class/school_subjects/class/${class_id}`,
+      method: 'GET'
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+  this.dropStudentFromClass = function(student_id, class_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/school_class/students/drop`,
+      method: 'POST',
+      data: {student_id: student_id, 
+        class_id: class_id}
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+  this.getStudentsFromClass = function(class_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/school_class/students/class/${class_id}`,
+      method: 'GET'
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
 }])
 
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){

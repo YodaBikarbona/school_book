@@ -3,6 +3,7 @@ from school_book.api.model.model.school import SchoolClass
 from school_book.api.model.model.school import SchoolClassStudent
 from school_book.api.model.model.school import SchoolSubject
 from school_book.api.model.model.school import SchoolClassProfessor
+from school_book.api.model.model.school import SchoolClassSubject
 from school_book.api.model.model.user import User
 
 
@@ -40,6 +41,12 @@ class SchoolProvider:
             .filter(SchoolClassStudent.classes_id == class_id).all()
         return students
 
+    @classmethod
+    def get_all_subjects_by_class_id(cls, class_id):
+        subjects = SchoolSubject.query.join(SchoolClassSubject, SchoolSubject.id == SchoolClassSubject.school_subject_id) \
+            .filter(SchoolClassSubject.classes_id == class_id).all()
+        return subjects
+
 
     @classmethod
     def get_professor_by_class_id(cls, class_id):
@@ -55,3 +62,32 @@ class SchoolProvider:
         for student in temp_list:
             students.append(student.id)
         return students
+
+    @classmethod
+    def get_subject_ids_by_class_id(cls, class_id):
+        subjects = []
+        temp_list = SchoolSubject.query.join(SchoolClassSubject,
+                                             SchoolSubject.id == SchoolClassSubject.school_subject_id) \
+            .filter(SchoolClassSubject.classes_id == class_id).all()
+        for subject in temp_list:
+            subjects.append(subject.id)
+        return subjects
+
+    @classmethod
+    def get_class_subject_by_id(cls, subject_id, class_id):
+        class_subject = SchoolClassSubject.query.filter(SchoolClassSubject.school_subject_id == subject_id,
+                                                        SchoolClassSubject.classes_id == class_id).first()
+        return class_subject
+
+    @classmethod
+    def get_class_subjects_by_class_id(cls, class_id):
+        class_subjects = SchoolSubject.query.join(SchoolClassSubject,
+                                                  SchoolSubject.id == SchoolClassSubject.school_subject_id) \
+            .filter(SchoolClassSubject.classes_id == class_id).all()
+        return class_subjects
+
+    @classmethod
+    def get_class_student_by_id(cls, student_id, class_id):
+        class_student = SchoolClassStudent.query.filter(SchoolClassStudent.student_id == student_id,
+                                                        SchoolClassStudent.classes_id == class_id).first()
+        return class_student

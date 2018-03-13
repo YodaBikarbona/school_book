@@ -78,3 +78,17 @@ class SchoolSubject(db.Model):
 
     def __repr__(self):
         return '{0}'.format(self.name)
+
+
+class SchoolClassSubject(db.Model):
+    __tablename__ = 'classes_school_subject'
+
+    id = Column(Integer, primary_key=True)
+    school_subject_id = Column(Integer, ForeignKey('school_subjects.id', ondelete='CASCADE'))
+    classes_id = Column(Integer, ForeignKey('classes.id', ondelete='CASCADE'))
+
+    classes = relationship('SchoolClass')
+    subjects = relationship('SchoolSubject')
+
+    def __repr__(self):
+        return '{0} {1}'.format(self.subjects.name)

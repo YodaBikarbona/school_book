@@ -110,6 +110,7 @@ angular.module('school_book', ['ui.router'])
     $scope.student_list = []
 	$scope.userID = auth.user_id()
     let student_list_to_server = []
+    let subject_list_to_server = []
 	var temp_role = ''
 
 	$scope.show_profile = function(){
@@ -136,6 +137,8 @@ angular.module('school_book', ['ui.router'])
 	}
 
 	$scope.find_by_role = function(role){
+        $scope.school_subject_list_lenght = 0
+        $scope.school_class_subject_view = 0
 		temp_role = role
 		$scope.getUsers(role)
 	}
@@ -228,6 +231,9 @@ angular.module('school_book', ['ui.router'])
         $scope.new_class = {}
         $scope.new_obj = {}
         $scope.new_object = {}
+        $scope.user_list_lenght = 0
+        $scope.school_subject_list_lenght = 0
+        $scope.school_class_subject_view = 0
         var image_id = document.getElementById("inputImage")
         image_id.value = ''
     }
@@ -315,6 +321,8 @@ angular.module('school_book', ['ui.router'])
         })}
 
     $scope.getSchoolSubject = function(){
+        $scope.school_class_subject_view = 0
+        $scope.user_list_lenght = 0
         $scope.school_subject_list = []
         adminservice.getSchoolSubject(function(school_subject_list){
             $scope.school_subject_list = school_subject_list.school_subject_list;
@@ -376,6 +384,52 @@ angular.module('school_book', ['ui.router'])
         }
     }
 
+    $scope.append_school_subject = function($event, school_subject_id){
+        if ($event.target.checked){
+            subject_list_to_server.push(school_subject_id)
+        }
+        else{
+            subject_list_to_server.splice(subject_list_to_server.findIndex(element => element == school_subject_id), 1)
+        }
+    }
+
+    $scope.add_subject = function(class_id){
+        adminservice.addSubjectToClass(subject_list_to_server, class_id, function(school_class_list){
+            $scope.school_class_subjects = school_class_list.school_class_list
+        })
+        $scope.user_list_lenght = 0
+        $scope.school_class_subject_view = 0
+    }
+
+    $scope.getSchoolSubjectView = function(class_id){
+        $scope.user_list_lenght = 0
+        $scope.school_subject_list_lenght = 0
+        adminservice.getSubjectFromClass(class_id, function(school_class_list){
+            $scope.school_class_subjects = school_class_list.school_class_list
+            if ($scope.school_class_subjects.length>0) {
+                $scope.school_class_subject_view = 1
+            }
+        })
+    }
+
+    $scope.drop_subject = function(subject_id, class_id){
+        adminservice.dropSubjectFromClass(subject_id, class_id, function(school_class_list){
+            $scope.school_class_subjects = school_class_list.school_class_list
+        })
+    }
+
+
+    $scope.drop_student = function(student_id, class_id){
+        adminservice.dropStudentFromClass(student_id, class_id, function(school_class_list){
+            $scope.get_class_students(class_id)
+        })
+    }
+
+    $scope.get_class_students = function(class_id){
+        adminservice.getStudentsFromClass(class_id, function(school_class_list){
+            $scope.school_class_details.students = school_class_list.school_class_list
+        })
+    }
 
 
     $scope.add = function() {
