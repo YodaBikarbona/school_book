@@ -36,6 +36,7 @@ from school_book.api.views.helper.helper import birth_date_format
 from school_book.api.model.serializers.serializer import ImageSerializer
 from school_book.api.views.helper.helper import calculate_age
 
+
 def get_all_users_func(security_token, role_name):
     authorization = check_security_token(security_token)
 
@@ -209,9 +210,10 @@ def edit_user_func(security_token, request):
             if not existing_user:
                 return error_handler(error_status=404, message=error_messages.USER_DOES_NOT_EXIST)
             if request.json['role']['role_name'] == ADMIN or request.json['role']['role_name'] == PROFESSOR:
-                check_existing_user = UserProvider.get_user_by_username(request.json['email'])
-                if check_existing_user:
-                    return error_handler(error_status=400, message=error_messages.USER_ALREADY_EXISTS)
+                if existing_user.email != request.json['email']:
+                    check_existing_user = UserProvider.get_user_by_username(request.json['email'])
+                    if check_existing_user:
+                        return error_handler(error_status=400, message=error_messages.USER_ALREADY_EXISTS)
                 existing_user.email = request.json['email']
             else:
                 existing_user.parent_one = request.json['parent_one']

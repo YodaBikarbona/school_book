@@ -53,12 +53,12 @@ angular.module('school_book')
             data: user
           }).then(function(resp){
             if(resp.data.user){
-              if(resp.data.user.role.role_name == 'admin'){
+              //if(resp.data.user.role.role_name == 'admin'){
                 if(resp.data.user.email == username && resp.data.token){
                   storeUserCredidentals(resp.data);
                   resolve(resp.data);
                 }
-              }
+              //}
             }
             else{
               reject(resp.data)

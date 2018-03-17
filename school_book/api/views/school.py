@@ -77,7 +77,7 @@ def get_all_school_years_func(security_token):
     if not user:
         return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
 
-    if user.role.role_name != ADMIN:
+    if user.role.role_name not in [ADMIN, PROFESSOR]:
         return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
 
     school_year_list = SchoolProvider.get_all_school_years()
@@ -103,12 +103,16 @@ def get_classes_func(security_token, school_year_id):
     if not user:
         return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
 
-    if user.role.role_name != ADMIN:
+    if user.role.role_name not in [ADMIN, PROFESSOR]:
         return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
 
     try:
         if school_year_id:
-            school_class_list = SchoolProvider.get_all_classes_by_school_year_id(school_year_id)
+            if user.role.role_name == ADMIN:
+                school_class_list = SchoolProvider.get_all_classes_by_school_year_id(school_year_id=school_year_id)
+            else:
+                school_class_list = SchoolProvider.get_all_classes_by_school_year_id(school_year_id=school_year_id,
+                                                                                     role_id=user.role_id)
             school_class_list = SchoolClassSerializer(many=True).dump(school_class_list).data
             if school_class_list:
                 for school_class in school_class_list:

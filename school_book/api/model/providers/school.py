@@ -21,8 +21,13 @@ class SchoolProvider:
 
 
     @classmethod
-    def get_all_classes_by_school_year_id(cls, school_year_id):
-        return SchoolClass.query.filter(SchoolClass.school_year_id == school_year_id).all()
+    def get_all_classes_by_school_year_id(cls, school_year_id, role_id=None):
+        school_class = SchoolClass.query.filter(SchoolClass.school_year_id == school_year_id)
+        if role_id:
+            school_class = school_class.join(SchoolClassProfessor, SchoolClass.id == SchoolClassProfessor.classes_id)\
+                .filter(SchoolClassProfessor.classes_id == role_id)
+
+        return school_class.all()
 
 
     @classmethod
