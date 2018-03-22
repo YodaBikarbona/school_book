@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a175eb6c-e57d-4a08-90c7-2162df3ebd76" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/api/views/school.py" afterPath="$PROJECT_DIR$/school_book/api/views/school.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/app.py" afterPath="$PROJECT_DIR$/school_book/app.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/static/js/app.js" afterPath="$PROJECT_DIR$/school_book/static/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/static/js/services.js" afterPath="$PROJECT_DIR$/school_book/static/js/services.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/templates/professor.html" afterPath="$PROJECT_DIR$/school_book/templates/professor.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/templates/admin.html" afterPath="$PROJECT_DIR$/school_book/templates/admin.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/templates/index.html" afterPath="$PROJECT_DIR$/school_book/templates/index.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,7 +22,7 @@
       <file leaf-file-name="login.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/school_book/api/views/login.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
+            <state relative-caret-position="0">
               <caret line="19" column="53" lean-forward="false" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
               <folding />
             </state>
@@ -55,21 +54,11 @@
       <file leaf-file-name="app.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/school_book/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="186" column="69" lean-forward="true" selection-start-line="186" selection-start-column="69" selection-end-line="186" selection-end-column="69" />
+            <state relative-caret-position="293">
+              <caret line="210" column="5" lean-forward="false" selection-start-line="210" selection-start-column="5" selection-end-line="210" selection-end-column="5" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="school.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/school_book/api/model/model/school.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1095">
-              <caret line="86" column="21" lean-forward="false" selection-start-line="86" selection-start-column="4" selection-end-line="86" selection-end-column="21" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -435,13 +424,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/school_book/api/views/messages/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/school_book/api/model/providers/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -624,11 +606,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/school_book/api/uploads/IMG_20170906_094120.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/school_book/api/uploads/thumb-1920-528418.jpg">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -692,7 +669,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/school_book/api/views/login.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
+        <state relative-caret-position="0">
           <caret line="19" column="53" lean-forward="false" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
           <folding />
         </state>
@@ -761,10 +738,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/school_book/api/uploads/15197762652002060714421.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/school_book/api/uploads/IMG_20170906_094120.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/school_book/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="186" column="69" lean-forward="true" selection-start-line="186" selection-start-column="69" selection-end-line="186" selection-end-column="69" />
+        <state relative-caret-position="293">
+          <caret line="210" column="5" lean-forward="false" selection-start-line="210" selection-start-column="5" selection-end-line="210" selection-end-column="5" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>

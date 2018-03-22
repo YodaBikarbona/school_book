@@ -1,0 +1,6 @@
+@media(max-width: 400px){
+	#profile_buttons button{
+		width: 100%;
+		margin-top: 2px;
+	}
+}

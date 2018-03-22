@@ -433,13 +433,6 @@ angular.module('school_book', ['ui.router'])
         })
     }
 
-    $scope.get_class = function(class_id){
-        console.log('Work')
-        adminservice.getClass(class_id, function(school_class_list){
-            $scope.class_list = school_class_list
-            console.log($scope.class_list)
-        })
-    }
 
     $scope.add = function() {
     var f = document.getElementById('file').files[0],
@@ -486,10 +479,8 @@ angular.module('school_book', ['ui.router'])
     $scope.show_profile = function(){
         $scope.show_tab = 0
         $scope.disable_button = true
-        //var user_id = localStorage.getItem('user_id')
-        //var user_id = auth.user_id()
-        $scope.getUser($scope.userID = auth.user_id())
-        //console.log(user_id)
+        var user_id = localStorage.getItem('user_id')
+        $scope.getUser($scope.userID = user_id)
         $scope.show_tab = 1
         $scope.user_list_lenght = 0
         $scope.school_classes_lenght = 0
@@ -801,6 +792,13 @@ angular.module('school_book', ['ui.router'])
         })
     }
 
+    $scope.get_class = function(class_id){
+        console.log('Work')
+        adminservice.getClass(class_id, function(school_class_list){
+            $scope.class_list = school_class_list
+            console.log($scope.class_list)
+        })
+    }
 
     $scope.add = function() {
     var f = document.getElementById('file').files[0],

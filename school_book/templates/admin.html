@@ -170,22 +170,24 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <button class="btn btn-sm btn-secondary not-focusable rounded-0" 
-                                    data-toggle='modal' data-target='#editModal'>Edit</button>
-                                    <button class="btn btn-sm btn-secondary not-focusable rounded-0" 
-                                    ng-disabled="disable_button" ng-if="user_obj.activated" 
-                                    ng-click="deactivate_user(user_obj.id)">
-                                    Deactivate</button>
-                                    <button class="btn btn-sm btn-secondary not-focusable rounded-0" 
-                                    ng-disabled="disable_button" ng-if="!user_obj.activated" 
-                                    ng-click="activate_user(user_obj.id)">
-                                    Activate</button>
-                                    <button class="btn btn-sm btn-secondary not-focusable rounded-0" 
-                                    ng-disabled="disable_button" 
-                                    data-toggle="modal" data-target="#deleteUserModel">
-                                    Delete</button>
-                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#changeProfileImageModal">Change picture</button>
-                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#changePasswordModal">Change password</button>
+                                    <div id='profile_buttons'>
+                                        <button class="btn btn-sm btn-secondary not-focusable rounded-0" 
+                                        data-toggle='modal' data-target='#editModal'>Edit</button>
+                                        <button class="btn btn-sm btn-secondary not-focusable rounded-0" 
+                                        ng-disabled="disable_button" ng-if="user_obj.activated" 
+                                        ng-click="deactivate_user(user_obj.id)">
+                                        Deactivate</button>
+                                        <button class="btn btn-sm btn-secondary not-focusable rounded-0" 
+                                        ng-disabled="disable_button" ng-if="!user_obj.activated" 
+                                        ng-click="activate_user(user_obj.id)">
+                                        Activate</button>
+                                        <button class="btn btn-sm btn-secondary not-focusable rounded-0" 
+                                        ng-disabled="disable_button" 
+                                        data-toggle="modal" data-target="#deleteUserModel">
+                                        Delete</button>
+                                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#changeProfileImageModal">Change picture</button>
+                                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#changePasswordModal">Change password</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
