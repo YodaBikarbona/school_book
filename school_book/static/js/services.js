@@ -351,6 +351,16 @@ angular.module('school_book')
       console.log(resp.data)
     })}
 
+  this.getClass = function(class_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/school_class/class/${class_id}`,
+      method: 'GET'
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
 }])
 
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){

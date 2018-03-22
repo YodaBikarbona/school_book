@@ -459,3 +459,35 @@ def get_students_from_class_func(security_token, class_id):
     except Exception as ex:
         print(ex)
         return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def get_class_func(security_token, class_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != PROFESSOR:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        students = SchoolProvider.get_all_students_by_class_id(class_id=class_id)
+        subjects = SchoolProvider.get_all_subjects_by_class_id(class_id=class_id)
+
+        return jsonify(
+            {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
+                'school_class_student_list': UsersSerializer(many=True).dump(students).data,
+                'school_class_subject_list': SchoolSubjectSerializer(many=True).dump(subjects).data
+            }
+        )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)

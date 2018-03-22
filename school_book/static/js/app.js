@@ -433,6 +433,13 @@ angular.module('school_book', ['ui.router'])
         })
     }
 
+    $scope.get_class = function(class_id){
+        console.log('Work')
+        adminservice.getClass(class_id, function(school_class_list){
+            $scope.class_list = school_class_list
+            console.log($scope.class_list)
+        })
+    }
 
     $scope.add = function() {
     var f = document.getElementById('file').files[0],
