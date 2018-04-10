@@ -1,4 +1,4 @@
-angular.module('school_book', ['ui.router'])
+angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
 
 .directive('fileModel', ['$parse', function ($parse) {
      return {
@@ -475,6 +475,20 @@ angular.module('school_book', ['ui.router'])
     let student_list_to_server = []
     let subject_list_to_server = []
     var temp_role = ''
+    $scope.filteredTodos = []
+    $scope.currentPage = 1
+    $scope.maxSize = 5;
+    $scope.class_list = []
+    //$scope.totalItems = 0
+    $scope.bigTotalItems = 175;
+    $scope.bigCurrentPage = 1;
+    $scope.totalItems = 0
+
+
+    /*$scope.curPage = 1,
+    $scope.itemsPerPage = 3,
+    $scope.maxSize = 5;*/
+
 
     $scope.show_profile = function(){
         $scope.show_tab = 0
@@ -484,6 +498,54 @@ angular.module('school_book', ['ui.router'])
         $scope.show_tab = 1
         $scope.user_list_lenght = 0
         $scope.school_classes_lenght = 0
+    }
+
+    $scope.show_class = function(){
+        $scope.show_class_details = 1
+
+        /*$scope.$watch('curPage + numPerPage', function() {
+        var begin = (($scope.curPage - 1) * $scope.itemsPerPage)
+        var end = begin + $scope.itemsPerPage;
+    
+        $scope.filteredItems = $scope.class_list.school_class_student_list.slice(begin, end);
+        });*/
+
+        /*$scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };*/
+
+        $scope.$watch('currentPage', function() {
+        var begin = (($scope.currentPage - 1))
+        var end = begin + 1;
+    
+        $scope.filteredTodos = $scope.class_list.school_class_student_list.slice(begin, end);
+        console.log($scope.class_list.school_class_student_list)
+        console.log("----")
+        console.log($scope.filteredTodos)
+        });
+    }
+
+    /*$scope.$watch('currentPage', function() {
+        var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+        , end = begin + $scope.numPerPage;
+    
+        $scope.filteredTodos = $scope.class_list.school_class_student_list.slice(begin, end);
+        console.log($scope.filteredTodos)
+    });*/
+
+    $scope.numPages = function(){
+        return $scope.class_list.school_class_student_list.length
+    }
+
+    $scope.join_class = function(school_class_id){
+        adminservice.getClass(school_class_id, function(school_class_list){
+            $scope.class_list = school_class_list
+            if ($scope.class_list.school_class_student_list && $scope.class_list.school_class_subject_list) {
+                $scope.show_subtab = 1
+                $scope.totalItems = $scope.class_list.school_class_student_list.length
+            }
+            console.log($scope.class_list)
+        })
     }
 
     $scope.show_users = function(){

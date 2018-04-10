@@ -491,3 +491,6 @@ def get_class_func(security_token, class_id):
     except Exception as ex:
         print(ex)
         return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+
