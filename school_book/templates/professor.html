@@ -208,7 +208,86 @@
                                     <div id='profile_buttons'>
                                         <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0"
                                         ng-click="show_class()">Students</button>
-                                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#changePasswordModal">Miss</button>
+                                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_miss()">Miss</button>
+                                    </div>
+                                    <p>{{school_class.id}}</p>
+                                    <div class="row" ng-if="showMiss == 1">
+                                        <div class="col-md-12" style="margin-bottom: 1%">
+                                            <p>{{school_class.name}}</p>
+                                            <form ng-submit="show_absences(2, date)" class="form-inline">
+                                                <div style="padding: 1px">
+                                                    <input name="" placeholder="MM/DD/YYY" type="date" ng-model='date' required 
+                                                    class="form-control">       
+                                                </div>
+                                                <div style="padding: 1px">
+                                                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">
+                                                    Show absences</button>
+                                                </div>
+                                                <div style="padding: 1px">
+                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_add_absence_form()">New absence</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-12" ng-if="absencesShow == 1">
+                                            <table class="table table-user-information table-striped">
+                                                <thead>
+                                                    <th>
+                                                        Student
+                                                    </th>
+                                                    <th>
+                                                        Date
+                                                    </th>
+                                                    <th>
+                                                        Time
+                                                    </th>
+                                                    <th>
+                                                        Comment
+                                                    </th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="absence in absences">
+                                                        <td>
+                                                            {{absence.student.first_name}} {{absence.student.last_name}}
+                                                        </td>
+                                                        <td>
+                                                            {{absence.date}}
+                                                        </td>
+                                                        <td>
+                                                            {{absence.time}}
+                                                        </td>
+                                                        <td>
+                                                            {{absence.comment}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div style="padding: 1px">
+                                                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0"
+                                                ng-click="restart_form()">
+                                                Close</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" ng-if="absencesShow == 2">
+                                            <form ng-submit="show_absences(absence_obj)">
+                                                <div style="padding: 1px" ng-show="school_year_list_lenght">
+                                                    <input name="" placeholder="MM/DD/YYY" type="date" ng-model='absence_obj.date' required 
+                                                    class="form-control">       
+                                                </div>
+                                                <div class="form-group" style="padding: 1px">
+                                                    <label style="margin-right: 5px">Comment</label>
+                                                    <input type="text" class="form-control" name="" ng-model='user_obj.last_name' required>
+                                                </div>
+                                                <div style="padding: 1px">
+                                                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">
+                                                    Add absences</button>
+                                                </div>
+                                            </form>
+                                            <div style="padding: 1px">
+                                                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0"
+                                                ng-click="restart_form()">
+                                                Close</button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row" ng-repeat="student in filteredTodos" ng-if="show_class_details==1">
 
@@ -310,8 +389,8 @@
         <!-- End of classes panel -->
     </div>
 </div>
-<!-- The Modal add user-->
-<div class="modal fade" id="addModal">
+<!-- The Modal absences-->
+<div class="modal fade" id="absencesModal">
     <div class="modal-dialog">
         <div class="modal-content rounded-0">
             <!-- Modal Header -->
@@ -322,6 +401,7 @@
              </div>
              <!-- Modal body -->
              <div class="modal-body">
+                
                 <form ng-submit="addUser(new_user)">
                     <div class="form-group" style="padding: 1px">
                         <label style="margin-right: 5px">Pick role</label>

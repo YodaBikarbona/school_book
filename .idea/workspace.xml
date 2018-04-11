@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a175eb6c-e57d-4a08-90c7-2162df3ebd76" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/api/model/model/school.py" afterPath="$PROJECT_DIR$/school_book/api/model/model/school.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/api/model/providers/school.py" afterPath="$PROJECT_DIR$/school_book/api/model/providers/school.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/api/model/serializers/serializer.py" afterPath="$PROJECT_DIR$/school_book/api/model/serializers/serializer.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/api/views/helper/helper.py" afterPath="$PROJECT_DIR$/school_book/api/views/helper/helper.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/api/views/school.py" afterPath="$PROJECT_DIR$/school_book/api/views/school.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/app.py" afterPath="$PROJECT_DIR$/school_book/app.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/static/js/app.js" afterPath="$PROJECT_DIR$/school_book/static/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/templates/index.html" afterPath="$PROJECT_DIR$/school_book/templates/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/static/js/services.js" afterPath="$PROJECT_DIR$/school_book/static/js/services.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/school_book/templates/professor.html" afterPath="$PROJECT_DIR$/school_book/templates/professor.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,31 +25,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="login.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/school_book/api/views/login.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="19" column="53" lean-forward="false" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="messages.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/school_book/api/views/messages/messages.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="35" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="serializer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/school_book/api/model/serializers/serializer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+            <state relative-caret-position="263">
+              <caret line="64" column="6" lean-forward="false" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="6" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -54,8 +40,8 @@
       <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/school_book/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="210" column="5" lean-forward="false" selection-start-line="210" selection-start-column="5" selection-end-line="210" selection-end-column="5" />
+            <state relative-caret-position="214">
+              <caret line="193" column="17" lean-forward="true" selection-start-line="193" selection-start-column="17" selection-end-line="193" selection-end-column="17" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -66,11 +52,21 @@
       <file leaf-file-name="school.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/school_book/api/views/school.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="464" column="56" lean-forward="true" selection-start-line="464" selection-start-column="56" selection-end-line="464" selection-end-column="56" />
+            <state relative-caret-position="253">
+              <caret line="527" column="40" lean-forward="true" selection-start-line="527" selection-start-column="40" selection-end-line="527" selection-end-column="40" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="school.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/school_book/api/model/model/school.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="142">
+              <caret line="96" column="6" lean-forward="false" selection-start-line="96" selection-start-column="6" selection-end-line="96" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -85,24 +81,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/school_book/api/model/providers/user.py">
+      <file leaf-file-name="helper.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/school_book/api/views/helper/helper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="45" column="62" lean-forward="false" selection-start-line="45" selection-start-column="62" selection-end-line="45" selection-end-column="62" />
+            <state relative-caret-position="157">
+              <caret line="86" column="40" lean-forward="false" selection-start-line="86" selection-start-column="40" selection-end-line="86" selection-end-column="40" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/school_book/api/views/user.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4747">
-              <caret line="101" column="58" lean-forward="false" selection-start-line="101" selection-start-column="58" selection-end-line="101" selection-end-column="58" />
-              <folding>
-                <element signature="e#0#25#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -110,8 +94,8 @@
       <file leaf-file-name="school.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/school_book/api/model/providers/school.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="645">
-              <caret line="49" column="36" lean-forward="false" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="36" />
+            <state relative-caret-position="264">
+              <caret line="103" column="24" lean-forward="false" selection-start-line="103" selection-start-column="24" selection-end-line="103" selection-end-column="24" />
               <folding>
                 <element signature="e#0#57#0" expanded="true" />
               </folding>
@@ -132,6 +116,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>print</find>
+      <find>birth</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/school_book/api/model/providers</dir>
@@ -144,7 +129,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/school_book/templates/index.html" />
         <option value="$PROJECT_DIR$/school_book/api/model/serializers.py" />
         <option value="$PROJECT_DIR$/school_book/api/model/model/__init_.py" />
         <option value="$PROJECT_DIR$/setup.py" />
@@ -183,17 +167,18 @@
         <option value="$PROJECT_DIR$/school_book/api/model/alembic/versions/d2bfbee77e50_add_school_subjects.py" />
         <option value="$PROJECT_DIR$/school_book/api/model/alembic/versions/49ac9947d28d_change_type_of_subject_name.py" />
         <option value="$PROJECT_DIR$/school_book/api/model/alembic/versions/1fc8e8068621_add_school_class_professor.py" />
-        <option value="$PROJECT_DIR$/school_book/api/model/serializers/serializer.py" />
-        <option value="$PROJECT_DIR$/school_book/api/views/helper/helper.py" />
         <option value="$PROJECT_DIR$/school_book/api/model/alembic/versions/840b89e33ef2_classes_school_subject_table.py" />
-        <option value="$PROJECT_DIR$/school_book/api/model/model/school.py" />
         <option value="$PROJECT_DIR$/school_book/api/views/messages/error_messages.py" />
         <option value="$PROJECT_DIR$/school_book/api/views/messages/messages.py" />
         <option value="$PROJECT_DIR$/school_book/api/views/login.py" />
         <option value="$PROJECT_DIR$/school_book/api/model/providers/user.py" />
         <option value="$PROJECT_DIR$/school_book/api/views/user.py" />
-        <option value="$PROJECT_DIR$/school_book/api/model/providers/school.py" />
+        <option value="$PROJECT_DIR$/school_book/api/model/alembic/versions/d944087ca4b9_new_table_absences.py" />
+        <option value="$PROJECT_DIR$/school_book/api/model/serializers/serializer.py" />
+        <option value="$PROJECT_DIR$/school_book/api/model/model/school.py" />
         <option value="$PROJECT_DIR$/school_book/app.py" />
+        <option value="$PROJECT_DIR$/school_book/api/model/providers/school.py" />
+        <option value="$PROJECT_DIR$/school_book/api/views/helper/helper.py" />
         <option value="$PROJECT_DIR$/school_book/api/views/school.py" />
       </list>
     </option>
@@ -243,7 +228,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -268,6 +252,21 @@
               <item name="school_book" type="462c0819:PsiDirectoryNode" />
               <item name="school_book" type="462c0819:PsiDirectoryNode" />
               <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="school_book" type="b2602c69:ProjectViewProjectNode" />
+              <item name="school_book" type="462c0819:PsiDirectoryNode" />
+              <item name="school_book" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="school_book" type="b2602c69:ProjectViewProjectNode" />
+              <item name="school_book" type="462c0819:PsiDirectoryNode" />
+              <item name="school_book" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -282,6 +281,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -327,17 +327,17 @@
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="814" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34120172" sideWeight="0.49281314" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34620887" sideWeight="0.49281314" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33936024" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3190272" sideWeight="0.50718683" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -363,13 +363,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/school_book/api/model/providers/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/school_book/api/views/file_one.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -472,13 +465,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/school_book/api/model/alembic/versions/5b960196715c_add_birth_date_to_user_table.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/school_book/api/model/alembic/versions/7696005602e9_add_psw_and_salt_to_user_table.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="359">
@@ -514,24 +500,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/school_book/api/model/alembic/versions/49ac9947d28d_change_type_of_subject_name.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="28" column="46" lean-forward="false" selection-start-line="28" selection-start-column="46" selection-end-line="28" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/school_book/api/model/alembic/versions/d2bfbee77e50_add_school_subjects.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="245">
           <caret line="23" column="58" lean-forward="false" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/school_book/api/model/alembic/versions/1fc8e8068621_add_school_class_professor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="35" column="17" lean-forward="true" selection-start-line="35" selection-start-column="17" selection-end-line="35" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -548,24 +520,6 @@
     <entry file="file://$PROJECT_DIR$/school_book/api/uploads/thumb-1920-528418.jpg">
       <provider selected="true" editor-type-id="images">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/school_book/api/views/helper/helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-302">
-          <caret line="65" column="28" lean-forward="false" selection-start-line="65" selection-start-column="20" selection-end-line="65" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#26#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/school_book/api/model/model/user.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="26" column="12" lean-forward="false" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="12" />
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/school_book/api/model/alembic/versions/840b89e33ef2_classes_school_subject_table.py">
@@ -590,14 +544,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/school_book/api/model/model/school.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1095">
-          <caret line="86" column="21" lean-forward="false" selection-start-line="86" selection-start-column="4" selection-end-line="86" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/school_book/api/views/messages/messages.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -614,46 +560,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/school_book/api/views/constants/constants.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/school_book/api/model/providers/user.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="45" column="62" lean-forward="false" selection-start-line="45" selection-start-column="62" selection-end-line="45" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/school_book/api/views/upload.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="22" column="3" lean-forward="false" selection-start-line="22" selection-start-column="3" selection-end-line="22" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/school_book/api/model/providers/school.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="49" column="36" lean-forward="false" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#57#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/school_book/api/model/serializers/serializer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -667,30 +577,122 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/school_book/api/model/alembic/versions/5b960196715c_add_birth_date_to_user_table.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="20" column="67" lean-forward="false" selection-start-line="20" selection-start-column="54" selection-end-line="20" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/school_book/api/model/alembic/versions/1fc8e8068621_add_school_class_professor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="331">
+          <caret line="35" column="17" lean-forward="true" selection-start-line="32" selection-start-column="4" selection-end-line="35" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/school_book/api/model/alembic/versions/49ac9947d28d_change_type_of_subject_name.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="28" column="46" lean-forward="false" selection-start-line="28" selection-start-column="46" selection-end-line="28" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/school_book/api/model/alembic/versions/d944087ca4b9_new_table_absences.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="28" column="30" lean-forward="false" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/school_book/api/model/providers/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="8" column="6" lean-forward="false" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/school_book/api/views/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="105" column="37" lean-forward="true" selection-start-line="105" selection-start-column="37" selection-end-line="105" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#25#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/school_book/api/model/model/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="21" column="48" lean-forward="true" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/school_book/api/views/constants/constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/school_book/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="210" column="5" lean-forward="false" selection-start-line="210" selection-start-column="5" selection-end-line="210" selection-end-column="5" />
+        <state relative-caret-position="214">
+          <caret line="193" column="17" lean-forward="true" selection-start-line="193" selection-start-column="17" selection-end-line="193" selection-end-column="17" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/school_book/api/views/user.py">
+    <entry file="file://$PROJECT_DIR$/school_book/api/model/providers/school.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4747">
-          <caret line="101" column="58" lean-forward="false" selection-start-line="101" selection-start-column="58" selection-end-line="101" selection-end-column="58" />
+        <state relative-caret-position="264">
+          <caret line="103" column="24" lean-forward="false" selection-start-line="103" selection-start-column="24" selection-end-line="103" selection-end-column="24" />
           <folding>
-            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#0#57#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/school_book/api/model/serializers/serializer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="64" column="6" lean-forward="false" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/school_book/api/views/helper/helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="86" column="40" lean-forward="false" selection-start-line="86" selection-start-column="40" selection-end-line="86" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/school_book/api/model/model/school.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="96" column="6" lean-forward="false" selection-start-line="96" selection-start-column="6" selection-end-line="96" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/school_book/api/views/school.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="464" column="56" lean-forward="true" selection-start-line="464" selection-start-column="56" selection-end-line="464" selection-end-column="56" />
+        <state relative-caret-position="253">
+          <caret line="527" column="40" lean-forward="true" selection-start-line="527" selection-start-column="40" selection-end-line="527" selection-end-column="40" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>

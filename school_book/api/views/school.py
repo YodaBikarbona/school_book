@@ -23,6 +23,11 @@ from school_book.api.model.serializers.serializer import UsersSerializer
 from school_book.api.model.model.school import SchoolClass
 from school_book.api.model.model.school import SchoolClassStudent
 from school_book.api.model.model.school import SchoolClassSubject
+from school_book.api.model.model.school import Absence
+from school_book.api.views.helper.helper import calendar_time_only_date
+from school_book.api.model.serializers.serializer import AbsenceSerializer
+from datetime import datetime, timedelta
+from school_book.api.views.helper.helper import calendar_date_and_time
 
 
 def add_school_year_func(security_token, request):
@@ -492,5 +497,47 @@ def get_class_func(security_token, class_id):
         print(ex)
         return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
 
+
+def get_absences_func(security_token, class_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != PROFESSOR:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        if not request.json['date']:
+            return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+        date = calendar_time_only_date(request.json['date'])
+        limit_date = datetime.strptime(date, '%Y-%m-%d') + timedelta(days=2)
+        limit_date = limit_date.isoformat()
+        date = datetime.strptime(date, '%Y-%m-%d') + timedelta(days=1)
+        date = date.isoformat()
+        absences = SchoolProvider.get_all_absences(class_id=class_id, date=date, limit_date=limit_date)
+        absences = AbsenceSerializer(many=True).dump(absences).data
+        for absence in absences:
+            student = UserProvider.get_user_by_id(absence['student_id'])
+            student = UsersSerializer(many=False).dump(student).data
+            absence['student'] = student
+            absence['date'], absence['time'] = calendar_date_and_time(absence['date'])
+
+        return jsonify(
+            {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
+                'absence_list': absences
+            }
+        )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
 
 

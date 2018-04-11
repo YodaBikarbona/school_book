@@ -463,7 +463,7 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
 }])
 
 
-.controller('professorController', ['$scope','$http','$q','$rootScope','adminservice','authservice', 'API_ENDPOINT', function($scope,$http,$q,$rootScope,adminservice,auth, API_ENDPOINT){
+.controller('professorController', ['$scope','$http','$q','$rootScope','adminservice','authservice', 'API_ENDPOINT', 'professorservice', function($scope, $http, $q, $rootScope, adminservice, auth, API_ENDPOINT, professorservice){
     $scope.show_tab = 0
     $scope.user_list_lenght = 0
     $scope.school_year_list_lenght = 0
@@ -475,6 +475,7 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
     let student_list_to_server = []
     let subject_list_to_server = []
     var temp_role = ''
+    $scope.absencesShow = 0
     $scope.filteredTodos = []
     $scope.currentPage = 1
     $scope.maxSize = 5;
@@ -483,6 +484,7 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
     $scope.bigTotalItems = 175;
     $scope.bigCurrentPage = 1;
     $scope.totalItems = 0
+    $scope.showMiss = 0
 
 
     /*$scope.curPage = 1,
@@ -498,6 +500,29 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
         $scope.show_tab = 1
         $scope.user_list_lenght = 0
         $scope.school_classes_lenght = 0
+    }
+
+    $scope.show_absences = function(class_id, date){
+        console.log(class_id, date)
+        professorservice.getAbsence(class_id, date, function(absence_list){
+            $scope.absences = absence_list.absence_list
+            console.log($scope.absences)
+            if ($scope.absences) {
+                $scope.absencesShow = 1
+            }
+        })
+    }
+
+    $scope.show_miss = function(){
+        $scope.showMiss = 1
+    }
+
+    $scope.add_absence = function(){
+        $scope.absencesShow = 2
+    }
+
+    $scope.show_add_absence_form = function(){
+        $scope.absencesShow = 2
     }
 
     $scope.show_class = function(){
@@ -659,6 +684,8 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
         $scope.school_class_subject_view = 0
         var image_id = document.getElementById("inputImage")
         image_id.value = ''
+        $scope.absencesShow = 0
+        $scope.showMiss = 0
     }
 
     $scope.activate_user = function(user_id){

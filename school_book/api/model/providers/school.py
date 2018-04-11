@@ -5,6 +5,8 @@ from school_book.api.model.model.school import SchoolSubject
 from school_book.api.model.model.school import SchoolClassProfessor
 from school_book.api.model.model.school import SchoolClassSubject
 from school_book.api.model.model.user import User
+from school_book.api.model.model.school import Absence
+from sqlalchemy import func
 
 
 class SchoolProvider:
@@ -96,3 +98,10 @@ class SchoolProvider:
         class_student = SchoolClassStudent.query.filter(SchoolClassStudent.student_id == student_id,
                                                         SchoolClassStudent.classes_id == class_id).first()
         return class_student
+
+    @classmethod
+    def get_all_absences(cls, class_id, date, limit_date):
+        absences = Absence.query.filter(Absence.class_id == class_id,
+                                        Absence.date >= date,
+                                        Absence.date < limit_date).all()
+        return absences

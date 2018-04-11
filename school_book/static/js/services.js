@@ -363,6 +363,21 @@ angular.module('school_book')
 
 }])
 
+.service('professorservice', ['$http','API_ENDPOINT','$q', function($http,API_ENDPOINT,$q){
+
+  this.getAbsence = function(class_id, date, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/absence/class/${class_id}`,
+      method: 'POST',
+      data: {date: date}
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+}])
+
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){
     var inter = {}
     

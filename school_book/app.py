@@ -31,6 +31,7 @@ from school_book.api.views.school import get_subjects_from_class_func
 from school_book.api.views.school import drop_students_from_class_func
 from school_book.api.views.school import get_students_from_class_func
 from school_book.api.views.school import get_class_func
+from school_book.api.views.school import get_absences_func
 from werkzeug.routing import Rule
 import logging
 import os
@@ -185,6 +186,12 @@ def get_students_from_class(class_id):
 def get_class(class_id):
 
     return get_class_func(request.headers['Authorization'], class_id)
+
+
+@app.route('/absence/class/<int:class_id>', methods=['POST'])
+def get_absence(class_id):
+
+    return get_absences_func(request.headers['Authorization'], class_id)
 
 """@app.route('/upload', methods=['POST'])
 def upload_file():

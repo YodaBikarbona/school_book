@@ -92,3 +92,24 @@ class SchoolClassSubject(db.Model):
 
     def __repr__(self):
         return '{0} {1}'.format(self.subjects.name)
+
+
+class Absence(db.Model):
+    __tablename__ = 'absences'
+
+    id = Column(Integer, primary_key=True)
+    class_id = Column(Integer, ForeignKey('classes.id', ondelete='CASCADE'))
+    school_subject_id = Column(Integer, ForeignKey('school_subjects.id', ondelete='CASCADE'))
+    professor_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
+    student_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
+    date = Column(DateTime, nullable=True, default=now())
+    comment = Column(Unicode(255), nullable=True)
+
+    classes = relationship('SchoolClass')
+    subjects = relationship('SchoolSubject')
+    user_professor = relationship('User', foreign_keys=[professor_id])
+    user_student = relationship('User', foreign_keys=[student_id])
+
+    def __repr__(self):
+        return '{0} {1}'.format(self.user.first_name, self.user.last_name)
+
