@@ -214,19 +214,21 @@
                                     <div class="row" ng-if="showMiss == 1">
                                         <div class="col-md-12" style="margin-bottom: 1%">
                                             <p>{{school_class.name}}</p>
-                                            <form ng-submit="show_absences(2, date)" class="form-inline">
-                                                <div style="padding: 1px">
-                                                    <input name="" placeholder="MM/DD/YYY" type="date" ng-model='date' required 
-                                                    class="form-control">       
-                                                </div>
-                                                <div style="padding: 1px">
-                                                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">
-                                                    Show absences</button>
-                                                </div>
-                                                <div style="padding: 1px">
-                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_add_absence_form()">New absence</button>
-                                                </div>
-                                            </form>
+                                            <div id='profile_buttons'>
+                                                <form ng-submit="show_absences(2, date)" class="form-inline">
+                                                    <div style="padding: 1px">
+                                                        <input name="" placeholder="MM/DD/YYY" type="date" ng-model='date' required 
+                                                        class="form-control">       
+                                                    </div>
+                                                    <div style="padding: 1px">
+                                                        <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">
+                                                        Show absences</button>
+                                                    </div>
+                                                    <div style="padding: 1px">
+                                                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_add_absence_form()">New absence</button>
+                                                    </div>   
+                                                </form>
+                                            </div>
                                         </div>
                                         <div class="col-md-12" ng-if="absencesShow == 1">
                                             <table class="table table-user-information table-striped">
