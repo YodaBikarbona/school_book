@@ -17,6 +17,8 @@ def login(username, password):
 
     user = UserProvider.get_user_by_username(username)
 
+    print(UsersSerializer(many=False).dump(user).data)
+
     if user and password == user.password:
 
         user.last_login = now()

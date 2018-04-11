@@ -60,3 +60,10 @@ class SchoolSubjectSerializer(ma.Schema):
 
     class Meta:
         fields = ('id', 'name', 'professor_id', 'user')
+
+
+class AbsenceSerializer(ma.Schema):
+
+    class Meta:
+        fields = ('id', 'class_id', 'school_subject_id', 'professor_id', 'student_id',
+                  'date', 'comment')

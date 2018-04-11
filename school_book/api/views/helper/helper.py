@@ -78,6 +78,17 @@ def birth_date_format(date):
     return date
 
 
+def calendar_time_only_date(date):
+    date = '{0} '.format(date).split('T')[0]
+    return date
+
+
+def calendar_date_and_time(date):
+    date = '{0}'.format(date).split('T')
+    time = '{0}'.format(date[1]).split('+')[0]
+
+    return date[0], time
+
 """def ok_response(message, additional_data=None):
     
     #Utility for building response.

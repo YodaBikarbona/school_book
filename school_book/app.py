@@ -25,6 +25,13 @@ from school_book.api.views.school import add_class_func
 from school_book.api.views.school import add_student_to_class_func
 from school_book.api.views.user import edit_user_func
 from school_book.api.views.user import change_password_func
+from school_book.api.views.school import add_subjects_to_class_func
+from school_book.api.views.school import delete_subject_from_class_func
+from school_book.api.views.school import get_subjects_from_class_func
+from school_book.api.views.school import drop_students_from_class_func
+from school_book.api.views.school import get_students_from_class_func
+from school_book.api.views.school import get_class_func
+from school_book.api.views.school import get_absences_func
 from werkzeug.routing import Rule
 import logging
 import os
@@ -138,12 +145,53 @@ def add_student_to_class():
 
     return add_student_to_class_func(request.headers['Authorization'], request)
 
+
 @app.route('/users/change_password', methods=['POST'])
 def change_password():
 
     return change_password_func(request.headers['Authorization'], request)
 
 
+@app.route('/school_class/school_subjects/add', methods=['POST'])
+def add_subjects_to_class():
+
+    return add_subjects_to_class_func(request.headers['Authorization'], request)
+
+
+@app.route('/school_class/school_subjects/drop', methods=['POST'])
+def drop_subjects_from_class():
+
+    return delete_subject_from_class_func(request.headers['Authorization'], request)
+
+
+@app.route('/school_class/school_subjects/class/<int:class_id>', methods=['GET'])
+def get_subjects_from_class(class_id):
+
+    return get_subjects_from_class_func(request.headers['Authorization'], class_id)
+
+
+@app.route('/school_class/students/drop', methods=['POST'])
+def drop_students_from_class():
+
+    return drop_students_from_class_func(request.headers['Authorization'], request)
+
+
+@app.route('/school_class/students/class/<int:class_id>', methods=['GET'])
+def get_students_from_class(class_id):
+
+    return get_students_from_class_func(request.headers['Authorization'], class_id)
+
+
+@app.route('/school_class/class/<int:class_id>', methods=['GET'])
+def get_class(class_id):
+
+    return get_class_func(request.headers['Authorization'], class_id)
+
+
+@app.route('/absence/class/<int:class_id>', methods=['POST'])
+def get_absence(class_id):
+
+    return get_absences_func(request.headers['Authorization'], class_id)
 
 """@app.route('/upload', methods=['POST'])
 def upload_file():

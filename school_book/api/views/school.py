@@ -22,6 +22,12 @@ from school_book.api.model.model.school import SchoolClassProfessor
 from school_book.api.model.serializers.serializer import UsersSerializer
 from school_book.api.model.model.school import SchoolClass
 from school_book.api.model.model.school import SchoolClassStudent
+from school_book.api.model.model.school import SchoolClassSubject
+from school_book.api.model.model.school import Absence
+from school_book.api.views.helper.helper import calendar_time_only_date
+from school_book.api.model.serializers.serializer import AbsenceSerializer
+from datetime import datetime, timedelta
+from school_book.api.views.helper.helper import calendar_date_and_time
 
 
 def add_school_year_func(security_token, request):
@@ -76,7 +82,7 @@ def get_all_school_years_func(security_token):
     if not user:
         return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
 
-    if user.role.role_name != ADMIN:
+    if user.role.role_name not in [ADMIN, PROFESSOR]:
         return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
 
     school_year_list = SchoolProvider.get_all_school_years()
@@ -102,12 +108,16 @@ def get_classes_func(security_token, school_year_id):
     if not user:
         return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
 
-    if user.role.role_name != ADMIN:
+    if user.role.role_name not in [ADMIN, PROFESSOR]:
         return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
 
     try:
         if school_year_id:
-            school_class_list = SchoolProvider.get_all_classes_by_school_year_id(school_year_id)
+            if user.role.role_name == ADMIN:
+                school_class_list = SchoolProvider.get_all_classes_by_school_year_id(school_year_id=school_year_id)
+            else:
+                school_class_list = SchoolProvider.get_all_classes_by_school_year_id(school_year_id=school_year_id,
+                                                                                     role_id=user.role_id)
             school_class_list = SchoolClassSerializer(many=True).dump(school_class_list).data
             if school_class_list:
                 for school_class in school_class_list:
@@ -278,4 +288,256 @@ def add_student_to_class_func(security_token, request):
     except Exception as ex:
         print(ex)
         return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def add_subjects_to_class_func(security_token, request):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        if request.json['subject_list'] and request.json['class_id']:
+            subjects_ids = SchoolProvider.get_subject_ids_by_class_id(request.json['class_id'])
+            for subject_id in request.json['subject_list']:
+                if subject_id not in subjects_ids:
+                    new_subject_class = SchoolClassSubject()
+                    new_subject_class.school_subject_id = subject_id
+                    new_subject_class.classes_id = request.json['class_id']
+                    db.session.add(new_subject_class)
+                    db.session.commit()
+                else:
+                    return error_handler(error_status=400, message=error_messages.SUBJECT_CLASS_ERROR)
+            school_class_list = SchoolProvider.get_all_subjects_by_class_id(request.json['class_id'])
+
+            return jsonify(
+                {
+                    'status': 'OK',
+                    'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                    'code': 200,
+                    'msg': messages.SCHOOL_SUBJECT_SUCCESSFULLY_ADDED,
+                    'school_class_list': SchoolSubjectSerializer(many=True).dump(school_class_list).data
+                }
+            )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def delete_subject_from_class_func(security_token, request):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        if request.json['subject_id'] and request.json['class_id']:
+            subject = SchoolProvider.get_class_subject_by_id(subject_id=request.json['subject_id'], class_id=request.json['class_id'])
+            if not subject:
+                return error_handler(error_status=404, message=error_messages.SUBJECT_CLASS_DOES_NOT_EXIST)
+            db.session.delete(subject)
+            db.session.commit()
+            school_class_list = SchoolProvider.get_all_subjects_by_class_id(request.json['class_id'])
+
+            return jsonify(
+                {
+                    'status': 'OK',
+                    'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                    'code': 200,
+                    'msg': messages.SCHOOL_SUBJECT_SUCCESSFULLY_DELETED,
+                    'school_class_list': SchoolSubjectSerializer(many=True).dump(school_class_list).data
+                }
+            )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def get_subjects_from_class_func(security_token, class_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        subjects = SchoolProvider.get_class_subjects_by_class_id(class_id=class_id)
+
+        return jsonify(
+            {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
+                'school_class_list': SchoolSubjectSerializer(many=True).dump(subjects).data
+            }
+        )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def drop_students_from_class_func(security_token, request):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+    try:
+        if request.json['student_id'] and request.json['class_id']:
+            student = SchoolProvider.get_class_student_by_id(student_id=request.json['student_id'],
+                                                             class_id=request.json['class_id'])
+            if not student:
+                return error_handler(error_status=404, message=error_messages.STUDENT_CLASS_DOES_NOT_EXIST)
+            db.session.delete(student)
+            db.session.commit()
+            school_class_list = SchoolProvider.get_all_students_by_class_id(request.json['class_id'])
+
+            return jsonify(
+                {
+                    'status': 'OK',
+                    'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                    'code': 200,
+                    'msg': messages.SCHOOL_STUDENT_SUCCESSFULLY_DELETED,
+                    'school_class_list': UsersSerializer(many=True).dump(school_class_list).data
+                }
+            )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def get_students_from_class_func(security_token, class_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != ADMIN:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        students = SchoolProvider.get_all_students_by_class_id(class_id=class_id)
+
+        return jsonify(
+            {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
+                'school_class_list': UsersSerializer(many=True).dump(students).data
+            }
+        )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def get_class_func(security_token, class_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != PROFESSOR:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        students = SchoolProvider.get_all_students_by_class_id(class_id=class_id)
+        subjects = SchoolProvider.get_all_subjects_by_class_id(class_id=class_id)
+
+        return jsonify(
+            {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
+                'school_class_student_list': UsersSerializer(many=True).dump(students).data,
+                'school_class_subject_list': SchoolSubjectSerializer(many=True).dump(subjects).data
+            }
+        )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def get_absences_func(security_token, class_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != PROFESSOR:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        if not request.json['date']:
+            return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+        date = calendar_time_only_date(request.json['date'])
+        limit_date = datetime.strptime(date, '%Y-%m-%d') + timedelta(days=2)
+        limit_date = limit_date.isoformat()
+        date = datetime.strptime(date, '%Y-%m-%d') + timedelta(days=1)
+        date = date.isoformat()
+        absences = SchoolProvider.get_all_absences(class_id=class_id, date=date, limit_date=limit_date)
+        absences = AbsenceSerializer(many=True).dump(absences).data
+        for absence in absences:
+            student = UserProvider.get_user_by_id(absence['student_id'])
+            student = UsersSerializer(many=False).dump(student).data
+            absence['student'] = student
+            absence['date'], absence['time'] = calendar_date_and_time(absence['date'])
+
+        return jsonify(
+            {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
+                'absence_list': absences
+            }
+        )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
 

@@ -53,12 +53,12 @@ angular.module('school_book')
             data: user
           }).then(function(resp){
             if(resp.data.user){
-              if(resp.data.user.role.role_name == 'admin'){
+              //if(resp.data.user.role.role_name == 'admin'){
                 if(resp.data.user.email == username && resp.data.token){
                   storeUserCredidentals(resp.data);
                   resolve(resp.data);
                 }
-              }
+              //}
             }
             else{
               reject(resp.data)
@@ -289,6 +289,87 @@ angular.module('school_book')
       method: 'POST',
       data: {student_list: student_list, 
         class_id: class_id}
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+    this.addSubjectToClass = function(subject_list, class_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/school_class/school_subjects/add`,
+      method: 'POST',
+      data: {subject_list: subject_list, 
+        class_id: class_id}
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+  this.dropSubjectFromClass = function(subject_id, class_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/school_class/school_subjects/drop`,
+      method: 'POST',
+      data: {subject_id: subject_id, 
+        class_id: class_id}
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+  this.getSubjectFromClass = function(class_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/school_class/school_subjects/class/${class_id}`,
+      method: 'GET'
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+  this.dropStudentFromClass = function(student_id, class_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/school_class/students/drop`,
+      method: 'POST',
+      data: {student_id: student_id, 
+        class_id: class_id}
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+  this.getStudentsFromClass = function(class_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/school_class/students/class/${class_id}`,
+      method: 'GET'
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+  this.getClass = function(class_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/school_class/class/${class_id}`,
+      method: 'GET'
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+}])
+
+.service('professorservice', ['$http','API_ENDPOINT','$q', function($http,API_ENDPOINT,$q){
+
+  this.getAbsence = function(class_id, date, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/absence/class/${class_id}`,
+      method: 'POST',
+      data: {date: date}
     }).then(function(resp){
       callback(resp.data)
     }, function(resp){

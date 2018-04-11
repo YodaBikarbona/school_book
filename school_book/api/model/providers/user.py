@@ -43,7 +43,7 @@ class UserProvider:
             user_obj = user_obj.filter(User.id == user_id)
         elif role == PROFESSOR:
             user_obj = user_obj.filter(User.id == user_id,
-                                       Role.role_name == STUDENT)
+                                       Role.role_name != ADMIN)
         else:
             return NO_PERMISSION
         return user_obj.first()

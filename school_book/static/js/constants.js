@@ -24,6 +24,15 @@ angular.module('school_book')
 		params:{
 			user:null
 		}
+	},
+	professor:{
+		name:'professor',
+		url:'/professor',
+		templateUrl:'professor.html',
+		controller:'professorController',
+		params:{
+			user:null
+		}
 	}
 })
 
