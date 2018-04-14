@@ -105,3 +105,13 @@ class SchoolProvider:
                                         Absence.date >= date,
                                         Absence.date < limit_date).all()
         return absences
+
+
+    @classmethod
+    def get_class_subject_by_class_id_and_professor_id(cls, class_id, professor_id):
+        class_subject = SchoolClassSubject.query\
+            .join(SchoolSubject, SchoolClassSubject.school_subject_id == SchoolSubject.id)\
+            .filter(SchoolClassSubject.classes_id == class_id,
+                    SchoolSubject.professor_id == professor_id).first()
+
+        return class_subject

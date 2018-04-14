@@ -219,7 +219,7 @@
                                                     class="form-control">       
                                                 </div>
                                                 <div style="padding: 1px">
-                                                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_absences(2, date)">
+                                                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_absences(school_class_id, date)">
                                                         Show absences</button>
                                                 </div>
                                                 <div style="padding: 1px">
@@ -285,14 +285,18 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12" ng-if="absencesShow == 2">
-                                            <form ng-submit="show_absences(absence_obj)">
-                                                <div style="padding: 1px" ng-show="school_year_list_lenght">
-                                                    <input name="" placeholder="MM/DD/YYY" type="date" ng-model='absence_obj.date' required 
-                                                    class="form-control">       
-                                                </div>
+                                            <form ng-submit="add_absence(school_class_id, absence_obj)">
+                                                <label style="margin-right: 5px">Pick student</label>
                                                 <div class="form-group" style="padding: 1px">
-                                                    <label style="margin-right: 5px">Comment</label>
-                                                    <input type="text" class="form-control" name="" ng-model='user_obj.last_name' required>
+                                                    <select class="form-control-sm" ng-model='absence_obj.student_id' required>
+                                                        <option ng-repeat="student in class_list.school_class_student_list" value="{{student.id}}">
+                                                            {{student.first_name}} {{student.last_name}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <label style="margin-right: 5px">Write comment</label>
+                                                <div class="form-group" style="padding: 1px">
+                                                    <input type="text" class="form-control" name="" ng-model='absence_obj.comment'>
                                                 </div>
                                                 <div style="padding: 1px">
                                                     <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">

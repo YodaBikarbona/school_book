@@ -507,8 +507,11 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
         professorservice.getAbsence(class_id, date, function(absence_list){
             $scope.absences = absence_list.absence_list
             console.log($scope.absences)
-            if ($scope.absences) {
+            if ($scope.absences.length > 0) {
                 $scope.absencesShow = 1
+            }
+            else{
+                $scope.absencesShow = 0
             }
         })
     }
@@ -517,9 +520,11 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
         $scope.showMiss = 1
     }
 
-    $scope.add_absence = function(){
-        $scope.absencesShow = 2
-    }
+    $scope.add_absence = function(class_id, absence_obj){
+        console.log(absence_obj)
+        professorservice.addNewAbsence(class_id, absence_obj, function(absence){
+        }
+    )}
 
     $scope.show_add_absence_form = function(){
         $scope.absencesShow = 2
@@ -563,6 +568,8 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
     }
 
     $scope.join_class = function(school_class_id){
+        $scope.school_class_id = school_class_id
+        console.log($scope.school_class_id)
         adminservice.getClass(school_class_id, function(school_class_list){
             $scope.class_list = school_class_list
             if ($scope.class_list.school_class_student_list && $scope.class_list.school_class_subject_list) {

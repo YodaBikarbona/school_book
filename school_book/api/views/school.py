@@ -541,3 +541,46 @@ def get_absences_func(security_token, class_id):
         return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
 
 
+def add_absences_func(security_token, class_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != PROFESSOR:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        #import pdb;pdb.set_trace()
+        if not request.json['student_id']:
+            return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+        new_absence = Absence()
+        new_absence.class_id = class_id
+        new_absence.comment = request.json['comment'] if request.json['comment'] else None
+        new_absence.professor_id = user.id
+        new_absence.student_id = request.json['student_id']
+        new_absence.date = datetime.now()
+        school_subject = SchoolProvider.get_class_subject_by_class_id_and_professor_id(class_id=class_id,
+                                                                                       professor_id=user.id)
+        new_absence.school_subject_id = school_subject.school_subject_id
+        db.session.add(new_absence)
+        db.session.commit()
+
+        return jsonify(
+            {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
+                'msg': messages.ABSENCE_SUCCESSFULLY_ADDED
+            }
+        )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
