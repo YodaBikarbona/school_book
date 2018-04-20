@@ -310,9 +310,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" ng-repeat="student in filteredTodos" ng-if="show_class_details==1">
-
-
+                                    <div class="row" ng-if="show_class_details==1">
+                                        <div class="col-md-12">
+                                            <form ng-submit="show_student(school_class_id, student_id)">
+                                                <div class="form-group form-inline" style="padding: 1px">
+                                                    <select class="form-control-sm" ng-model='student_id' required>
+                                                        <option ng-repeat="student in class_list.school_class_student_list" value="{{student.id}}">
+                                                            {{student.first_name}} {{student.last_name}}
+                                                        </option>
+                                                    </select>
+                                                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0" style="float: right;">Show</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                         <!--pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" items-per-page="itemsPerPage"></pagination-->
 
                                         <!--pagination data-pagination="" data-num-pages="numOfPages()" 
@@ -349,25 +359,25 @@
                                         </nav-->
 
 
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" ng-if="show_student_details == 1">
                                             <div class="col-md-12">
-                                                Student: {{student.first_name}} {{student.last_name}}
+                                                Student: {{student_class_details.student.first_name}} {{student_class_details.student.last_name}}
                                             </div>
                                             <div class="col-md-12">
                                                 View profile
                                             </div>
                                             <table class="table table-user-information table-striped">
                                                 <tbody>
-                                                    <tr ng-repeat="school_subject in class_list.school_class_subject_list">
+                                                    <tr ng-repeat="school_subject in student_class_details.school_subjects"><!--class_list.school_class_subject_list"-->
                                                         <td>
                                                             {{school_subject.name}}
                                                         </td>
                                                         <td>
-                                                            <a href="" 
-                                                            ng-click="join_class(school_class.id)">Read grades</a>
+                                                            <a href="" data-toggle="modal" data-target="#readGradesModal" 
+                                                            ng-click="show_student_grade(school_subject)">Read grades</a>
                                                         </td>
                                                         <td>
-                                                            Average grade:
+                                                            Average grade: {{school_subject.average_grade}}
                                                         </td>
                                                         <td>
                                                             <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#changePasswordModal">Final grade</button>
@@ -818,3 +828,56 @@
     </div>
 </div>
 <!-- End of Modal change password -->
+<!-- The Modal read grades -->
+<div class="modal fade" id="readGradesModal">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-0">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">{{grades.name}}</h4>
+                <button type="button" class="close not-focusable"
+                 data-dismiss="modal" ng-click="restart_form()">&times;</button>
+             </div>
+             <!-- Modal Body -->
+             <div class="modal-body">
+                <table class="table table-user-information table-striped">
+                    <thead>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Time
+                        </th>
+                        <th>
+                            Grade
+                        </th>
+                        <th>
+                            Comment
+                        </th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="grade in grades.grades">
+                            <td>
+                                {{grade.date}}
+                            </td>
+                            <td>
+                                {{grade.time}}
+                            </td>
+                            <td>
+                                {{grade.grade}}
+                            </td>
+                            <td>
+                                {{grade.comment}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+             </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Modal read grades -->

@@ -28,6 +28,7 @@ from school_book.api.views.helper.helper import calendar_time_only_date
 from school_book.api.model.serializers.serializer import AbsenceSerializer
 from datetime import datetime, timedelta
 from school_book.api.views.helper.helper import calendar_date_and_time
+from school_book.api.model.serializers.serializer import GradeSerializer
 
 
 def add_school_year_func(security_token, request):
@@ -577,6 +578,59 @@ def add_absences_func(security_token, class_id):
                 'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
                 'code': 200,
                 'msg': messages.ABSENCE_SUCCESSFULLY_ADDED
+            }
+        )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def get_student_grades_func(security_token, class_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != PROFESSOR:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        student_class_details = {}
+        #import pdb;pdb.set_trace()
+        if not request.json['student_id']:
+            return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+        student = UserProvider.get_user_by_id(request.json['student_id'])
+        if not student:
+            return error_handler(error_status=404, message=error_messages.USER_DOES_NOT_EXIST)
+        student_class_details['student'] = UsersSerializer(many=False).dump(student).data
+        school_subjects = SchoolProvider.get_all_subjects_by_class_id(class_id=class_id)
+        student_class_details['school_subjects'] = SchoolSubjectSerializer(many=True).dump(school_subjects).data
+        for school_subject in student_class_details['school_subjects']:
+            grades = SchoolProvider.get_student_grades(class_id=class_id,
+                                                       school_subject_id=school_subject['id'],
+                                                       student_id=student.id)
+            school_subject['grades'] = GradeSerializer(many=True).dump(grades).data
+            for grade in school_subject['grades']:
+                grade['date'], grade['time'] = calendar_date_and_time(grade['date'])
+            average_grade = 1
+            if len(grades) > 0:
+                for grade in grades:
+                    average_grade += grade.grade
+                average_grade = round((float(average_grade - 1)/len(grades)), 1)
+                print(average_grade)
+            school_subject['average_grade'] = average_grade
+
+        return jsonify(
+            {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
+                'student_class_details': student_class_details
             }
         )
     except Exception as ex:

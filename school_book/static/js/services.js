@@ -388,6 +388,17 @@ angular.module('school_book')
       console.log(resp.data)
     })}
 
+  this.getGrades = function(class_id, student_id, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/grades/class/${class_id}`,
+      method: 'POST',
+      data: {student_id: student_id}
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
 }])
 
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){

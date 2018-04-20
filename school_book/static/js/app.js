@@ -517,6 +517,8 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
     }
 
     $scope.show_miss = function(){
+        $scope.show_class_details = 0
+        $scope.show_student_details = 0
         $scope.showMiss = 1
     }
 
@@ -530,8 +532,20 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
         $scope.absencesShow = 2
     }
 
+
+    $scope.show_student = function(class_id, student_id){
+        $scope.show_student_details = 1
+        professorservice.getGrades(class_id, student_id, function(student_class_details){
+            $scope.student_class_details = student_class_details.student_class_details
+            console.log(student_class_details)
+            console.log($scope.student_class_details.school_subjects)
+        })
+    }
+
+
     $scope.show_class = function(){
         $scope.show_class_details = 1
+        $scope.showMiss = 0
 
         /*$scope.$watch('curPage + numPerPage', function() {
         var begin = (($scope.curPage - 1) * $scope.itemsPerPage)
@@ -544,7 +558,7 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
             $scope.currentPage = pageNo;
         };*/
 
-        $scope.$watch('currentPage', function() {
+        /*$scope.$watch('currentPage', function() {
         var begin = (($scope.currentPage - 1))
         var end = begin + 1;
     
@@ -552,7 +566,7 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
         console.log($scope.class_list.school_class_student_list)
         console.log("----")
         console.log($scope.filteredTodos)
-        });
+        });*/
     }
 
     /*$scope.$watch('currentPage', function() {
@@ -579,6 +593,11 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
             console.log($scope.class_list)
         })
     }
+
+    $scope.show_student_grade = function(grades){
+        $scope.grades = grades
+    }
+
 
     $scope.show_users = function(){
         $scope.show_tab = 0
