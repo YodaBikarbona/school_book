@@ -6,6 +6,7 @@ from school_book.api.model.model.school import SchoolClassProfessor
 from school_book.api.model.model.school import SchoolClassSubject
 from school_book.api.model.model.user import User
 from school_book.api.model.model.school import Absence
+from school_book.api.model.model.school import Grade
 from sqlalchemy import func
 
 
@@ -105,3 +106,20 @@ class SchoolProvider:
                                         Absence.date >= date,
                                         Absence.date < limit_date).all()
         return absences
+
+    @classmethod
+    def get_class_subject_by_class_id_and_professor_id(cls, class_id, professor_id):
+        class_subject = SchoolClassSubject.query\
+            .join(SchoolSubject, SchoolClassSubject.school_subject_id == SchoolSubject.id)\
+            .filter(SchoolClassSubject.classes_id == class_id,
+                    SchoolSubject.professor_id == professor_id).first()
+
+        return class_subject
+
+    @classmethod
+    def get_student_grades(cls, class_id, school_subject_id, student_id):
+        grades = Grade.query.filter(Grade.class_id == class_id,
+                                    Grade.school_subject_id == school_subject_id,
+                                    Grade.student_id == student_id).all()
+
+        return grades
