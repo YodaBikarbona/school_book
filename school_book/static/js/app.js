@@ -492,6 +492,11 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
     $scope.maxSize = 5;*/
 
 
+    $scope.forward_student_id = function(student_id){
+        $scope.student_id = student_id
+    }
+
+
     $scope.show_profile = function(){
         $scope.show_tab = 0
         $scope.disable_button = true
@@ -522,7 +527,8 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
         $scope.showMiss = 1
     }
 
-    $scope.add_absence = function(class_id, absence_obj){
+    $scope.add_absence = function(class_id, absence_obj, student_id){
+        absence_obj.student_id = student_id
         console.log(absence_obj)
         professorservice.addNewAbsence(class_id, absence_obj, function(absence){
         }
@@ -534,6 +540,7 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
 
 
     $scope.show_student = function(class_id, student_id){
+        console.log($scope.userID)
         $scope.show_student_details = 1
         professorservice.getGrades(class_id, student_id, function(student_class_details){
             $scope.student_class_details = student_class_details.student_class_details

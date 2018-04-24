@@ -622,7 +622,6 @@ def get_student_grades_func(security_token, class_id):
                 for grade in grades:
                     average_grade += grade.grade
                 average_grade = round((float(average_grade - 1)/len(grades)), 1)
-                print(average_grade)
             school_subject['average_grade'] = average_grade
 
         return jsonify(
