@@ -485,11 +485,41 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
     $scope.bigCurrentPage = 1;
     $scope.totalItems = 0
     $scope.showMiss = 0
+    $scope.picked_button = 0
 
 
-    /*$scope.curPage = 1,
-    $scope.itemsPerPage = 3,
-    $scope.maxSize = 5;*/
+    $scope.test_class = 'blue_button'
+
+
+    $scope.set_grade = function(grade){
+        $scope.grade = grade
+        if (grade == 1) {
+            $scope.picked_button = 1;
+        };
+        if (grade == 2) {
+            $scope.picked_button = 2;
+        };
+        if (grade == 3) {
+            $scope.picked_button = 3;
+        };
+        if (grade == 4) {
+            $scope.picked_button = 4;
+        };
+        if (grade == 5) {
+            $scope.picked_button = 5;
+        };
+        console.log($scope.grade)
+    }
+
+    $scope.add_new_grade = function(new_grade){
+        console.log(new_grade)
+        new_grade.grade = $scope.grade
+        new_grade.student_id = $scope.student_class_details.student.id
+        new_grade.subject_id = $scope.class_subject_id
+        professorservice.addGrade($scope.school_class_id, new_grade, function(new_grade){
+            $scope.grades.grades.push(new_grade.new_grade)
+        })
+    }
 
 
     $scope.forward_student_id = function(student_id){
@@ -553,36 +583,8 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
     $scope.show_class = function(){
         $scope.show_class_details = 1
         $scope.showMiss = 0
-
-        /*$scope.$watch('curPage + numPerPage', function() {
-        var begin = (($scope.curPage - 1) * $scope.itemsPerPage)
-        var end = begin + $scope.itemsPerPage;
-    
-        $scope.filteredItems = $scope.class_list.school_class_student_list.slice(begin, end);
-        });*/
-
-        /*$scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
-        };*/
-
-        /*$scope.$watch('currentPage', function() {
-        var begin = (($scope.currentPage - 1))
-        var end = begin + 1;
-    
-        $scope.filteredTodos = $scope.class_list.school_class_student_list.slice(begin, end);
-        console.log($scope.class_list.school_class_student_list)
-        console.log("----")
-        console.log($scope.filteredTodos)
-        });*/
     }
 
-    /*$scope.$watch('currentPage', function() {
-        var begin = (($scope.currentPage - 1) * $scope.numPerPage)
-        , end = begin + $scope.numPerPage;
-    
-        $scope.filteredTodos = $scope.class_list.school_class_student_list.slice(begin, end);
-        console.log($scope.filteredTodos)
-    });*/
 
     $scope.numPages = function(){
         return $scope.class_list.school_class_student_list.length
@@ -603,6 +605,7 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
 
     $scope.show_student_grade = function(grades){
         $scope.grades = grades
+        $scope.class_subject_id = grades.id
     }
 
 

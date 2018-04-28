@@ -866,7 +866,7 @@
                  data-dismiss="modal" ng-click="restart_form()">&times;</button>
              </div>
              <!-- Modal Body -->
-             <div class="modal-body">
+             <div class="modal-body" style="height: 500px; overflow-y: scroll">
                 <table class="table table-user-information table-striped">
                     <thead>
                         <th>
@@ -899,6 +899,11 @@
                         </tr>
                     </tbody>
                 </table>
+                <div id='profile_buttons'>
+                    <div style="padding: 1px">
+                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#addNewGradeModal">Add new grade</button>
+                    </div>
+                </div>
              </div>
             <!-- Modal footer -->
             <div class="modal-footer">
@@ -937,4 +942,65 @@
         </div>
     </div>
 </div>
-<!-- End of Modal read grades -->
+<!-- End of Modal add new absence -->
+<!-- The Modal new grade -->
+<div class="modal fade" id="addNewGradeModal">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-0">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">{{grades.name}}</h4>
+                <button type="button" class="close not-focusable"
+                 data-dismiss="modal" ng-click="restart_form()">&times;</button>
+             </div>
+             <!-- Modal Body -->
+             <div class="modal-body">
+                <div id='profile_buttons'>
+                    <div style="padding: 1px">
+                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(1)" ng-if="picked_button == 0 || picked_button == 2 || picked_button == 3 || picked_button == 4 || picked_button == 5">1</button>
+
+                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(1)"
+                        ng-if="picked_button == 1">1</button>
+
+                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(2)" ng-if="picked_button == 0 || picked_button == 1 || picked_button == 3 || picked_button == 4 || picked_button == 5">2</button>
+
+                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(2)"
+                        ng-if="picked_button == 2">2</button>
+
+                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(3)" ng-if="picked_button == 0 || picked_button == 1 || picked_button == 2 || picked_button == 4 || picked_button == 5">3</button>
+
+                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(3)"
+                        ng-if="picked_button == 3">3</button>
+
+                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(4)" ng-if="picked_button == 0 || picked_button == 1 || picked_button == 2 || picked_button == 3 || picked_button == 5">4</button>
+
+                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(4)"
+                        ng-if="picked_button == 4">4</button>
+
+                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(5)" ng-if="picked_button == 0 || picked_button == 1 || picked_button == 2 || picked_button == 3 || picked_button == 4">5</button>
+
+                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(5)"
+                        ng-if="picked_button == 5">5</button>
+                    </div>
+                </div>
+                <form ng-submit="add_new_grade(new_grade)">
+                    <label style="margin-right: 5px">Write comment</label>
+                        <div class="form-group" style="padding: 1px">
+                            <input type="text" class="form-control" name="" ng-model='new_grade.comment'>
+                        </div>
+                        <div style="padding: 1px">
+                            <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">Add grade</button>
+                        </div>
+                </form>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Modal add new grade -->
+
+
+                    

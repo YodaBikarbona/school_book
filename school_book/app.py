@@ -34,6 +34,7 @@ from school_book.api.views.school import get_class_func
 from school_book.api.views.school import get_absences_func
 from school_book.api.views.school import add_absences_func
 from school_book.api.views.school import get_student_grades_func
+from school_book.api.views.school import add_student_grades_func
 from werkzeug.routing import Rule
 import logging
 import os
@@ -206,6 +207,13 @@ def add_absence(class_id):
 def get_student_grades(class_id):
 
     return get_student_grades_func(request.headers['Authorization'], class_id)
+
+
+@app.route('/grades/add/class/<int:class_id>', methods=['POST'])
+def add_student_grades(class_id):
+
+    return add_student_grades_func(request.headers['Authorization'], class_id)
+
 
 """@app.route('/upload', methods=['POST'])
 def upload_file():
