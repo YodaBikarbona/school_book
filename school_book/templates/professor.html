@@ -205,6 +205,13 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12" ng-if="show_subtab==1">
+
+
+
+
+
+
+                                    
                                     <div id='profile_buttons'>
                                         <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0"
                                         ng-click="show_class()">Students</button>
@@ -219,11 +226,10 @@
                                                     class="form-control">       
                                                 </div>
                                                 <div style="padding: 1px">
-                                                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_absences(school_class_id, date)">
+                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_absences(school_class_id, date)">
                                                         Show absences</button>
-                                                </div>
-                                                <div style="padding: 1px">
-                                                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_add_absence_form()">New absence</button>
+
+                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_add_absence_form()">New absence</button>
                                                 </div> 
                                             </div>
                                         </div>
@@ -412,29 +418,6 @@
                                                     <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#addNewAbsenceModal" ng-click="forward_student_id(student_class_details.student.id)">Add new absence</button>
                                                 </div>
                                             </div>
-
-                                            <ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages"></ul>
-                                            <pre> {{totalItems}}</pre>
-                                            <!--div class="row" style="padding-left: 1%" ng-repeat="school_subject in class_list.school_class_subject_list">
-                                                <div class="col-md-4 col-sm-12" style="border-bottom: 1px solid black;">{{school_subject.name}}
-                                                </div>
-                                                <div class="col-md-3 col-sm-12" style="border: 1px solid black;">
-                                                    <a style="position: absolute;" href="" 
-                                                    ng-click="join_class(school_class.id)">Read grades</a>
-                                                </div>
-                                                <div class="col-md-3 col-sm-6">
-                                                    Average grade:
-                                                </div>
-                                                <div class="col-md-1 col-sm-12" style="border: 1px solid black;">
-                                                    <div id='profile_buttons'>
-                                                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#changePasswordModal">Final grade</button>
-                                                    </div>
-                                                </div>
-                                            </div-->
-                                        </div>
-                                        <div data-pagination="" data-num-pages="numPages()" 
-                                        data-current-page="currentPage" data-max-size="maxSize"  
-                                        data-boundary-links="true">
                                         </div>
                                     </div>
                                 </div>
@@ -866,7 +849,7 @@
                  data-dismiss="modal" ng-click="restart_form()">&times;</button>
              </div>
              <!-- Modal Body -->
-             <div class="modal-body" style="height: 500px; overflow-y: scroll">
+             <div class="modal-body" style="height: 500px; overflow-y: scroll" ng-if="add_grade_view == 0">
                 <table class="table table-user-information table-striped">
                     <thead>
                         <th>
@@ -901,12 +884,57 @@
                 </table>
                 <div id='profile_buttons'>
                     <div style="padding: 1px">
-                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#addNewGradeModal">Add new grade</button>
+                        
+                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="change_grade_view()">Add new grade</button>
+                        <!--button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#addNewGradeModal">Add new grade</button-->
                     </div>
                 </div>
              </div>
+             <div class="modal-body" style="height: 500px; overflow-y: scroll" ng-if="add_grade_view == 1">
+                <div id='profile_buttons'>
+                    <div style="padding: 1px">
+                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(1)" ng-if="picked_button == 0 || picked_button == 2 || picked_button == 3 || picked_button == 4 || picked_button == 5">1</button>
+
+                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(1)"
+                        ng-if="picked_button == 1">1</button>
+
+                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(2)" ng-if="picked_button == 0 || picked_button == 1 || picked_button == 3 || picked_button == 4 || picked_button == 5">2</button>
+
+                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(2)"
+                        ng-if="picked_button == 2">2</button>
+
+                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(3)" ng-if="picked_button == 0 || picked_button == 1 || picked_button == 2 || picked_button == 4 || picked_button == 5">3</button>
+
+                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(3)"
+                        ng-if="picked_button == 3">3</button>
+
+                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(4)" ng-if="picked_button == 0 || picked_button == 1 || picked_button == 2 || picked_button == 3 || picked_button == 5">4</button>
+
+                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(4)"
+                        ng-if="picked_button == 4">4</button>
+
+                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(5)" ng-if="picked_button == 0 || picked_button == 1 || picked_button == 2 || picked_button == 3 || picked_button == 4">5</button>
+
+                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(5)"
+                        ng-if="picked_button == 5">5</button>
+                    </div>
+                </div>
+                <form ng-submit="add_new_grade(new_grade)">
+                    <label style="margin-right: 5px">Write comment</label>
+                        <div class="form-group" style="padding: 1px">
+                            <input type="text" class="form-control" name="" ng-model='new_grade.comment'>
+                        </div>
+                        <div style="padding: 1px">
+                            <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">Add grade</button>
+                        </div>
+                </form>
+            </div>
             <!-- Modal footer -->
-            <div class="modal-footer">
+            <div class="modal-footer" ng-if="add_grade_view == 1">
+                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="restart_form()">
+                See grades</button>
+            </div>
+            <div class="modal-footer" ng-if="add_grade_view == 0">
                 <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
             </div>
         </div>
@@ -995,7 +1023,11 @@
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
+                <div id='profile_buttons'>
+                    <div style="padding: 1px">
+                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

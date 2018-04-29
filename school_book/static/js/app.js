@@ -486,9 +486,14 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
     $scope.totalItems = 0
     $scope.showMiss = 0
     $scope.picked_button = 0
+    $scope.add_grade_view = 0
 
 
     $scope.test_class = 'blue_button'
+
+    $scope.change_grade_view = function(){
+        $scope.add_grade_view = 1
+    }
 
 
     $scope.set_grade = function(grade){
@@ -518,6 +523,9 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
         new_grade.subject_id = $scope.class_subject_id
         professorservice.addGrade($scope.school_class_id, new_grade, function(new_grade){
             $scope.grades.grades.push(new_grade.new_grade)
+            $scope.add_grade_view = 0
+            $scope.new_grade = {}
+            $scope.picked_button = 0
         })
     }
 
@@ -722,6 +730,9 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
         image_id.value = ''
         $scope.absencesShow = 0
         $scope.showMiss = 0
+        $scope.add_grade_view = 0
+        $scope.new_grade = {}
+        $scope.picked_button = 0
     }
 
     $scope.activate_user = function(user_id){
