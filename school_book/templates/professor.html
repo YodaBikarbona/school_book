@@ -205,21 +205,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12" ng-if="show_subtab==1">
-
-
-
-
-
-
-                                    
-                                    <div id='profile_buttons'>
-                                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0"
-                                        ng-click="show_class()">Students</button>
-                                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_miss()">Miss</button>
-                                    </div>
-                                    <p>{{school_class.id}}</p>
-                                    <div class="row" ng-if="showMiss == 1">
+                                    <div class="row">
                                         <div class="col-md-12">
+                                            <div id='profile_buttons'>
+                                                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0"
+                                                 ng-click="show_class()">Students</button>
+                                                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_miss()">Miss</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" ng-if="showMiss == 1">
                                             <div id='profile_buttons'>
                                                 <div style="padding: 1px">
                                                     <input name="" placeholder="MM/DD/YYY" type="date" ng-model='date' required 
@@ -233,24 +227,6 @@
                                                 </div> 
                                             </div>
                                         </div>
-                                        <!--div class="col-md-12" style="margin-bottom: 1%">
-                                            <p>{{school_class.name}}</p>
-                                            <div style="padding: 1px">
-                                                <input name="" placeholder="MM/DD/YYY" type="date" ng-model='date' required 
-                                                class="form-control">       
-                                            </div>
-                                            <div id='profile_buttons'-->
-                                                <!--form ng-submit="show_absences(2, date)" class="form-inline"-->
-                                                <!--div style="padding: 1px">
-                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_absences(2, date)">
-                                                    Show absences</button>
-                                                </div>
-                                                <div style="padding: 1px">
-                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_add_absence_form()">New absence</button>
-                                                </div>   
-                                                </form>
-                                            </div>
-                                        </div-->
                                         <div class="col-md-12" ng-if="absencesShow == 1">
                                             <table class="table table-user-information table-striped">
                                                 <thead>
@@ -337,6 +313,140 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+
+
+
+
+
+                                    
+                                    <!--p>{{school_class.id}}</p>
+                                    <div class="row" ng-if="showMiss == 1">
+                                        <div class="col-md-12">
+                                            <div id='profile_buttons'>
+                                                <div style="padding: 1px">
+                                                    <input name="" placeholder="MM/DD/YYY" type="date" ng-model='date' required 
+                                                    class="form-control">       
+                                                </div>
+                                                <div style="padding: 1px">
+                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_absences(school_class_id, date)">
+                                                        Show absences</button>
+
+                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_add_absence_form()">New absence</button>
+                                                </div> 
+                                            </div>
+                                        </div-->
+
+
+                                        <!-- ovo dole se ne pika do drugog prekida -->
+                                        <!--div class="col-md-12" style="margin-bottom: 1%">
+                                            <p>{{school_class.name}}</p>
+                                            <div style="padding: 1px">
+                                                <input name="" placeholder="MM/DD/YYY" type="date" ng-model='date' required 
+                                                class="form-control">       
+                                            </div>
+                                            <div id='profile_buttons'-->
+                                                <!--form ng-submit="show_absences(2, date)" class="form-inline"-->
+                                                <!--div style="padding: 1px">
+                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_absences(2, date)">
+                                                    Show absences</button>
+                                                </div>
+                                                <div style="padding: 1px">
+                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_add_absence_form()">New absence</button>
+                                                </div>   
+                                                </form>
+                                            </div>
+                                        </div-->
+
+
+                                        <!-- prekid -->
+                                        <!--div class="col-md-12" ng-if="absencesShow == 1">
+                                            <table class="table table-user-information table-striped">
+                                                <thead>
+                                                    <th>
+                                                        Student
+                                                    </th>
+                                                    <th>
+                                                        Date
+                                                    </th>
+                                                    <th>
+                                                        Time
+                                                    </th>
+                                                    <th>
+                                                        Comment
+                                                    </th>
+                                                    <th>
+                                                        Option
+                                                    </th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="absence in absences">
+                                                        <td>
+                                                            {{absence.student.first_name}} {{absence.student.last_name}}
+                                                        </td>
+                                                        <td>
+                                                            {{absence.date}}
+                                                        </td>
+                                                        <td>
+                                                            {{absence.time}}
+                                                        </td>
+                                                        <td>
+                                                            {{absence.comment}}
+                                                        </td>
+                                                        <td>
+                                                            <div id='profile_buttons'>
+                                                                <div style="padding: 1px">
+                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="school_class.professor.id == userID">
+                                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="school_class.professor.id == userID">
+                                                                        <i class="fa fa-close" aria-hidden="true"></i>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="school_class.professor.id != userID" disabled>
+                                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="school_class.professor.id != userID" disabled>
+                                                                        <i class="fa fa-close" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div style="padding: 1px">
+                                                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0"
+                                                ng-click="restart_form()">
+                                                Close</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" ng-if="absencesShow == 2">
+                                            <form ng-submit="add_absence(school_class_id, absence_obj)">
+                                                <label style="margin-right: 5px">Pick student</label>
+                                                <div class="form-group" style="padding: 1px">
+                                                    <select class="form-control-sm" ng-model='absence_obj.student_id' required>
+                                                        <option ng-repeat="student in class_list.school_class_student_list" value="{{student.id}}">
+                                                            {{student.first_name}} {{student.last_name}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <label style="margin-right: 5px">Write comment</label>
+                                                <div class="form-group" style="padding: 1px">
+                                                    <input type="text" class="form-control" name="" ng-model='absence_obj.comment'>
+                                                </div>
+                                                <div style="padding: 1px">
+                                                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">
+                                                    Add absences</button>
+                                                </div>
+                                            </form>
+                                            <div style="padding: 1px">
+                                                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0"
+                                                ng-click="restart_form()">
+                                                Close</button>
+                                            </div>
+                                        </div>
+                                    </div-->
                                     <div class="row" ng-if="show_class_details==1">
                                         <div class="col-md-12">
                                             <form ng-submit="show_student(school_class_id, student_id)">
