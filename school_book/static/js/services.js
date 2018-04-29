@@ -399,6 +399,20 @@ angular.module('school_book')
       console.log(resp.data)
     })}
 
+  this.addGrade = function(class_id, grade, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/grades/add/class/${class_id}`,
+      method: 'POST',
+      data: {student_id: grade.student_id,
+             subject_id: grade.subject_id,
+             grade: grade.grade,
+             comment: grade.comment}
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
 }])
 
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){

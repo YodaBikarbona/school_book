@@ -29,6 +29,7 @@ from school_book.api.model.serializers.serializer import AbsenceSerializer
 from datetime import datetime, timedelta
 from school_book.api.views.helper.helper import calendar_date_and_time
 from school_book.api.model.serializers.serializer import GradeSerializer
+from school_book.api.model.model.school import Grade
 
 
 def add_school_year_func(security_token, request):
@@ -622,7 +623,6 @@ def get_student_grades_func(security_token, class_id):
                 for grade in grades:
                     average_grade += grade.grade
                 average_grade = round((float(average_grade - 1)/len(grades)), 1)
-                print(average_grade)
             school_subject['average_grade'] = average_grade
 
         return jsonify(
@@ -631,6 +631,59 @@ def get_student_grades_func(security_token, class_id):
                 'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
                 'code': 200,
                 'student_class_details': student_class_details
+            }
+        )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def add_student_grades_func(security_token, class_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != PROFESSOR:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        #import pdb;pdb.set_trace()
+        if not request.json['student_id'] or not request.json['subject_id'] or not request.json['grade']:
+            return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+        student = UserProvider.get_user_by_id(request.json['student_id'])
+        if not student:
+            return error_handler(error_status=404, message=error_messages.USER_DOES_NOT_EXIST)
+        if int(request.json['grade']) not in range(1, 6):
+            return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+        school_subject = SchoolProvider.get_class_subject_by_id(subject_id=request.json['subject_id'], class_id=class_id)
+        if not school_subject:
+            return error_handler(error_status=404, message=error_messages.STUDENT_CLASS_DOES_NOT_EXIST)
+        new_grade = Grade()
+        new_grade.grade = request.json['grade']
+        new_grade.class_id = class_id
+        new_grade.student_id = request.json['student_id']
+        new_grade.date = datetime.now()
+        new_grade.school_subject_id = request.json['subject_id']
+        new_grade.professor_id = user.id
+        new_grade.comment = request.json['comment'] if request.json['comment'] else None
+        db.session.add(new_grade)
+        db.session.commit()
+        new_grade = GradeSerializer(many=False).dump(new_grade).data
+        new_grade['date'], new_grade['time'] = calendar_date_and_time(new_grade['date'])
+
+        return jsonify(
+            {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
+                'msg': messages.GRADE_SUCCESSFULLY_ADDED,
+                'new_grade': new_grade
             }
         )
     except Exception as ex:
