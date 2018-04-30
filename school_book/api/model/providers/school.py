@@ -7,6 +7,7 @@ from school_book.api.model.model.school import SchoolClassSubject
 from school_book.api.model.model.user import User
 from school_book.api.model.model.school import Absence
 from school_book.api.model.model.school import Grade
+from school_book.api.model.model.school import StudentGrade
 from sqlalchemy import func
 
 
@@ -123,3 +124,18 @@ class SchoolProvider:
                                     Grade.student_id == student_id).all()
 
         return grades
+
+
+    @classmethod
+    def get_closed_subject(cls, class_id, school_subject_id, student_id):
+        closed_subject = StudentGrade.query.filter(StudentGrade.class_id == class_id,
+                                                   StudentGrade.school_subject_id == school_subject_id,
+                                                   StudentGrade.student_id == student_id).first()
+        return closed_subject
+
+
+    @classmethod
+    def get_absence_by_class_id_and_absence_id(cls, class_id, absence_id):
+        absence = Absence.query.filter(Absence.class_id == class_id,
+                                       Absence.id == absence_id).first()
+        return absence

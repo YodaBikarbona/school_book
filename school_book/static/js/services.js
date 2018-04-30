@@ -413,6 +413,31 @@ angular.module('school_book')
       console.log(resp.data)
     })}
 
+  this.setFinalGrade = function(class_id, subject_id, student_id, final_grade, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/grades/final/class/${class_id}`,
+      method: 'POST',
+      data: {student_id: student_id,
+             subject_id: subject_id,
+             final_grade: final_grade}
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
+  this.setAbsenceStatment = function(class_id, absence_id, statement, callback){
+    $http({
+      url: `${API_ENDPOINT.url}/absence/statement/class/${class_id}`,
+      method: 'POST',
+      data: {absence_id: absence_id,
+             statement: statement}
+    }).then(function(resp){
+      callback(resp.data)
+    }, function(resp){
+      console.log(resp.data)
+    })}
+
 }])
 
 /*.factory('AuthInterceptor', ['$rootScope', function($rootScope){

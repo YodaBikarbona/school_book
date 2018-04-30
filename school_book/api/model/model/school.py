@@ -104,6 +104,7 @@ class Absence(db.Model):
     student_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
     date = Column(DateTime, nullable=True, default=now())
     comment = Column(Unicode(255), nullable=True)
+    approved = Column(Boolean, nullable=True, default=None)
 
     classes = relationship('SchoolClass')
     subjects = relationship('SchoolSubject')
@@ -125,6 +126,26 @@ class Grade(db.Model):
     date = Column(DateTime, nullable=True, default=now())
     comment = Column(Unicode(255), nullable=True)
     grade = Column(Integer, nullable=False)
+
+    classes = relationship('SchoolClass')
+    subjects = relationship('SchoolSubject')
+    user_professor = relationship('User', foreign_keys=[professor_id])
+    user_student = relationship('User', foreign_keys=[student_id])
+
+    def __repr__(self):
+        return '{0} {1}'.format(self.user.first_name, self.user.last_name)
+
+
+class StudentGrade(db.Model):
+    __tablename__ = 'class_student_subject'
+
+    id = Column(Integer, primary_key=True)
+    class_id = Column(Integer, ForeignKey('classes.id', ondelete='CASCADE'))
+    school_subject_id = Column(Integer, ForeignKey('school_subjects.id', ondelete='CASCADE'))
+    professor_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
+    student_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
+    closed = Column(Boolean, nullable=False, default=False)
+    grade = Column(Integer, default=1)
 
     classes = relationship('SchoolClass')
     subjects = relationship('SchoolSubject')

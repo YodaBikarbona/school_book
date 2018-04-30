@@ -66,7 +66,7 @@ class AbsenceSerializer(ma.Schema):
 
     class Meta:
         fields = ('id', 'class_id', 'school_subject_id', 'professor_id', 'student_id',
-                  'date', 'comment')
+                  'date', 'comment', 'approved')
 
 
 class GradeSerializer(ma.Schema):
@@ -75,3 +75,9 @@ class GradeSerializer(ma.Schema):
         fields = ('id', 'class_id', 'school_subject_id', 'professor_id', 'student_id',
                   'date', 'comment', 'grade')
 
+
+class StudentGradeSerializer(ma.Schema):
+
+    class Meta:
+        fields = ('id', 'class_id', 'school_subject_id', 'professor_id', 'student_id',
+                  'closed', 'grade')
