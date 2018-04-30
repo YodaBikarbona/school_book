@@ -20,3 +20,5 @@ SCHOOL_STUDENT_SUCCESSFULLY_DELETED = "Student is successfully deleted from clas
 SCHOOL_SUBJECT_SUCCESSFULLY_DELETED = "School subject is successfully deleted from class!"
 ABSENCE_SUCCESSFULLY_ADDED = "Absence is successfully added!"
 GRADE_SUCCESSFULLY_ADDED = "Grade is successfully added!"
+FINALLY_GRADE_SUCCESSFULLY_SET = "Finally grade is successfully set!"
+ABSENCE_STATEMENT_SUCCESSFULLY_CHANGED = "Absence statement is successfully changed!"

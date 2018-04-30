@@ -79,8 +79,6 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-3 col-lg-3">
-                                    <!--img src="http://cdn.osxdaily.com/wp-content/uploads/2014/07/users-and-groups-icon-mac.png" alt="Responsive image" class="img-thumbnail"-->
-                                    <!--img src="http://localhost:8080/school_book/static/uploads/07JUNESIX-slide-875K-master1050.jpg" alt="Responsive image" class="img-thumbnail"-->
                                     <img src="http://localhost:8080/school_book/api/uploads/{{user_obj.image.file_name}}" alt="Responsive image" class="img-thumbnail">
                                 </div>
                                 <div class=" col-md-9 col-lg-9"> 
@@ -157,7 +155,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#changePasswordModal">Change password</button>
+                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#changePasswordModal" ng-if="userID == user_obj.id">Change password</button>
                                 </div>
                             </div>
                         </div>
@@ -199,7 +197,7 @@
                                                 <p>{{school_class.number_of_students}}</p>
 
                                                 <a style="bottom: 5%; position: absolute;" href="" 
-                                                ng-click="join_class(school_class.id)">Join class</a>
+                                                ng-click="join_class(school_class.id, school_class.professor.id)">Join class</a>
                                             </div>
                                         </div>
                                     </div>
@@ -261,21 +259,27 @@
                                                             {{absence.comment}}
                                                         </td>
                                                         <td>
-                                                            <div id='profile_buttons'>
+                                                            <div id='profile_buttons' ng-if="absence.approved == null">
                                                                 <div style="padding: 1px">
-                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="school_class.professor.id == userID">
+                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="main_professor_id == userID" ng-click="set_absence_statement(true, absence.id)">
                                                                         <i class="fa fa-check" aria-hidden="true"></i>
                                                                     </button>
-                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="school_class.professor.id == userID">
+                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="main_professor_id == userID" ng-click="set_absence_statement(false, absence.id)">
                                                                         <i class="fa fa-close" aria-hidden="true"></i>
                                                                     </button>
-                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="school_class.professor.id != userID" disabled>
+                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="main_professor_id != userID" disabled>
                                                                         <i class="fa fa-check" aria-hidden="true"></i>
                                                                     </button>
-                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="school_class.professor.id != userID" disabled>
+                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="main_professor_id != userID" disabled>
                                                                         <i class="fa fa-close" aria-hidden="true"></i>
                                                                     </button>
                                                                 </div>
+                                                            </div>
+                                                            <div ng-if="absence.approved">
+                                                                Approved
+                                                            </div>
+                                                            <div ng-if="absence.approved == 0">
+                                                                Rejected
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -287,167 +291,7 @@
                                                 Close</button>
                                             </div>
                                         </div>
-                                        <!-- no need i make another design into student preview -->
-                                        <!--div class="col-md-12" ng-if="absencesShow == 2">
-                                            <form ng-submit="add_absence(school_class_id, absence_obj)">
-                                                <label style="margin-right: 5px">Pick student</label>
-                                                <div class="form-group" style="padding: 1px">
-                                                    <select class="form-control-sm" ng-model='absence_obj.student_id' required>
-                                                        <option ng-repeat="student in class_list.school_class_student_list" value="{{student.id}}">
-                                                            {{student.first_name}} {{student.last_name}}
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <label style="margin-right: 5px">Write comment</label>
-                                                <div class="form-group" style="padding: 1px">
-                                                    <input type="text" class="form-control" name="" ng-model='absence_obj.comment'>
-                                                </div>
-                                                <div style="padding: 1px">
-                                                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">
-                                                    Add absences</button>
-                                                </div>
-                                            </form>
-                                            <div style="padding: 1px">
-                                                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0"
-                                                ng-click="restart_form()">
-                                                Close</button>
-                                            </div>
-                                        </div-->
                                     </div>
-
-
-
-
-
-
-
-                                    
-                                    <!--p>{{school_class.id}}</p>
-                                    <div class="row" ng-if="showMiss == 1">
-                                        <div class="col-md-12">
-                                            <div id='profile_buttons'>
-                                                <div style="padding: 1px">
-                                                    <input name="" placeholder="MM/DD/YYY" type="date" ng-model='date' required 
-                                                    class="form-control">       
-                                                </div>
-                                                <div style="padding: 1px">
-                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_absences(school_class_id, date)">
-                                                        Show absences</button>
-
-                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_add_absence_form()">New absence</button>
-                                                </div> 
-                                            </div>
-                                        </div-->
-
-
-                                        <!-- ovo dole se ne pika do drugog prekida -->
-                                        <!--div class="col-md-12" style="margin-bottom: 1%">
-                                            <p>{{school_class.name}}</p>
-                                            <div style="padding: 1px">
-                                                <input name="" placeholder="MM/DD/YYY" type="date" ng-model='date' required 
-                                                class="form-control">       
-                                            </div>
-                                            <div id='profile_buttons'-->
-                                                <!--form ng-submit="show_absences(2, date)" class="form-inline"-->
-                                                <!--div style="padding: 1px">
-                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_absences(2, date)">
-                                                    Show absences</button>
-                                                </div>
-                                                <div style="padding: 1px">
-                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="show_add_absence_form()">New absence</button>
-                                                </div>   
-                                                </form>
-                                            </div>
-                                        </div-->
-
-
-                                        <!-- prekid -->
-                                        <!--div class="col-md-12" ng-if="absencesShow == 1">
-                                            <table class="table table-user-information table-striped">
-                                                <thead>
-                                                    <th>
-                                                        Student
-                                                    </th>
-                                                    <th>
-                                                        Date
-                                                    </th>
-                                                    <th>
-                                                        Time
-                                                    </th>
-                                                    <th>
-                                                        Comment
-                                                    </th>
-                                                    <th>
-                                                        Option
-                                                    </th>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="absence in absences">
-                                                        <td>
-                                                            {{absence.student.first_name}} {{absence.student.last_name}}
-                                                        </td>
-                                                        <td>
-                                                            {{absence.date}}
-                                                        </td>
-                                                        <td>
-                                                            {{absence.time}}
-                                                        </td>
-                                                        <td>
-                                                            {{absence.comment}}
-                                                        </td>
-                                                        <td>
-                                                            <div id='profile_buttons'>
-                                                                <div style="padding: 1px">
-                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="school_class.professor.id == userID">
-                                                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="school_class.professor.id == userID">
-                                                                        <i class="fa fa-close" aria-hidden="true"></i>
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="school_class.professor.id != userID" disabled>
-                                                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="school_class.professor.id != userID" disabled>
-                                                                        <i class="fa fa-close" aria-hidden="true"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <div style="padding: 1px">
-                                                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0"
-                                                ng-click="restart_form()">
-                                                Close</button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12" ng-if="absencesShow == 2">
-                                            <form ng-submit="add_absence(school_class_id, absence_obj)">
-                                                <label style="margin-right: 5px">Pick student</label>
-                                                <div class="form-group" style="padding: 1px">
-                                                    <select class="form-control-sm" ng-model='absence_obj.student_id' required>
-                                                        <option ng-repeat="student in class_list.school_class_student_list" value="{{student.id}}">
-                                                            {{student.first_name}} {{student.last_name}}
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <label style="margin-right: 5px">Write comment</label>
-                                                <div class="form-group" style="padding: 1px">
-                                                    <input type="text" class="form-control" name="" ng-model='absence_obj.comment'>
-                                                </div>
-                                                <div style="padding: 1px">
-                                                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">
-                                                    Add absences</button>
-                                                </div>
-                                            </form>
-                                            <div style="padding: 1px">
-                                                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0"
-                                                ng-click="restart_form()">
-                                                Close</button>
-                                            </div>
-                                        </div>
-                                    </div-->
                                     <div class="row" ng-if="show_class_details==1">
                                         <div class="col-md-12">
                                             <form ng-submit="show_student(school_class_id, student_id)">
@@ -461,48 +305,12 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        <!--pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" items-per-page="itemsPerPage"></pagination-->
-
-                                        <!--pagination data-pagination="" data-num-pages="numOfPages()" 
-                                        data-current-page="curPage" data-max-size="maxSize"  
-                                        data-boundary-links="true"></pagination-->
-                                        <!--pagination 
-                                         ng-model="currentPage"
-                                          total-items="class_list.school_class_student_list.length"
-                                          max-size="maxSize"  
-                                          boundary-links="true">
-                                        </pagination-->
-                                        <!--div data-pagination="" data-num-pages="numPages()" 
-                                          data-current-page="currentPage" data-max-size="maxSize"  
-                                          data-boundary-links="true"></div-->
-                                        <!--pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage"></pagination-->
-                                        <!--nav aria-label="Page navigation example">
-                                            <ul class="pagination">
-                                            <li class="page-item">
-                                              <a class="page-link" href="#" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                                <span class="sr-only">Previous</span>
-                                              </a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link">1</a></li>
-                                            <li class="page-item"><a class="page-link">2</a></li>
-                                            <li class="page-item"><a class="page-link">3</a></li>
-                                            <li class="page-item">
-                                              <a class="page-link" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                                <span class="sr-only">Next</span>
-                                              </a>
-                                            </li>
-                                          </ul>
-                                        </nav-->
-
-
                                         <div class="col-md-12" ng-if="show_student_details == 1">
                                             <div class="col-md-12">
                                                 Student: {{student_class_details.student.first_name}} {{student_class_details.student.last_name}}
                                             </div>
                                             <div class="col-md-12">
-                                                View profile
+                                                <a href="" ng-click='change_tab(student_class_details.student.id)'>View profile</a>
                                             </div>
                                             <table class="table table-user-information table-striped">
                                                 <tbody>
@@ -515,11 +323,22 @@
                                                             ng-click="show_student_grade(school_subject)">Read grades</a>
                                                         </td>
                                                         <td>
-                                                            Average grade: {{school_subject.average_grade}}
+                                                            <div ng-if="!school_subject.closed_subject">
+                                                                Average grade: {{school_subject.average_grade}}
+                                                            </div>
+                                                            <div ng-if="school_subject.closed_subject">
+                                                                Final grade: {{school_subject.final_grade}}
+                                                            </div>
                                                         </td>
                                                         <td>
-                                                            <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#changePasswordModal" ng-if="school_subject.professor_id == userID">Final grade</button>
-                                                            <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#changePasswordModal" ng-if="school_subject.professor_id != userID" disabled>Final grade</button>
+                                                            <div ng-if="!school_subject.closed_subject">
+                                                                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#finalGradeModal" ng-if="school_subject.professor_id == userID"
+                                                                ng-click="set_subject(school_subject)">Final grade</button>
+                                                                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#finalGradeModal" ng-if="school_subject.professor_id != userID" ng-click="set_subject(school_subject)" disabled >Final grade</button>
+                                                            </div>
+                                                            <div ng-if="school_subject.closed_subject">
+                                                                Closed
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -541,380 +360,6 @@
         <!-- End of classes panel -->
     </div>
 </div>
-<!-- The Modal absences-->
-<div class="modal fade" id="absencesModal">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-0">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Add new user</h4>
-                <button type="button" class="close not-focusable"
-                 data-dismiss="modal" ng-click="restart_form()">&times;</button>
-             </div>
-             <!-- Modal body -->
-             <div class="modal-body">
-                
-                <form ng-submit="addUser(new_user)">
-                    <div class="form-group" style="padding: 1px">
-                        <label style="margin-right: 5px">Pick role</label>
-                        <select class="form-control-sm" ng-model='new_user.role_name'>
-                            <option ng-repeat="role in roles" value="{{role.role_name}}">
-                                {{role.role_name}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
-                        <label style="margin-right: 5px">First name*</label>
-                        <input type="text" class="form-control" name="" ng-model='new_user.first_name' required>
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
-                        <label style="margin-right: 5px">Last name*</label>
-                        <input type="text" class="form-control" name="" ng-model='new_user.last_name' required>
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
-                        <label style="margin-right: 5px">Birth date*</label>
-                        <input name="" placeholder="MM/DD/YYY" type="date" ng-model='new_user.birth_date' required 
-                        class="form-control">
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name!='student' && new_user.role_name">
-                        <label style="margin-right: 5px">Email*</p></label>
-                        <input type="email" class="form-control" name="" ng-model='new_user.email' required>
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
-                        <label style="margin-right: 5px">Password*</p></label>
-                        <input type="password" class="form-control" name="" ng-model='new_user.password' required>
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
-                        <label style="margin-right: 5px">Gender*</label>
-                        <select class="form-control-sm" ng-model='new_user.gender' required>
-                            <option value="">
-                                Pick
-                            </option>
-                            <option value='0'>
-                                Male
-                            </option>
-                            <option value='1'>
-                                Female
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
-                        <label style="margin-right: 5px">Phone number</label>
-                        <input type="text" class="form-control" name="" ng-model='new_user.phone_number'>
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
-                        <label style="margin-right: 5px">Address</label>
-                        <input type="text" class="form-control" name="" ng-model='new_user.address'>
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name">
-                        <label style="margin-right: 5px">City</label>
-                        <input type="text" class="form-control" name="" ng-model='new_user.city'>
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name=='student' && new_user.role_name">
-                        <label style="margin-right: 5px">Parent one*</label>
-                        <input type="text" class="form-control" name="" ng-model="new_user.parent_one" required>
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="new_user.role_name=='student' && new_user.role_name">
-                        <label style="margin-right: 5px">Parent two*</label>
-                        <input type="text" class="form-control" name="" ng-model='new_user.parent_two' required>
-                    </div>
-                    <div class="form-check" ng-if="new_user.role_name">
-                        <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" ng-model='new_user.activated'>
-                            Activated
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-if="new_user.role_name"
-                    style="float: right;">Add</button>
-                </form>
-            </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of Modal -->
-<!-- The Modal edit user-->
-<div class="modal fade" id="editModal">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-0">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Edit user</h4>
-                <button type="button" class="close not-focusable"
-                 data-dismiss="modal" ng-click="restart_form()">&times;</button>
-             </div>
-             <!-- Modal body -->
-             <div class="modal-body">
-                <form ng-submit="editUser(user_obj)">
-                    <div class="form-group" style="padding: 1px">
-                        <label style="margin-right: 5px">First name*</label>
-                        <input type="text" class="form-control" name="" ng-model='user_obj.first_name' required>
-                    </div>
-                    <div class="form-group" style="padding: 1px">
-                        <label style="margin-right: 5px">Last name*</label>
-                        <input type="text" class="form-control" name="" ng-model='user_obj.last_name' required 
-                        >
-                    </div>
-                    <div class="form-group" style="padding: 1px">
-                        <label style="margin-right: 5px">Birth date*</label>
-                        <input name="" placeholder="MM/DD/YYY" type="date" ng-model='user_obj.edit_birth_date' required 
-                        class="form-control" >
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="user_obj.role.role_name!='student'">
-                        <label style="margin-right: 5px">Email*</p></label>
-                        <input type="email" class="form-control" name="" ng-model='user_obj.email' required 
-                        >
-                    </div>
-                    <div class="form-group" style="padding: 1px">
-                        <label style="margin-right: 5px">Gender*</label>
-                        <select class="form-control-sm" ng-model='user_obj.gender' required>
-                            <option value='0' ng-if="user_obj.gender==0" selected>
-                                Male
-                            </option>
-                            <option value='0' ng-if="user_obj.gender==1">
-                                Male
-                            </option>
-                            <option value='1' ng-if="user_obj.gender==1" selected>
-                                Female
-                            </option>
-                            <option value='1' ng-if="user_obj.gender==0">
-                                Female
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="padding: 1px">
-                        <label style="margin-right: 5px">Phone number</label>
-                        <input type="text" class="form-control" name="" ng-model='user_obj.phone_number'>
-                    </div>
-                    <div class="form-group" style="padding: 1px">
-                        <label style="margin-right: 5px">Address</label>
-                        <input type="text" class="form-control" name="" ng-model='user_obj.address'>
-                    </div>
-                    <div class="form-group" style="padding: 1px">
-                        <label style="margin-right: 5px">City</label>
-                        <input type="text" class="form-control" name="" ng-model='user_obj.city'>
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="user_obj.role.role_name=='student'">
-                        <label style="margin-right: 5px">Parent one*</label>
-                        <input type="text" class="form-control" name="" ng-model="user_obj.parent_one" required 
-                        value="user_obj.parent_one">
-                    </div>
-                    <div class="form-group" style="padding: 1px" ng-if="user_obj.role.role_name=='student'">
-                        <label style="margin-right: 5px">Parent two*</label>
-                        <input type="text" class="form-control" name="" ng-model='user_obj.parent_two' required 
-                        value="user_obj.parent_two">
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" ng-model='user_obj.activated' value="user_obj.activated">
-                            Activated
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0" style="float: right;">
-                    Edit</button>
-                </form>
-            </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of Modal -->
-<!-- The Modal add school year-->
-<div class="modal fade" id="addSchoolYearModal">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-0">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Add new school year</h4>
-                <button type="button" class="close not-focusable"
-                 data-dismiss="modal" ng-click="restart_form()">&times;</button>
-             </div>
-             <!-- Modal body -->
-             <div class="modal-body">
-                <form ng-submit="addSchoolYear(new_school_year)">
-                    <div class="form-group" style="padding: 1px">
-                        <label style="margin-right: 5px">Start year*</label>
-                        <input type="text" class="form-control" name="" ng-model='new_school_year.start' required>
-                    </div>
-                    <div class="form-group" style="padding: 1px">
-                        <label style="margin-right: 5px">End year*</label>
-                        <input type="text" class="form-control" name="" ng-model='new_school_year.end' required>
-                    </div>
-                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0"
-                    style="float: right;">Add</button>
-                </form>
-            </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of Modal school year -->
-<!-- The Modal add school subject-->
-<div class="modal fade" id="addSchoolSubjectModal">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-0">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Add new school subject</h4>
-                <button type="button" class="close not-focusable"
-                 data-dismiss="modal" ng-click="restart_form()">&times;</button>
-             </div>
-             <!-- Modal body -->
-             <div class="modal-body">
-                <form ng-submit="addSchoolSubject(new_subject)">
-                    <label style="margin-right: 5px">Pick professor*</label>
-                    <select class="form-control-sm" ng-model="new_subject.user_id" required>
-                        <option ng-repeat="user in users" value="{{user.id}}">
-                            {{user.first_name}} {{user.last_name}}
-                        </option>
-                    </select>
-                    <div class="form-group" style="padding: 1px">
-                        <label style="margin-right: 5px">Name of subject*</label>
-                        <input type="text" class="form-control" name="" ng-model='new_subject.name' required>
-                    </div>
-                    <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0"
-                    style="float: right;">Add</button>
-                </form>
-            </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of Modal school subject -->
-<!-- The Modal change profile image-->
-<div class="modal fade" id="changeProfileImageModal">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-0">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Change profile image</h4>
-                <button type="button" class="close not-focusable"
-                 data-dismiss="modal" ng-click="restart_form()">&times;</button>
-             </div>
-             <!-- Modal body -->
-             <div class="modal-body">
-                <form  enctype="multipart/form-data" ng-submit="uploadFile(user_obj.id, myFile)">
-                    <div class="form-group" style="padding: 1px">
-                        <label for="usr">Add your photo:</label>
-                        <input id='inputImage' type='file' class="form-control" name='image' file-model='myFile'>
-                    </div>
-                    <div class="form-group" style="padding: 1px">
-                        <button type="submit" value="submit" class="btn btn-secondary btn-sm">Submit<br />
-                    </div>
-                </form>
-            </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of Modal school subject -->
-<!-- The Modal add class-->
-<div class="modal fade" id="addClassModal">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-0">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Change profile image</h4>
-                <button type="button" class="close not-focusable"
-                 data-dismiss="modal" ng-click="restart_form()">&times;</button>
-             </div>
-             <!-- Modal body -->
-             <div class="modal-body">
-                <form ng-submit="addnewClass(school_year_id, new_class)">
-                    <div class="form-group" style="padding: 1px">
-                        <label style="margin-right: 5px">Pick professor*</label>
-                        <select class="form-control-sm" ng-model="new_class.user_id" required>
-                            <option ng-repeat="user in users" value="{{user.id}}">
-                                {{user.first_name}} {{user.last_name}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="padding: 1px">
-                        <label style="margin-right: 5px">Class name*</label>
-                        <input type="text" class="form-control" name="" ng-model='new_class.name' required>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" ng-model='new_class.multiple_professors'>
-                            Multiple professors?
-                        </label>
-                    </div>
-                    <div class="form-group" style="padding: 1px">
-                        <button type="submit" value="submit" class="btn btn-secondary btn-sm">Submit<br />
-                    </div>
-                </form>
-            </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of Modal add class -->
-<!-- The Modal animate -->
-<div class="modal fade" id="addModalSuccess">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-0">
-             <div class="modal-body alert alert-success">
-                <div class="svg-box">
-                <svg class="circular green-stroke">
-                    <circle class="path" cx="75" cy="75" r="50" fill="none" stroke-width="5" stroke-miterlimit="10"/>
-                </svg>
-                <svg class="checkmark green-stroke">
-                    <g transform="matrix(0.79961,8.65821e-32,8.39584e-32,0.79961,-489.57,-205.679)">
-                        <path class="checkmark__check" fill="none" d="M616.306,283.025L634.087,300.805L673.361,261.53"/>
-                    </g>
-                </svg>
-            </div>
-            </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of Modal animate -->
-<!-- The Modal delete user -->
-<div class="modal fade" id="deleteUserModel">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-0">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Delete user</h4>
-                <button type="button" class="close not-focusable"
-                 data-dismiss="modal" ng-click="restart_form()">&times;</button>
-             </div>
-             <!-- Modal Body -->
-             <div class="modal-body">
-                 <h5>Are You sure You wan't delete this user?</h5>
-                 <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">No</button>
-                 <button type="button" class="btn btn-danger btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="delete_user(user_obj.id)">Yes</button>
-             </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of Modal delete user -->
 <!-- The Modal change password -->
 <div class="modal fade" id="changePasswordModal">
     <div class="modal-dialog">
@@ -995,8 +440,8 @@
                 </table>
                 <div id='profile_buttons'>
                     <div style="padding: 1px">
-                        
-                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="change_grade_view()">Add new grade</button>
+                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="change_grade_view()" ng-if="grades.professor_id == userID && !grades.closed_subject">Add new grade</button>
+                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" ng-click="change_grade_view()" ng-if="grades.professor_id != userID || grades.closed_subject" disabled>Add new grade</button>
                         <!--button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-toggle="modal" data-target="#addNewGradeModal">Add new grade</button-->
                     </div>
                 </div>
@@ -1082,68 +527,34 @@
     </div>
 </div>
 <!-- End of Modal add new absence -->
-<!-- The Modal new grade -->
-<div class="modal fade" id="addNewGradeModal">
+<!-- The Modal final grade -->
+<div class="modal fade" id="finalGradeModal">
     <div class="modal-dialog">
         <div class="modal-content rounded-0">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">{{grades.name}}</h4>
+                <h4 class="modal-title">{{final_grade_subject.name}}</h4>
                 <button type="button" class="close not-focusable"
                  data-dismiss="modal" ng-click="restart_form()">&times;</button>
              </div>
              <!-- Modal Body -->
              <div class="modal-body">
                 <div id='profile_buttons'>
+                    Final grade is {{final_grade_subject.final_grade}}<br>
+                    Are you sure you wanna set the final grade?
                     <div style="padding: 1px">
-                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(1)" ng-if="picked_button == 0 || picked_button == 2 || picked_button == 3 || picked_button == 4 || picked_button == 5">1</button>
-
-                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(1)"
-                        ng-if="picked_button == 1">1</button>
-
-                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(2)" ng-if="picked_button == 0 || picked_button == 1 || picked_button == 3 || picked_button == 4 || picked_button == 5">2</button>
-
-                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(2)"
-                        ng-if="picked_button == 2">2</button>
-
-                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(3)" ng-if="picked_button == 0 || picked_button == 1 || picked_button == 2 || picked_button == 4 || picked_button == 5">3</button>
-
-                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(3)"
-                        ng-if="picked_button == 3">3</button>
-
-                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(4)" ng-if="picked_button == 0 || picked_button == 1 || picked_button == 2 || picked_button == 3 || picked_button == 5">4</button>
-
-                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(4)"
-                        ng-if="picked_button == 4">4</button>
-
-                        <button type="button" class="btn btn-secondary btn-lg not-focusable rounded-0" ng-click="set_grade(5)" ng-if="picked_button == 0 || picked_button == 1 || picked_button == 2 || picked_button == 3 || picked_button == 4">5</button>
-
-                        <button type="button" class="btn btn-primary btn-lg not-focusable rounded-0" ng-click="set_grade(5)"
-                        ng-if="picked_button == 5">5</button>
+                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="set_final_grade(final_grade_subject.id, final_grade_subject.final_grade)">Yes</button>
+                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">No</button>
                     </div>
                 </div>
-                <form ng-submit="add_new_grade(new_grade)">
-                    <label style="margin-right: 5px">Write comment</label>
-                        <div class="form-group" style="padding: 1px">
-                            <input type="text" class="form-control" name="" ng-model='new_grade.comment'>
-                        </div>
-                        <div style="padding: 1px">
-                            <button type="submit" class="btn btn-secondary btn-sm not-focusable rounded-0">Add grade</button>
-                        </div>
-                </form>
-            </div>
+             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-                <div id='profile_buttons'>
-                    <div style="padding: 1px">
-                        <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
-                    </div>
-                </div>
+                <button type="button" class="btn btn-secondary btn-sm not-focusable rounded-0" data-dismiss="modal" ng-click="restart_form()">Close</button>
             </div>
         </div>
     </div>
 </div>
-<!-- End of Modal add new grade -->
-
+<!-- End of Modal final grade -->
 
                     

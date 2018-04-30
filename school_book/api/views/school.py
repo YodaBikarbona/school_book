@@ -30,6 +30,8 @@ from datetime import datetime, timedelta
 from school_book.api.views.helper.helper import calendar_date_and_time
 from school_book.api.model.serializers.serializer import GradeSerializer
 from school_book.api.model.model.school import Grade
+from school_book.api.model.model.school import StudentGrade
+from school_book.api.model.serializers.serializer import StudentGradeSerializer
 
 
 def add_school_year_func(security_token, request):
@@ -624,6 +626,14 @@ def get_student_grades_func(security_token, class_id):
                     average_grade += grade.grade
                 average_grade = round((float(average_grade - 1)/len(grades)), 1)
             school_subject['average_grade'] = average_grade
+            closed_subject = SchoolProvider.get_closed_subject(class_id=class_id,
+                                                               school_subject_id=school_subject['id'],
+                                                               student_id=student.id)
+            school_subject['final_grade'] = int(round(school_subject['average_grade']))
+            if closed_subject:
+                school_subject['closed_subject'] = closed_subject.closed
+            else:
+                school_subject['closed_subject'] = False
 
         return jsonify(
             {
@@ -691,3 +701,96 @@ def add_student_grades_func(security_token, class_id):
         return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
 
 
+def set_final_student_grade_func(security_token, class_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != PROFESSOR:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        #import pdb;pdb.set_trace()
+        if not request.json['student_id'] or not request.json['subject_id'] or not request.json['final_grade']:
+            return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+        student = UserProvider.get_user_by_id(request.json['student_id'])
+        if not student:
+            return error_handler(error_status=404, message=error_messages.USER_DOES_NOT_EXIST)
+        school_subject = SchoolProvider.get_class_subject_by_id(subject_id=request.json['subject_id'],
+                                                                class_id=class_id)
+        if not school_subject:
+            return error_handler(error_status=404, message=error_messages.STUDENT_CLASS_DOES_NOT_EXIST)
+        closed_subject = SchoolProvider.get_closed_subject(class_id=class_id,
+                                                           school_subject_id=request.json['subject_id'],
+                                                           student_id=student.id)
+        if not closed_subject:
+            new_closed_subject = StudentGrade()
+            new_closed_subject.class_id = class_id
+            new_closed_subject.grade = request.json['final_grade']
+            new_closed_subject.student_id = request.json['student_id']
+            new_closed_subject.school_subject_id = request.json['subject_id']
+            new_closed_subject.professor_id = user.id
+            new_closed_subject.closed = True
+            db.session.add(new_closed_subject)
+            db.session.commit()
+        else:
+            closed_subject.closed = True
+            db.session.commit()
+
+        return jsonify(
+            {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
+                'msg': messages.FINALLY_GRADE_SUCCESSFULLY_SET
+            }
+        )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+
+
+def set_absence_statment_func(security_token, class_id):
+    authorization = check_security_token(security_token)
+
+    if authorization is False:
+        return error_handler(error_status=403, message=error_messages.WRONG_TOKEN)
+
+    user = UserProvider.get_user_by_username(username=authorization['userName'])
+
+    if not user:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    if user.role.role_name != PROFESSOR:
+        return error_handler(error_status=403, message=error_messages.NO_PERMISSION)
+
+    try:
+        #import pdb;pdb.set_trace()
+        if not request.json['absence_id']:
+            return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+        absence = SchoolProvider.get_absence_by_class_id_and_absence_id(class_id=class_id, absence_id=request.json['absence_id'])
+        if not absence:
+            return error_handler(error_status=404, message=error_messages.ABSENCE_DOES_NOT_EXIST)
+        print(request.json['statement'])
+        if request.json['statement'] not in [True, False]:
+            return error_handler(error_status=400, message=error_messages.BAD_REQUEST)
+        absence.approved = request.json['statement']
+        db.session.commit()
+
+        return jsonify(
+            {
+                'status': 'OK',
+                'server_time': now().strftime("%Y-%m-%dT%H:%M:%S"),
+                'code': 200,
+                'msg': messages.ABSENCE_STATEMENT_SUCCESSFULLY_CHANGED
+            }
+        )
+    except Exception as ex:
+        print(ex)
+        return error_handler(error_status=400, message=error_messages.BAD_REQUEST)

@@ -489,6 +489,31 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
     $scope.add_grade_view = 0
 
 
+    $scope.set_absence_statement = function(statement, absence_id){
+        console.log(statement)
+        professorservice.setAbsenceStatment($scope.school_class_id, absence_id, statement, function(){
+        })
+        $scope.show_absences($scope.school_class_id, $scope.last_absence_picked_date)
+    }
+
+
+    $scope.set_subject = function(school_subject){
+        $scope.final_grade_subject = school_subject
+        console.log('This is final')
+        //console.log($scope.final_grade_subject)
+        //console.log($scope.student_class_details.student.id)
+    }
+
+    $scope.set_final_grade = function(subject_id, final_grade){
+        console.log(subject_id)
+        console.log($scope.student_class_details.student.id)
+        professorservice.setFinalGrade($scope.school_class_id, subject_id, 
+            $scope.student_class_details.student.id, final_grade, function(){
+            })
+        $scope.show_student($scope.school_class_id, $scope.student_class_details.student.id)
+    }
+
+
     $scope.test_class = 'blue_button'
 
     $scope.change_grade_view = function(){
@@ -527,6 +552,7 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
             $scope.new_grade = {}
             $scope.picked_button = 0
         })
+        $scope.show_student($scope.school_class_id, $scope.student_class_details.student.id)
     }
 
 
@@ -546,6 +572,7 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
     }
 
     $scope.show_absences = function(class_id, date){
+        $scope.last_absence_picked_date = date
         console.log(class_id, date)
         professorservice.getAbsence(class_id, date, function(absence_list){
             $scope.absences = absence_list.absence_list
@@ -578,6 +605,7 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
 
 
     $scope.show_student = function(class_id, student_id){
+        $scope.picked_student_id = student_id
         console.log($scope.userID)
         $scope.show_student_details = 1
         professorservice.getGrades(class_id, student_id, function(student_class_details){
@@ -589,6 +617,7 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
 
 
     $scope.show_class = function(){
+        $scope.absencesShow = 0
         $scope.show_class_details = 1
         $scope.showMiss = 0
     }
@@ -598,7 +627,8 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
         return $scope.class_list.school_class_student_list.length
     }
 
-    $scope.join_class = function(school_class_id){
+    $scope.join_class = function(school_class_id, professor_id){
+        $scope.main_professor_id = professor_id
         $scope.school_class_id = school_class_id
         console.log($scope.school_class_id)
         adminservice.getClass(school_class_id, function(school_class_list){
@@ -727,7 +757,6 @@ angular.module('school_book', ['ui.router', 'ui.bootstrap', 'ngSanitize'])
         $scope.school_subject_list_lenght = 0
         $scope.school_class_subject_view = 0
         var image_id = document.getElementById("inputImage")
-        image_id.value = ''
         $scope.absencesShow = 0
         $scope.showMiss = 0
         $scope.add_grade_view = 0
