@@ -629,7 +629,7 @@ def get_student_grades_func(security_token, class_id):
             closed_subject = SchoolProvider.get_closed_subject(class_id=class_id,
                                                                school_subject_id=school_subject['id'],
                                                                student_id=student.id)
-            school_subject['final_grade'] = int(school_subject['average_grade'])
+            school_subject['final_grade'] = int(round(school_subject['average_grade']))
             if closed_subject:
                 school_subject['closed_subject'] = closed_subject.closed
             else:
